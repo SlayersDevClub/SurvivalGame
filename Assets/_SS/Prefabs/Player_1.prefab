@@ -413,6 +413,7 @@ MonoBehaviour:
   slideGravity: 5
   slopeLimit: 80
   useLocalMomentum: 1
+  sprinting: 0
   cameraTransform: {fileID: 6368521608386382401}
 --- !u!82 &6433467301140062043
 AudioSource:
@@ -582,6 +583,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 1ca6a877-e7db-426d-b525-d89facc7c17d
     m_ActionName: Move/Jump[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1715260740}
+        m_TargetAssemblyTypeName: PlayerInputReader, Assembly-CSharp
+        m_MethodName: Sprinting
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: f6c882f2-2b11-4265-a331-f6ffeb37ca04
+    m_ActionName: Move/Sprint[/XInputControllerWindows/leftStickPress,/Keyboard/shift]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Move
