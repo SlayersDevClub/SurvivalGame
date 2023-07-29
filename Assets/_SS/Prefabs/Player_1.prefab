@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6368521608386382401}
   - component: {fileID: 6483223136768576469}
-  - component: {fileID: 6483882212235471477}
+  - component: {fileID: 2058444035}
   m_Layer: 0
   m_Name: CameraControls
   m_TagString: Untagged
@@ -51,7 +51,7 @@ MonoBehaviour:
   cameraSpeed: 200
   smoothCameraRotation: 0
   cameraSmoothingFactor: 25
---- !u!114 &6483882212235471477
+--- !u!114 &2058444035
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -60,14 +60,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 6370372887028183943}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef9d20421a8e3e44e88315dc70ee11e5, type: 3}
+  m_Script: {fileID: 11500000, guid: 2d02cbafbc75b3c4d93eaf557a2e414d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseHorizontalAxis: Mouse X
-  mouseVerticalAxis: Mouse Y
+  playerInput: {fileID: 1715260739}
+  mouseInputMultiplier: 0.005
   invertHorizontalInput: 0
   invertVerticalInput: 0
-  mouseInputMultiplier: 0.01
 --- !u!1 &6371010715414329107
 GameObject:
   m_ObjectHideFlags: 0
@@ -81,9 +80,10 @@ GameObject:
   - component: {fileID: 6483441837667770405}
   - component: {fileID: 6390470330562266577}
   - component: {fileID: 6483993334646729269}
-  - component: {fileID: 6483055620497253625}
   - component: {fileID: 6433467301140062043}
   - component: {fileID: 6483064153790893585}
+  - component: {fileID: 1715260739}
+  - component: {fileID: 1715260740}
   m_Layer: 0
   m_Name: Player_1
   m_TagString: Untagged
@@ -190,22 +190,6 @@ MonoBehaviour:
   slopeLimit: 80
   useLocalMomentum: 1
   cameraTransform: {fileID: 6368521608386382401}
---- !u!114 &6483055620497253625
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6371010715414329107}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9819db9f56d8ad4c83e05807a209fc8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  horizontalInputAxis: Horizontal
-  verticalInputAxis: Vertical
-  jumpKey: 32
-  useRawInput: 1
 --- !u!82 &6433467301140062043
 AudioSource:
   m_ObjectHideFlags: 0
@@ -325,6 +309,72 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 3efdd4c11a4bdc54a9087ab115c1de9e, type: 3}
   jumpClip: {fileID: 8300000, guid: 99ab8a4503de1f448ad764a5c4cdf9cc, type: 3}
   landClip: {fileID: 8300000, guid: c212aa2d646dfe248b7c96b4f0e4cb27, type: 3}
+--- !u!114 &1715260739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6371010715414329107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 46ae19a2a221ec449af974cdf416c1d2, type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 1cf8dfa7-5f73-4cff-aee8-2fa48dda1661
+    m_ActionName: Move/Look[/Mouse/delta]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: db4450dc-bef8-4eb8-add4-da936fc50229
+    m_ActionName: Move/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1715260740}
+        m_TargetAssemblyTypeName: PlayerInputReader, Assembly-CSharp
+        m_MethodName: Jumping
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 1ca6a877-e7db-426d-b525-d89facc7c17d
+    m_ActionName: Move/Jump[/Keyboard/space]
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Move
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
+--- !u!114 &1715260740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6371010715414329107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a984de9aeffe3d44d99eaf041422d7e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6371066603567368785
 GameObject:
   m_ObjectHideFlags: 0
