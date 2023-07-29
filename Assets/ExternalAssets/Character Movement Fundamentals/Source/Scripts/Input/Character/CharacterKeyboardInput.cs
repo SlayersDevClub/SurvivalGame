@@ -34,5 +34,10 @@ namespace CMF
 		{
 			return Input.GetKey(jumpKey);
 		}
+
+        public override bool IsSprintingPressed()
+        {
+            return Input.GetKey(jumpKey);
+        }
     }
 }

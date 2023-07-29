@@ -60,6 +60,8 @@ namespace CMF
 		[Tooltip("Whether to calculate and apply momentum relative to the controller's transform.")]
 		public bool useLocalMomentum = false;
 
+        public bool sprinting = false;
+
 		//Enum describing basic controller states; 
 		public enum ControllerState
 		{
@@ -96,7 +98,16 @@ namespace CMF
 		void Update()
 		{
 			HandleJumpKeyInput();
+            HandleSprintKeyInput();
 		}
+
+        void HandleSprintKeyInput()
+        {
+            if (IsSprintKeyPressed())
+                movementSpeed = 12;
+            else
+                movementSpeed = 7;
+        }
 
         //Handle jump booleans for later use in FixedUpdate;
         void HandleJumpKeyInput()
@@ -120,9 +131,14 @@ namespace CMF
 			ControllerUpdate();
 		}
 
-		//Update controller;
-		//This function must be called every fixed update, in order for the controller to work correctly;
-		void ControllerUpdate()
+        protected virtual bool IsSprintKeyPressed()
+        {
+            return characterInput.IsSprintingPressed();
+        }
+
+        //Update controller;
+        //This function must be called every fixed update, in order for the controller to work correctly;
+        void ControllerUpdate()
 		{
 			//Check if mover is grounded;
 			mover.CheckForGround();

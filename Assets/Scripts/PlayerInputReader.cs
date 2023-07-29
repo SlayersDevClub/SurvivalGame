@@ -7,8 +7,8 @@ using CMF;
 public class PlayerInputReader : CharacterInput
 {
     PlayerInput playerInput;
-    InputAction move, look, jump;
-    bool jumping = false;
+    InputAction move, look, jump, sprint;
+    bool jumping = false, sprinting = false;
 
     void Start()
     {
@@ -16,7 +16,7 @@ public class PlayerInputReader : CharacterInput
         move = playerInput.actions["Move"];
         look = playerInput.actions["Look"];
         jump = playerInput.actions["Jump"];
-
+        sprint = playerInput.actions["Sprint"];
     }
 
     public void Jumping(InputAction.CallbackContext context)
@@ -25,6 +25,11 @@ public class PlayerInputReader : CharacterInput
         if (context.canceled) jumping = false;
     }
 
+    public void Sprinting(InputAction.CallbackContext context)
+    {
+        if (context.started) sprinting = true;
+        if (context.canceled) sprinting = false;
+    }
     public override float GetHorizontalMovementInput()
     {
         return move.ReadValue<Vector2>().x;
@@ -38,5 +43,10 @@ public class PlayerInputReader : CharacterInput
     public override bool IsJumpKeyPressed()
     {
         return jumping;
+    }
+
+    public override bool IsSprintingPressed()
+    {
+        return sprinting;
     }
 }

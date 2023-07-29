@@ -56,5 +56,10 @@ namespace CMF
 			return Input.GetKey(jumpKey);
 		}
 
-	}
+        public override bool IsSprintingPressed()
+        {
+            throw new System.NotImplementedException();
+        }
+
+    }
 }
