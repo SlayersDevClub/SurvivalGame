@@ -287,7 +287,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerInput: {fileID: 1715260739}
-  mouseInputMultiplier: 0.005
+  lookInputModifier: 0.01
   invertHorizontalInput: 0
   invertVerticalInput: 0
 --- !u!1 &6371010715414329107
@@ -557,7 +557,19 @@ MonoBehaviour:
       m_Calls: []
   m_ControlsChangedEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1715260740}
+        m_TargetAssemblyTypeName: PlayerInputReader, Assembly-CSharp
+        m_MethodName: CheckForControlChange
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls: []
@@ -600,7 +612,7 @@ MonoBehaviour:
     m_ActionId: f6c882f2-2b11-4265-a331-f6ffeb37ca04
     m_ActionName: Move/Sprint[/XInputControllerWindows/leftStickPress,/Keyboard/shift]
   m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
+  m_DefaultControlScheme: MouseKeyboard
   m_DefaultActionMap: Move
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}

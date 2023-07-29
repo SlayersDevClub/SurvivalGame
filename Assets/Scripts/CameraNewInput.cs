@@ -7,7 +7,7 @@ using CMF;
 public class CameraNewInput : CameraInput
 {
     public PlayerInput playerInput;
-    public float mouseInputMultiplier = 0.01f;
+    public float lookInputModifier = 0.01f;
     public bool invertHorizontalInput, invertVerticalInput;
     InputAction look;
 
@@ -31,7 +31,7 @@ public class CameraNewInput : CameraInput
             _input = 0f;
 
         //Apply mouse sensitivity;
-        _input *= mouseInputMultiplier;
+        _input *= lookInputModifier;
 
         //Invert input;
         if (invertHorizontalInput)
@@ -55,7 +55,7 @@ public class CameraNewInput : CameraInput
             _input = 0f;
 
         //Apply mouse sensitivity;
-        _input *= mouseInputMultiplier;
+        _input *= lookInputModifier;
 
         //Invert input;
         if (invertVerticalInput)

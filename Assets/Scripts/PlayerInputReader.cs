@@ -19,6 +19,19 @@ public class PlayerInputReader : CharacterInput
         sprint = playerInput.actions["Sprint"];
     }
 
+    public void CheckForControlChange(PlayerInput pi)
+    {
+        if(pi.currentControlScheme == "Gamepad")
+        {
+            GameObject.Find("CameraControls").GetComponent<CameraNewInput>().lookInputModifier = 0.01f;
+        }
+
+        if(pi.currentControlScheme == "MouseKeyboard")
+        {
+            GameObject.Find("CameraControls").GetComponent<CameraNewInput>().lookInputModifier = 0.001f;
+        }
+    }
+
     public void Jumping(InputAction.CallbackContext context)
     {
         if (context.started) jumping = true;
@@ -49,4 +62,5 @@ public class PlayerInputReader : CharacterInput
     {
         return sprinting;
     }
+
 }
