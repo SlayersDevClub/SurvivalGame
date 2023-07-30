@@ -6,17 +6,17 @@ using System.Collections.Generic;
 public class Inventory : MonoBehaviour
 {
 
-	GameObject inventoryPanel;
-	GameObject slotPanel;
-	ItemDatabase database;
+	protected GameObject inventoryPanel;
+	protected GameObject slotPanel;
+	protected ItemDatabase database;
 	public GameObject inventorySlot;
 	public GameObject inventoryItem;
 
-	private int slotAmount;
+	protected private int slotAmount;
 	public List<Item> items = new List<Item>();
 	public List<GameObject> slots = new List<GameObject>();
 
-	void Start()
+	public virtual void Start()
 	{
 		database = GetComponent<ItemDatabase>();
 		slotAmount = 16;
@@ -30,19 +30,10 @@ public class Inventory : MonoBehaviour
 			slots[i].transform.SetParent(slotPanel.transform);
 		}
 
-		AddItem(0);
-		AddItem(1);
-		AddItem(1);
-		AddItem(1);
-		AddItem(1);
-		AddItem(1);
-		AddItem(1);
-		AddItem(1);
-		AddItem(1);
-		AddItem(2);
+		AddItem(2584);
 	}
 
-	public void AddItem(int id)
+	public virtual void AddItem(int id)
 	{
 		Item itemToAdd = database.FetchItemById(id);
 		if (itemToAdd.Stackable && CheckIfItemIsInInventory(itemToAdd))
@@ -79,7 +70,7 @@ public class Inventory : MonoBehaviour
 		}
 	}
 
-	bool CheckIfItemIsInInventory(Item item)
+	protected bool CheckIfItemIsInInventory(Item item)
 	{
 		for (int i = 0; i < items.Count; i++)
 		{

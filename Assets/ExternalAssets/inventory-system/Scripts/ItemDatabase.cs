@@ -2,68 +2,108 @@
 using LitJson;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System;
 
 public class ItemDatabase : MonoBehaviour {
-	private List<Item> database = new List<Item>();
-	private JsonData itemData;
+    private List<Item> database = new List<Item>();
+    private List<BaseItemTemplate> itemList = new List<BaseItemTemplate>();
 
-	void Start()
-	{
-		itemData = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/StreamingAssets/Items.json"));
-		ConstructItemDatabase();	
+    void Start() {
+        // Load data from JSON using JsonDataManager
+        itemList = JsonDataManager.LoadData();
+        ConstructItemDatabase();
+    }
+
+    public Item FetchItemById(int id) {
+        for (int i = 0; i < database.Count; i++) {
+            if (database[i].Id == id) {
+                return database[i];
+            }
+        }
+
+        return null;
+    }
+
+    void ConstructItemDatabase() {
+        for (int i = 0; i < itemList.Count; i++) {
+            Item newItem = new Item();
+            newItem.Id = Int16.Parse(itemList[i].Id);
+            newItem.Title = itemList[i].itemName;
+            newItem.Description = itemList[i].description;
+            newItem.Stackable = itemList[i].stackable;
+            newItem.Sprite = itemList[i].icon;
+
+            database.Add(newItem);
+        }
+    }
+
+    // Function to save the database to JSON using JsonDataManager
+    private void SaveData() {
+        List<BaseItemTemplate> itemTemplates = new List<BaseItemTemplate>();
+        foreach (Item item in database) {
+            BaseItemTemplate template = new BaseItemTemplate();
+            template.Id = item.Id.ToString();
+            template.itemName = item.Title;
+            template.description = item.Description;
+            template.stackable = item.Stackable;
+            template.icon = item.Sprite;
+            itemTemplates.Add(template);
+        }
+
+        JsonDataManager.SaveData(itemTemplates);
+    }
+}
+
+public class Item {
+    public int Id { get; set; }
+    public string Title { get; set; }
+    public int Value { get; set; }
+    public int Power { get; set; }
+    public int Defense { get; set; }
+    public int Vitality { get; set; }
+    public string Description { get; set; }
+    public bool Stackable { get; set; }
+    public int Rarity { get; set; }
+    public string Slug { get; set; }
+    public Sprite Sprite { get; set; }
+
+    public Item() {
+        this.Id = -1;
+    }
+}
+
+// Rest of the code remains the same...
+
+
+
+
+public static class JsonDataManager {
+	private static string SaveFilePath = Application.persistentDataPath + "/data.json";
+    
+	public static void SaveData(List<BaseItemTemplate> data) {
+       
+        string jsonToSave = JsonUtility.ToJson(new ItemTemplateWrapper(data));
+		File.WriteAllText(SaveFilePath, jsonToSave);
 	}
 
-	public Item FetchItemById(int id)
-	{
-		for (int i = 0; i < database.Count; i++)
-		{
-			if (database[i].Id == id)
-			{
-				return database[i];
-			}
-		}
-
-		return null;
-	}
-	
-	void ConstructItemDatabase()
-	{
-		for (int i = 0; i < itemData.Count; i++)
-		{
-			Item newItem = new Item();
-			newItem.Id = (int)itemData[i]["id"];
-			newItem.Title = itemData[i]["title"].ToString();
-			newItem.Value = (int)itemData[i]["value"];
-			newItem.Power = (int)itemData[i]["stats"]["power"];
-			newItem.Defense = (int)itemData[i]["stats"]["defense"];
-			newItem.Vitality = (int)itemData[i]["stats"]["vitality"];
-			newItem.Description = itemData[i]["description"].ToString();
-			newItem.Stackable = (bool)itemData[i]["stackable"];
-			newItem.Rarity = (int)itemData[i]["rarity"];
-			newItem.Slug = itemData[i]["slug"].ToString();
-			newItem.Sprite = Resources.Load<Sprite>("Sprites/Items/" + newItem.Slug);
-
-			database.Add(newItem);
+	public static List<BaseItemTemplate> LoadData() {
+        Debug.Log(SaveFilePath);
+        if (File.Exists(SaveFilePath)) {
+			string jsonToLoad = File.ReadAllText(SaveFilePath);
+			ItemTemplateWrapper wrapper = JsonUtility.FromJson<ItemTemplateWrapper>(jsonToLoad);
+			return wrapper.items;
+		} else {
+			return new List<BaseItemTemplate>();
 		}
 	}
 }
 
-public class Item
-{
-	public int Id { get; set; }
-	public string Title { get; set; }
-	public int Value { get; set; }
-	public int Power { get; set; }
-	public int Defense { get; set; }
-	public int Vitality { get; set; }
-	public string Description { get; set; }
-	public bool Stackable { get; set; }
-	public int Rarity { get; set; }
-	public string Slug { get; set; }
-	public Sprite Sprite { get; set; }
+[System.Serializable]
+public class ItemTemplateWrapper {
+	public List<BaseItemTemplate> items;
 
-	public Item()
-	{
-		this.Id = -1;
+	public ItemTemplateWrapper(List<BaseItemTemplate> itemList) {
+		items = itemList;
 	}
 }

@@ -7,16 +7,21 @@ using CMF;
 public class PlayerInputReader : CharacterInput
 {
     PlayerInput playerInput;
-    InputAction move, look, jump, sprint;
+    Interact playerInteractor;
+
+    InputAction move, look, jump, sprint, interact;
     bool jumping = false, sprinting = false;
 
     void Start()
     {
         playerInput = GetComponent<PlayerInput>();
+        playerInteractor = transform.GetChild(1).Find("CameraControls").GetComponent<Interact>();
+
         move = playerInput.actions["Move"];
         look = playerInput.actions["Look"];
         jump = playerInput.actions["Jump"];
         sprint = playerInput.actions["Sprint"];
+        interact = playerInput.actions["Interact"];
     }
 
     public void CheckForControlChange(PlayerInput pi)
@@ -43,6 +48,10 @@ public class PlayerInputReader : CharacterInput
         if (context.started) sprinting = true;
         if (context.canceled) sprinting = false;
     }
+    public void Interacting(InputAction.CallbackContext context) {
+        if (context.started) playerInteractor.InteractWith();
+    }
+
     public override float GetHorizontalMovementInput()
     {
         return move.ReadValue<Vector2>().x;

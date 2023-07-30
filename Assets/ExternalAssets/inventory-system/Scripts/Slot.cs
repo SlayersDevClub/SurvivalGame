@@ -6,9 +6,9 @@ using System;
 public class Slot : MonoBehaviour, IDropHandler
 {
 	public int id;
-	private Inventory inv;
+	protected private Inventory inv;
 
-	void Start()
+	public virtual void Start()
 	{
 		inv = GameObject.Find("Inventory").GetComponent<Inventory>();
 	}
