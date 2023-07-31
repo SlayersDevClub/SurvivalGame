@@ -2,20 +2,19 @@
 using LitJson;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System;
 
-public class ItemDatabase : MonoBehaviour {
-    private List<Item> database = new List<Item>();
-    private List<BaseItemTemplate> itemList = new List<BaseItemTemplate>();
+public static class ItemDatabase {
+    private static List<Item> database = new List<Item>();
+    private static List<BaseItemTemplate> itemList = new List<BaseItemTemplate>();
 
-    void Start() {
+    public static void Initialize() {
         // Load data from JSON using JsonDataManager
         itemList = JsonDataManager.LoadData();
         ConstructItemDatabase();
     }
 
-    public Item FetchItemById(int id) {
+    public static Item FetchItemById(int id) {
         for (int i = 0; i < database.Count; i++) {
             if (database[i].Id == id) {
                 return database[i];
@@ -25,7 +24,19 @@ public class ItemDatabase : MonoBehaviour {
         return null;
     }
 
-    void ConstructItemDatabase() {
+
+    public static BaseItemTemplate FetchBaseItemTemplateById(int id) {
+        for (int i = 0; i < itemList.Count; i++) {
+            if (Int16.Parse(itemList[i].Id) == id) {
+                return itemList[i];
+            }
+        }
+
+        return null;
+    }
+
+
+    private static void ConstructItemDatabase() {
         for (int i = 0; i < itemList.Count; i++) {
             Item newItem = new Item();
             newItem.Id = Int16.Parse(itemList[i].Id);
@@ -39,7 +50,7 @@ public class ItemDatabase : MonoBehaviour {
     }
 
     // Function to save the database to JSON using JsonDataManager
-    private void SaveData() {
+    public static void SaveData() {
         List<BaseItemTemplate> itemTemplates = new List<BaseItemTemplate>();
         foreach (Item item in database) {
             BaseItemTemplate template = new BaseItemTemplate();
@@ -75,35 +86,31 @@ public class Item {
 
 // Rest of the code remains the same...
 
-
-
-
 public static class JsonDataManager {
-	private static string SaveFilePath = Application.persistentDataPath + "/data.json";
-    
-	public static void SaveData(List<BaseItemTemplate> data) {
-       
-        string jsonToSave = JsonUtility.ToJson(new ItemTemplateWrapper(data));
-		File.WriteAllText(SaveFilePath, jsonToSave);
-	}
+    private static string SaveFilePath = Application.persistentDataPath + "/data.json";
 
-	public static List<BaseItemTemplate> LoadData() {
+    public static void SaveData(List<BaseItemTemplate> data) {
+        string jsonToSave = JsonUtility.ToJson(new ItemTemplateWrapper(data));
+        File.WriteAllText(SaveFilePath, jsonToSave);
+    }
+
+    public static List<BaseItemTemplate> LoadData() {
         Debug.Log(SaveFilePath);
         if (File.Exists(SaveFilePath)) {
-			string jsonToLoad = File.ReadAllText(SaveFilePath);
-			ItemTemplateWrapper wrapper = JsonUtility.FromJson<ItemTemplateWrapper>(jsonToLoad);
-			return wrapper.items;
-		} else {
-			return new List<BaseItemTemplate>();
-		}
-	}
+            string jsonToLoad = File.ReadAllText(SaveFilePath);
+            ItemTemplateWrapper wrapper = JsonUtility.FromJson<ItemTemplateWrapper>(jsonToLoad);
+            return wrapper.items;
+        } else {
+            return new List<BaseItemTemplate>();
+        }
+    }
 }
 
 [System.Serializable]
 public class ItemTemplateWrapper {
-	public List<BaseItemTemplate> items;
+    public List<BaseItemTemplate> items;
 
-	public ItemTemplateWrapper(List<BaseItemTemplate> itemList) {
-		items = itemList;
-	}
+    public ItemTemplateWrapper(List<BaseItemTemplate> itemList) {
+        items = itemList;
+    }
 }

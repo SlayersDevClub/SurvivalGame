@@ -9,13 +9,14 @@ public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 	public int slotId;
 
 	private Inventory inv;
+	private Inventory chestInv;
 	private Tooltip tooltip;
 	private Vector2 offset;
 
 	void Start()
 	{
 		inv = GameObject.Find("Inventory").GetComponent<Inventory>();
-		
+
 		tooltip = inv.GetComponent<Tooltip>();
 	}
 
@@ -39,6 +40,7 @@ public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
 	public void OnEndDrag(PointerEventData eventData)
 	{
+
 		this.transform.SetParent(inv.slots[slotId].transform);
 		this.transform.position = inv.slots[slotId].transform.position;
 		GetComponent<CanvasGroup>().blocksRaycasts = true;

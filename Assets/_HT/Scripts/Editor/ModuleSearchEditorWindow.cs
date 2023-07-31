@@ -91,10 +91,16 @@ public class ModuleSearchEditorWindow : EditorWindow {
     private EnemySubCategory selectedEnemySubCategory = EnemySubCategory.Normal; // Default to Normal
     private string newObjectName = "NewObject"; // Default name for the newly created object
     private string customObjectName = ""; // Custom name for the newly created object
+
+    private string searchBarText = "";
+    private bool isSearchBarActive = false;
+    private List<ScriptableObject> filteredScriptableObjects = new List<ScriptableObject>();
+
     [MenuItem("Window/Module Search Editor")]
     public static void ShowWindow() {
         GetWindow<ModuleSearchEditorWindow>("Module Search");
     }
+    private Vector2 scrollPosition = Vector2.zero;
 
     private void OnGUI() {
         selectedCategory = (Category)EditorGUILayout.EnumPopup("Category", selectedCategory);
@@ -115,6 +121,36 @@ public class ModuleSearchEditorWindow : EditorWindow {
 
         EditorGUILayout.LabelField("Selected Sub Category:", GetSelectedSubCategoryString());
 
+        // Add the search bar
+        GUILayout.BeginHorizontal(EditorStyles.toolbar);
+        searchBarText = GUILayout.TextField(searchBarText, GUI.skin.FindStyle("ToolbarSeachTextField"));
+        if (GUILayout.Button("", GUI.skin.FindStyle("ToolbarSeachCancelButton"))) {
+            // Clear the search bar text and reset the filtered objects list
+            searchBarText = "";
+            filteredScriptableObjects.Clear();
+            isSearchBarActive = false;
+            GUI.FocusControl(null);
+        }
+        GUILayout.EndHorizontal();
+
+        if (!string.IsNullOrEmpty(searchBarText)) {
+            isSearchBarActive = true;
+            string searchLowerCase = searchBarText.ToLower();
+
+            List<ScriptableObject> allScriptableObjects = Resources.FindObjectsOfTypeAll<ScriptableObject>().ToList();
+            filteredScriptableObjects = allScriptableObjects
+                .Where(so => so.name.ToLower().Contains(searchLowerCase) && IsObjectMatchingSubCategory(so))
+                .ToList();
+        } else {
+            isSearchBarActive = false;
+            filteredScriptableObjects.Clear(); // Clear the list when the search bar is empty
+        }
+
+        // Display the filtered scriptable objects
+        if (isSearchBarActive) {
+            DisplayScriptableObjectsList();
+        }
+
         GUILayout.Space(10); // Add some spacing between the subcategories and the "Create" button
 
         if (GUILayout.Button("Create")) {
@@ -129,6 +165,54 @@ public class ModuleSearchEditorWindow : EditorWindow {
         if (GUILayout.Button("Save")) {
             // Handle the renaming of the created scriptable object file
             RenameScriptableObject();
+        }
+    }
+    private void DisplayScriptableObjectsList() {
+        EditorGUILayout.LabelField("Filtered Scriptable Objects:");
+
+        // Scroll view to display the list of filtered scriptable objects
+        scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
+
+        foreach (ScriptableObject obj in filteredScriptableObjects) {
+            EditorGUILayout.BeginHorizontal();
+
+            EditorGUILayout.ObjectField(obj, typeof(ScriptableObject), false);
+
+            // Add the delete button for each object
+            if (GUILayout.Button("Delete", GUILayout.Width(60))) {
+                DeleteScriptableObject(obj);
+                filteredScriptableObjects.Remove(obj);
+                break; // Exit the loop to prevent issues with iterating while modifying the list
+            }
+
+            EditorGUILayout.EndHorizontal();
+        }
+
+        EditorGUILayout.EndScrollView();
+    }
+
+    private void DeleteScriptableObject(ScriptableObject obj) {
+        // Get the asset path of the selected ScriptableObject
+        string assetPath = AssetDatabase.GetAssetPath(obj);
+
+        // Delete the asset file from disk
+        AssetDatabase.DeleteAsset(assetPath);
+        AssetDatabase.Refresh();
+    }
+
+
+    private void DisplayScriptableObjectFields() {
+        // Get the selected ScriptableObject
+        ScriptableObject selectedObject = Selection.activeObject as ScriptableObject;
+
+        if (selectedObject != null) {
+            // Create a custom editor for the selected ScriptableObject
+            Editor editor = Editor.CreateEditor(selectedObject);
+
+            // Display the custom editor GUI
+            if (editor != null) {
+                editor.OnInspectorGUI();
+            }
         }
     }
 
@@ -467,21 +551,6 @@ public class ModuleSearchEditorWindow : EditorWindow {
         Selection.activeObject = newObject;
     }
 
-    private void DisplayScriptableObjectFields() {
-        // Get the selected ScriptableObject
-        ScriptableObject selectedObject = Selection.activeObject as ScriptableObject;
-
-        if (selectedObject != null) {
-            // Create a custom editor for the selected ScriptableObject
-            Editor editor = Editor.CreateEditor(selectedObject);
-
-            // Display the custom editor GUI
-            if (editor != null) {
-                editor.OnInspectorGUI();
-            }
-        }
-    }
-
     private void RenameScriptableObject() {
         //LOADING
         List<BaseItemTemplate> loadListData = JsonDataManager.LoadData();
@@ -519,6 +588,158 @@ public class ModuleSearchEditorWindow : EditorWindow {
         }
     }
 
+    private bool IsObjectMatchingSubCategory(ScriptableObject obj) {
+        switch (selectedCategory) {
+            case Category.Item:
+                switch (selectedItemSubCategory) {
+                    case ItemSubCategory.Consumables:
+                        return obj is ConsumableTemplate;
+                    case ItemSubCategory.Resources:
+                        return obj is ResourceTemplate;
+                    case ItemSubCategory.Equiptables:
+                        return IsObjectMatchingEquiptableSubCategory(obj);
+                    default:
+                        break;
+                }
+                break;
+            case Category.Enemy:
+                switch (selectedEnemySubCategory) {
+                    case EnemySubCategory.Normal:
+                        return obj is NormalEnemyTemplate;
+                    case EnemySubCategory.Boss:
+                        return obj is BossEnemyTemplate;
+                    default:
+                        break;
+                }
+                break;
+            case Category.Recipes:
+                // Return true if needed
+                break;
+            default:
+                break;
+        }
 
+        return false;
+    }
+
+    private bool IsObjectMatchingEquiptableSubCategory(ScriptableObject obj) {
+        switch (selectedEquiptableSubCategory) {
+            case EquiptableSubCategory.Weapons:
+                return IsObjectMatchingWeaponSubCategory(obj);
+            case EquiptableSubCategory.Tools:
+                return IsObjectMatchingToolSubCategory(obj);
+            default:
+                break;
+        }
+
+        return false;
+    }
+
+    private bool IsObjectMatchingWeaponSubCategory(ScriptableObject obj) {
+        switch (selectedWeaponSubCategory) {
+            case WeaponSubCategory.Guns:
+                return IsObjectMatchingGunSubCategory(obj);
+            case WeaponSubCategory.Swords:
+                return IsObjectMatchingSwordSubCategory(obj);
+            default:
+                break;
+        }
+
+        return false;
+    }
+
+    private bool IsObjectMatchingGunSubCategory(ScriptableObject obj) {
+        switch (selectedGunSubCategory) {
+            case GunSubCategory.Mag:
+                return obj is MagTemplate;
+            case GunSubCategory.Sight:
+                return obj is SightTemplate;
+            case GunSubCategory.Grip:
+                return obj is GripTemplate;
+            case GunSubCategory.Body:
+                return obj is BodyTemplate;
+            case GunSubCategory.Barrel:
+                return obj is BarrelTemplate;
+            case GunSubCategory.Stock:
+                return obj is StockTemplate;
+            default:
+                break;
+        }
+
+        return false;
+    }
+
+    private bool IsObjectMatchingSwordSubCategory(ScriptableObject obj) {
+        switch (selectedSwordSubCategory) {
+            case SwordSubCategory.Pummel:
+                return obj is PummelTemplate;
+            case SwordSubCategory.Crossguard:
+                return obj is CrossguardTemplate;
+            case SwordSubCategory.Grip:
+                return obj is SwordGripTemplate;
+            case SwordSubCategory.Blade:
+                return obj is BladeTemplate;
+            case SwordSubCategory.Enchantment:
+                return obj is EnchantmentTemplate;
+            default:
+                break;
+        }
+
+        return false;
+    }
+
+    private bool IsObjectMatchingToolSubCategory(ScriptableObject obj) {
+        switch (selectedToolSubCategory) {
+            case ToolSubCategory.Axe:
+                return IsObjectMatchingAxeSubCategory(obj);
+            case ToolSubCategory.Pickaxe:
+                return IsObjectMatchingPickaxeSubCategory(obj);
+            case ToolSubCategory.Hammer:
+                return IsObjectMatchingHammerSubCategory(obj);
+            default:
+                break;
+        }
+
+        return false;
+    }
+
+    private bool IsObjectMatchingAxeSubCategory(ScriptableObject obj) {
+        switch (selectedAxeSubCategory) {
+            case AxeSubCategory.Handle:
+                return obj is AxeHandleTemplate;
+            case AxeSubCategory.Blade:
+                return obj is AxeBladeTemplate;
+            default:
+                break;
+        }
+
+        return false;
+    }
+
+    private bool IsObjectMatchingPickaxeSubCategory(ScriptableObject obj) {
+        switch (selectedPickaxeSubCategory) {
+            case PickaxeSubCategory.Handle:
+                return obj is PickaxeHandleTemplate;
+            case PickaxeSubCategory.Pick:
+                return obj is PickaxePickTemplate;
+            default:
+                break;
+        }
+
+        return false;
+    }
+
+    private bool IsObjectMatchingHammerSubCategory(ScriptableObject obj) {
+        switch (selectedHammerSubCategory) {
+            case HammerSubCategory.Handle:
+                return obj is HammerHandleTemplate;
+            case HammerSubCategory.Head:
+                return obj is HammerHeadTemplate;
+            default:
+                break;
+        }
+
+        return false;
+    }
 
 }

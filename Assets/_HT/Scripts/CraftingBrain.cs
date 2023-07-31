@@ -7,6 +7,11 @@ public static class CraftingBrain {
     // Dictionary to store recipes with BaseItemTemplate.Id as the key
     private static Dictionary<List<string>, BaseItemTemplate> recipeDictionary = new Dictionary<List<string>, BaseItemTemplate>(new ListComparer());
 
+
+    //public static GameObject AttemptBuildGun(List<GameObject> gunParts) {
+
+    //}
+
     // Function to add a recipe to the dictionary
     public static void AddRecipe(List<BaseItemTemplate> ingredients, BaseItemTemplate result) {
             // Check if the provided list of ingredients has at least 2 elements and not more than 5

@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 36f384d266df50542a90d439fbecf7f7, type: 3}
-  m_Name: Wood
+  m_Name: NewObject
   m_EditorClassIdentifier: 
-  Id: 2584
-  itemName: wd
-  description: asd
-  stackable: 1
-  icon: {fileID: 21300000, guid: f09eae8c0ea04254b90c5386a034a225, type: 3}
+  Id: 2631
+  itemName: asdf
+  description: asdf
+  stackable: 0
+  icon: {fileID: 21300000, guid: e6f79cab4ece24c42828ecfa4b23837e, type: 3}
   potency: 0

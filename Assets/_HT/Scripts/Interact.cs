@@ -14,6 +14,10 @@ public class Interact : MonoBehaviour {
                 Debug.Log("OPENING CHEST");
                 obj.GetComponent<ChestInventory>().OpenChest();
             }
+            else if(obj.GetComponent<GunInventory>() != null) {
+                Debug.Log("OPENING WEAPON ASSEMBLER");
+                obj.GetComponent<GunInventory>().OpenWeaponTable();
+            }
         }
     }
 
