@@ -24,14 +24,14 @@ public class Slot : MonoBehaviour, IDropHandler
         }
 
         else if (inv.items[id].Id == -1) {
-            if(droppedItem.slotId == 19) {
+            if(droppedItem.slotId == 19 && inv.inventoryState == Inventory.InvState.GunInv) {
                 int invSlotCount = inv.slots.Count;
 
                 for (int i = 16; i < invSlotCount; i++) {
                     inv.RemoveItem(i);
                 }
             }
-            else if(droppedItem.slotId == 21) {
+            else if(droppedItem.slotId == 21 && inv.inventoryState == Inventory.InvState.CraftInv) {
                 int invSlotCount = inv.slots.Count;
 
                 for (int i = 16; i < invSlotCount; i++) {

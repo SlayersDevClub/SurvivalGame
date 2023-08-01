@@ -81,7 +81,16 @@ public class PlayerInputReader : CharacterInput
     {
         if (context.started)
         {
-            interactor.InteractWith();
+            if (!interacting) {
+                interactor.InteractWith();
+                interacting = true;
+            } else {
+                interactor.StopInteractWith();
+                interacting = false;
+
+                GetComponent<PlayerStateManager>().ChangePlayerState(PlayerControlState.Moving);
+            }
+
         }   
     }
 }

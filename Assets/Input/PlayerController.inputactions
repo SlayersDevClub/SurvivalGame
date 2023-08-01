@@ -377,7 +377,7 @@
                     "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "MouseKeyboard",
                     "action": "CancelInteract",
                     "isComposite": false,
                     "isPartOfComposite": false

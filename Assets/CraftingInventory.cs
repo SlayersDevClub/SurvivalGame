@@ -8,7 +8,6 @@ public class CraftingInventory : Inventory {
 
 	public Inventory inv;
 	public override void Start() {
-		slotAmount = 8;
 		inventoryPanel = GameObject.Find("InventoryPanel");
 		slotPanel = inventoryPanel.transform.Find("SlotPanel").gameObject;
 	}

@@ -11,7 +11,7 @@ public class Inventory : MonoBehaviour
 	public GameObject inventorySlot;
 	public GameObject inventoryItem;
 
-	protected private int slotAmount;
+	protected private int slotAmount = 16;
 	public List<Item> items = new List<Item>();
 	public List<GameObject> slots = new List<GameObject>();
 
@@ -22,7 +22,6 @@ public class Inventory : MonoBehaviour
 		ItemDatabase.Initialize();
 
 		inventoryState = InvState.PlayerInv;
-		slotAmount = 16;
 		inventoryPanel = GameObject.Find("InventoryPanel");
 		slotPanel = inventoryPanel.transform.Find("SlotPanel").gameObject;
 		for (int i = 0; i < slotAmount; i++)
