@@ -6,35 +6,27 @@ using CMF;
 
 public class PlayerInputReader : CharacterInput
 {
-    PlayerInput playerInput;
-    Interact playerInteractor;
+    public PlayerInput playerInput;
+    private InputAction 
+        move, 
+        look, 
+        jump, 
+        sprint,
+        pause;
 
-    InputAction move, look, jump, sprint, interact;
-    bool jumping = false, sprinting = false;
+    Interact interactor;
+    bool jumping = false, sprinting = false, paused = false, interacting = false;
 
     void Start()
     {
         playerInput = GetComponent<PlayerInput>();
-        playerInteractor = transform.GetChild(1).Find("CameraControls").GetComponent<Interact>();
-
         move = playerInput.actions["Move"];
         look = playerInput.actions["Look"];
         jump = playerInput.actions["Jump"];
         sprint = playerInput.actions["Sprint"];
-        interact = playerInput.actions["Interact"];
-    }
+        pause = playerInput.actions["Pause"];
 
-    public void CheckForControlChange(PlayerInput pi)
-    {
-        if(pi.currentControlScheme == "Gamepad")
-        {
-            GameObject.Find("CameraControls").GetComponent<CameraNewInput>().lookInputModifier = 0.01f;
-        }
-
-        if(pi.currentControlScheme == "MouseKeyboard")
-        {
-            GameObject.Find("CameraControls").GetComponent<CameraNewInput>().lookInputModifier = 0.001f;
-        }
+        interactor = transform.Find("Interactor").GetComponentInChildren<Interact>();
     }
 
     public void Jumping(InputAction.CallbackContext context)
@@ -48,10 +40,6 @@ public class PlayerInputReader : CharacterInput
         if (context.started) sprinting = true;
         if (context.canceled) sprinting = false;
     }
-    public void Interacting(InputAction.CallbackContext context) {
-        if (context.started) playerInteractor.InteractWith();
-    }
-
     public override float GetHorizontalMovementInput()
     {
         return move.ReadValue<Vector2>().x;
@@ -72,4 +60,28 @@ public class PlayerInputReader : CharacterInput
         return sprinting;
     }
 
+    public void GamePaused(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            if (!paused)
+            {
+                GetComponent<PlayerStateManager>().ChangePlayerState(PlayerControlState.Paused);
+                paused = true;
+            }
+            else
+            {
+                GetComponent<PlayerStateManager>().ChangePlayerState(PlayerControlState.Moving);
+                paused = false;
+            }
+        }
+    }
+
+    public void Interact(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            interactor.InteractWith();
+        }   
+    }
 }
