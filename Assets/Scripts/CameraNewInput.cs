@@ -7,13 +7,33 @@ using CMF;
 public class CameraNewInput : CameraInput
 {
     public PlayerInput playerInput;
-    public float lookInputModifier = 0.01f;
     public bool invertHorizontalInput, invertVerticalInput;
     InputAction look;
+
+    float lookInputSpeed = 0.001f;
 
     void Start()
     {
         look = playerInput.actions["Look"];
+        CheckForControlChange(playerInput);
+    }
+
+    public void UpdateSettings()
+    {
+        CheckForControlChange(playerInput);
+    }
+
+    public void CheckForControlChange(PlayerInput pi)
+    {
+        if (pi.currentControlScheme == "Gamepad")
+        {
+            lookInputSpeed = PlayerPrefs.GetFloat("GamepadLookSensitivity") * 0.001f;
+        }
+
+        if (pi.currentControlScheme == "MouseKeyboard")
+        {
+            lookInputSpeed = PlayerPrefs.GetFloat("MouseLookSensitivity") * 0.0005f;
+        }
     }
 
     public override float GetHorizontalCameraInput()
@@ -31,7 +51,7 @@ public class CameraNewInput : CameraInput
             _input = 0f;
 
         //Apply mouse sensitivity;
-        _input *= lookInputModifier;
+        _input *= lookInputSpeed;
 
         //Invert input;
         if (invertHorizontalInput)
@@ -55,7 +75,7 @@ public class CameraNewInput : CameraInput
             _input = 0f;
 
         //Apply mouse sensitivity;
-        _input *= lookInputModifier;
+        _input *= lookInputSpeed;
 
         //Invert input;
         if (invertVerticalInput)

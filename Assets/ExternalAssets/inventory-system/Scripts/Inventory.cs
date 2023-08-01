@@ -39,7 +39,7 @@ public class Inventory : MonoBehaviour
 	IEnumerator waitadd() {
 		yield return new WaitForSeconds(1f);
 
-		AddItem(9655);
+		//AddItem(9655);
 
 	}
 
