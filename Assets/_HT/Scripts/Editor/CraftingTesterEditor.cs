@@ -17,6 +17,8 @@ public class CraftingTesterEditor : EditorWindow {
     private void OnEnable() {
         // Load all BaseItemTemplates from the specified path
         allItems = Resources.LoadAll<BaseItemTemplate>("GameComponents/Items");
+        // Load the recipes from JSON into the CraftingBrain
+        UpdateOutputItem(); // Update the output item initially
     }
 
     private void OnGUI() {
@@ -67,17 +69,12 @@ public class CraftingTesterEditor : EditorWindow {
 
         EditorGUILayout.Space();
 
-
-        outputItem = EditorGUILayout.ObjectField("Output", outputItem, typeof(BaseItemTemplate), false) as BaseItemTemplate;
-    }
-
-    private void CheckRecipeAndUpdateOutput() {
-        // Call the CraftingBrain.CheckRecipe function with the selected items list
-        BaseItemTemplate newOutput = CraftingBrain.CheckRecipe(selectedItems);
-
-        // If the returned BaseItemTemplate is not null, update the outputItem
-        if (newOutput != null) {
-            outputItem = newOutput;
+        // Display the output item
+        EditorGUILayout.LabelField("Output:");
+        if (outputItem != null) {
+            EditorGUILayout.LabelField(outputItem.name);
+        } else {
+            EditorGUILayout.LabelField("No valid recipe found for the selected items.");
         }
     }
 

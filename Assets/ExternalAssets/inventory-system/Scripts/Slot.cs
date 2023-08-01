@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
+using System;
 
 public class Slot : MonoBehaviour, IDropHandler
 {
@@ -16,19 +17,34 @@ public class Slot : MonoBehaviour, IDropHandler
     public void OnDrop(PointerEventData eventData) {
         ItemData droppedItem = eventData.pointerDrag.GetComponent<ItemData>();
         //If gun inventory dont allow placement in crafting output slot 
-        if (droppedItem.slotId != id && id == 19 && (inv.inventoryState != Inventory.InvState.PlayerInv || inv.inventoryState != Inventory.InvState.ChestInv)) {
+        if ((id == 19 && inv.inventoryState == Inventory.InvState.GunInv) || (inv.inventoryState == Inventory.InvState.CraftInv && id == 21)) {
             // Snap back the item to its original place when dropping on slot 19
             droppedItem.transform.SetParent(inv.slots[droppedItem.slotId].transform);
             droppedItem.transform.position = inv.slots[droppedItem.slotId].transform.position;
         }
 
         else if (inv.items[id].Id == -1) {
+            if(droppedItem.slotId == 19) {
+                int invSlotCount = inv.slots.Count;
+
+                for (int i = 16; i < invSlotCount; i++) {
+                    inv.RemoveItem(i);
+                }
+            }
+            else if(droppedItem.slotId == 21) {
+                int invSlotCount = inv.slots.Count;
+
+                for (int i = 16; i < invSlotCount; i++) {
+                    inv.RemoveItem(i);
+                }
+            }
+
             // Dropped into an empty slot
             inv.items[droppedItem.slotId] = new Item();
             inv.items[id] = droppedItem.item;
             droppedItem.slotId = id;
 
-        } else if (droppedItem.slotId != id && id != 19) {
+        } else if (droppedItem.slotId != id) {
             // Swapping items (except when the current slot is 19)
             Transform item = this.transform.GetChild(0);
             item.GetComponent<ItemData>().slotId = droppedItem.slotId;
@@ -47,13 +63,33 @@ public class Slot : MonoBehaviour, IDropHandler
 
 
             case Inventory.InvState.GunInv:
+                List<BaseItemTemplate> gunParts = new List<BaseItemTemplate>();
+
+                gunParts.Add(ItemDatabase.FetchBaseItemTemplateById(inv.items[16].Id));
+                gunParts.Add(ItemDatabase.FetchBaseItemTemplateById(inv.items[17].Id));
+                gunParts.Add(ItemDatabase.FetchBaseItemTemplateById(inv.items[18].Id));
+                gunParts.Add(ItemDatabase.FetchBaseItemTemplateById(inv.items[20].Id));
+                gunParts.Add(ItemDatabase.FetchBaseItemTemplateById(inv.items[21].Id));
+                gunParts.Add(ItemDatabase.FetchBaseItemTemplateById(inv.items[22].Id));
+
+                //Returns assembled gun if needed for use
+                CraftingBrain.AttemptBuildGun(gunParts);
+                break;
+            case Inventory.InvState.CraftInv:
                 List<BaseItemTemplate> ingredients = new List<BaseItemTemplate>();
 
                 ingredients.Add(ItemDatabase.FetchBaseItemTemplateById(inv.items[16].Id));
+                ingredients.Add(ItemDatabase.FetchBaseItemTemplateById(inv.items[17].Id));
+                ingredients.Add(ItemDatabase.FetchBaseItemTemplateById(inv.items[18].Id));
+                ingredients.Add(ItemDatabase.FetchBaseItemTemplateById(inv.items[19].Id));
+                ingredients.Add(ItemDatabase.FetchBaseItemTemplateById(inv.items[20].Id));
 
-                Debug.Log(ingredients.Count);
+                BaseItemTemplate output = CraftingBrain.AttemptCraft(ingredients);
 
-                //CraftingBrain.AttemptBuildGun();
+                if(output != null) {
+                    //Add item to inventory by item ID and slot number to add to
+                    inv.AddItem(Int16.Parse(output.Id), 21);
+                }
                 break;
         }
 

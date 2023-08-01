@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class GunInventory : Inventory
 {
-	int chestSlots = 6;
+	int chestSlots = 7;
 
 	public Inventory inv;
 	public override void Start() {
@@ -30,26 +30,39 @@ public class GunInventory : Inventory
 	}
 
 
-	public override void AddItem(int id) {
+	public override void AddItem(int id, int slotNum = -1) {
 		Item itemToAdd = ItemDatabase.FetchItemById(id);
-
-
-		for (int i = 16; i < 20; i++) {
-			if (items[i].Id == -1) {
-				Debug.Log("EMPOTY SLOT");
-				Debug.Log(i);
-				items[i] = itemToAdd;
-				GameObject itemObj = Instantiate(inventoryItem);
-				itemObj.GetComponent<ItemData>().item = itemToAdd;
-				itemObj.GetComponent<ItemData>().slotId = i;
-				itemObj.transform.SetParent(slots[i].transform);
-				itemObj.transform.localPosition = Vector2.zero;
-				itemObj.GetComponent<Image>().sprite = itemToAdd.Sprite;
-				itemObj.name = "Item: " + itemToAdd.Title;
-				slots[i].name = "Slot: " + itemToAdd.Title;
-				break;
+		
+		if (slotNum != -1) {
+			items[slotNum] = itemToAdd;
+			GameObject itemObj = Instantiate(inventoryItem);
+			itemObj.GetComponent<ItemData>().item = itemToAdd;
+			itemObj.GetComponent<ItemData>().slotId = slotNum;
+			itemObj.transform.SetParent(slots[slotNum].transform);
+			itemObj.transform.localPosition = Vector2.zero;
+			itemObj.GetComponent<Image>().sprite = itemToAdd.Sprite;
+			itemObj.name = "Item: " + itemToAdd.Title;
+			slots[slotNum].name = "Slot: " + itemToAdd.Title;
+        } else {
+			for (int i = 16; i < 20; i++) {
+				if (items[i].Id == -1) {
+					Debug.Log("EMPOTY SLOT");
+					Debug.Log(i);
+					items[i] = itemToAdd;
+					GameObject itemObj = Instantiate(inventoryItem);
+					itemObj.GetComponent<ItemData>().item = itemToAdd;
+					itemObj.GetComponent<ItemData>().slotId = i;
+					itemObj.transform.SetParent(slots[i].transform);
+					itemObj.transform.localPosition = Vector2.zero;
+					itemObj.GetComponent<Image>().sprite = itemToAdd.Sprite;
+					itemObj.name = "Item: " + itemToAdd.Title;
+					slots[i].name = "Slot: " + itemToAdd.Title;
+					break;
+				}
 			}
 		}
+
+
 	}
 
 	public void CloseWeaponTable() {

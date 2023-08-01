@@ -164,9 +164,55 @@ public class ModuleSearchEditorWindow : EditorWindow {
 
         if (GUILayout.Button("Save")) {
             // Handle the renaming of the created scriptable object file
-            RenameScriptableObject();
+            if (selectedCategory == Category.Recipes) {
+                RenameRecipe();
+            } else {
+                RenameScriptableObject();
+            }
+        }
+        if (GUILayout.Button("Recompile JSONS")) {
+            // Recompile all JSON data from the ScriptableObjects in the Resources folder
+            RecompileJSONData();
         }
     }
+
+    private void RenameRecipe() {
+        //LOADING
+        List<RecipeTemplate> loadListData = JsonDataManager.LoadRecipeData();
+
+        // Get the selected ScriptableObject
+        RecipeTemplate selectedRecipe = Selection.activeObject as RecipeTemplate;
+
+        if (selectedRecipe != null) {
+            // Add the selected object to the list
+            loadListData.Add(selectedRecipe);
+
+            // Serialize the list back to JSON and save it using JsonDataManager
+            JsonDataManager.SaveRecipeData(loadListData);
+
+            // Get the asset path of the selected ScriptableObject
+            string assetPath = AssetDatabase.GetAssetPath(selectedRecipe);
+
+            // Check if the custom object name is not empty
+            if (!string.IsNullOrEmpty(customObjectName)) {
+                // Remove any special characters from the custom object name
+                string sanitizedObjectName = customObjectName.Replace(" ", "_").Replace(".", "").Replace("/", "");
+
+                // Generate the new asset path with the custom object name
+                string newAssetPath = assetPath.Replace(selectedRecipe.name, sanitizedObjectName);
+
+                // Rename the asset file on disk
+                AssetDatabase.RenameAsset(assetPath, sanitizedObjectName);
+
+                // Move the asset file to the new path
+                AssetDatabase.MoveAsset(assetPath, newAssetPath);
+
+                // Refresh the AssetDatabase to see the changes
+                AssetDatabase.Refresh();
+            }
+        }
+    }
+
     private void DisplayScriptableObjectsList() {
         EditorGUILayout.LabelField("Filtered Scriptable Objects:");
 
@@ -521,8 +567,7 @@ public class ModuleSearchEditorWindow : EditorWindow {
     }
 
     private void CreateRecipeScriptableObject() {
-        // Handle scriptable object creation for the Recipes category if needed
-        // Add similar switch statements for each recipe subcategory
+        CreateScriptableObjectOfType<RecipeTemplate>("Recipes");
     }
 
     private void CreateScriptableObjectOfType<T>(string folderPath) where T : ScriptableObject {
@@ -587,6 +632,50 @@ public class ModuleSearchEditorWindow : EditorWindow {
             }
         }
     }
+
+    private void RecompileJSONData() {
+        // Recompile item data
+        List<BaseItemTemplate> itemScriptableObjects = new List<BaseItemTemplate>();
+        string itemResourcesPath = "Assets/Resources/GameComponents/Items";
+
+        // Find all scriptable objects of type BaseItemTemplate
+        string[] itemGuids = AssetDatabase.FindAssets("t:BaseItemTemplate", new string[] { itemResourcesPath });
+
+        foreach (string itemGuid in itemGuids) {
+            string itemAssetPath = AssetDatabase.GUIDToAssetPath(itemGuid);
+            BaseItemTemplate itemScriptableObject = AssetDatabase.LoadAssetAtPath<BaseItemTemplate>(itemAssetPath);
+            if (itemScriptableObject != null) {
+                itemScriptableObjects.Add(itemScriptableObject);
+            }
+        }
+
+        // Save the item data using JsonDataManager
+        JsonDataManager.SaveData(itemScriptableObjects);
+
+        // Recompile recipe data
+        List<RecipeTemplate> recipeScriptableObjects = new List<RecipeTemplate>();
+        string recipeResourcesPath = "Assets/Resources/GameComponents/Recipes";
+
+        // Find all scriptable objects of type RecipeTemplate
+        string[] recipeGuids = AssetDatabase.FindAssets("t:RecipeTemplate", new string[] { recipeResourcesPath });
+
+        foreach (string recipeGuid in recipeGuids) {
+            string recipeAssetPath = AssetDatabase.GUIDToAssetPath(recipeGuid);
+            RecipeTemplate recipeScriptableObject = AssetDatabase.LoadAssetAtPath<RecipeTemplate>(recipeAssetPath);
+            if (recipeScriptableObject != null) {
+                recipeScriptableObjects.Add(recipeScriptableObject);
+            }
+        }
+
+        // Save the recipe data using JsonDataManager
+        JsonDataManager.SaveRecipeData(recipeScriptableObjects);
+    }
+
+
+
+
+
+
 
     private bool IsObjectMatchingSubCategory(ScriptableObject obj) {
         switch (selectedCategory) {

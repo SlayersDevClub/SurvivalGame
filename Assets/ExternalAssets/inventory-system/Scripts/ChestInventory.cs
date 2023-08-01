@@ -33,7 +33,7 @@ public class ChestInventory : Inventory
 	}
 
 
-	public override void AddItem(int id) {
+	public override void AddItem(int id, int slotNum = -1) {
 		Item itemToAdd = ItemDatabase.FetchItemById(id);
 
 

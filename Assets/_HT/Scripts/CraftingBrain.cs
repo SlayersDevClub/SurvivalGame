@@ -7,67 +7,86 @@ public static class CraftingBrain {
     // Dictionary to store recipes with BaseItemTemplate.Id as the key
     private static Dictionary<List<string>, BaseItemTemplate> recipeDictionary = new Dictionary<List<string>, BaseItemTemplate>(new ListComparer());
 
+    public static BaseItemTemplate AttemptCraft(List<BaseItemTemplate> ingredients) {
+        BaseItemTemplate output = null;
 
-    //public static GameObject AttemptBuildGun(List<GameObject> gunParts) {
+        output = CheckRecipe(ingredients);
 
-    //}
-
-    // Function to add a recipe to the dictionary
-    public static void AddRecipe(List<BaseItemTemplate> ingredients, BaseItemTemplate result) {
-            // Check if the provided list of ingredients has at least 2 elements and not more than 5
-            if (ingredients.Count < 2 || ingredients.Count > 5) {
-                Debug.LogError("Recipe should have at least 2 and at most 5 ingredients.");
-                return;
-            }
-
-            List<string> notNullIngredients = new List<string>();
-            // Iterate through the ingredients and add non-null items to the dictionary
-            foreach (BaseItemTemplate ingredient in ingredients) {
-                if (ingredient != null) {
-                    notNullIngredients.Add(ingredient.Id);
-                }
-            }
-
-        notNullIngredients.Sort(CompareIngredients);
-
-        // Add the result to the dictionary as well if it is not null and not already present
-        if (result != null) {
-                recipeDictionary.Add(notNullIngredients, result);
+        if(output == null) {
+            return null;
+        } else {
+            return output;
         }
 
 
+    }
+    public static GameObject AttemptBuildGun(List<BaseItemTemplate> gunParts) {
+        MagTemplate mag = null;
+        StockTemplate stock = null;
+        BodyTemplate body = null;
+        GripTemplate grip = null;
+        SightTemplate sight = null;
+        BarrelTemplate barrel = null;
+
+        foreach (BaseItemTemplate part in gunParts) {
+            if (part is MagTemplate) {
+                Debug.Log("ONE MAG");
+                mag = (MagTemplate)part;
+            } else if (part is StockTemplate) {
+                stock = (StockTemplate)part;
+                Debug.Log("ONE STOCK");
+            } else if (part is BodyTemplate) {
+                body = (BodyTemplate)part;
+                Debug.Log("ONE BODY");
+            } else if (part is GripTemplate) {
+                grip = (GripTemplate)part;
+                Debug.Log("ONE GRIP");
+            } else if (part is SightTemplate) {
+                sight = (SightTemplate)part;
+                Debug.Log("ONE SIGTH");
+            } else if (part is BarrelTemplate) {
+                barrel = (BarrelTemplate)part;
+                Debug.Log("ONE BARREL");
+            }
         }
+
+        if (mag == null || stock == null || body == null || grip == null || sight == null || barrel == null) {
+            Debug.Log("NOT VALID GUN");
+            return new GameObject("EmptyGun");
+        }
+
+        GameObject builtGun = GunAssembler.AssembleGun(body.prefab, mag.prefab, sight.prefab, barrel.prefab, stock.prefab, grip.prefab);
+        return builtGun;
+    }
+
 
     public static BaseItemTemplate CheckRecipe(List<BaseItemTemplate> ingredients) {
         List<string> ingredientIDS = new List<string>();
 
-        foreach(BaseItemTemplate ing in ingredients) {
-            ingredientIDS.Add(ing.Id);
+        foreach (BaseItemTemplate ing in ingredients) {
+            //Dont add to ingredients list to check if slot is empty
+            if(ing != null) ingredientIDS.Add(ing.Id);
         }
 
         ingredientIDS.Sort(CompareIngredients);
 
-        foreach (string ing in ingredientIDS) {
-            Debug.Log(ing);
+        List<RecipeTemplate> recipes = JsonDataManager.LoadRecipeData();
+
+        foreach (RecipeTemplate recipe in recipes) {
+            List<string> recipeIngredientIDS = new List<string>();
+            foreach (BaseItemTemplate ingredient in recipe.ingredients) {
+                recipeIngredientIDS.Add(ingredient.Id);
+                Debug.Log(ingredient.Id);
+            }
+            recipeIngredientIDS.Sort(CompareIngredients);
+
+            if (recipeIngredientIDS.SequenceEqual(ingredientIDS)) {
+                return recipe.output;
+            }
         }
 
-        Debug.Log("------------");
-
-        KeyValuePair<List<string>, BaseItemTemplate> firstEntry = recipeDictionary.First();
-
-        foreach(string ing in firstEntry.Key) {
-            Debug.Log(ing);
-        }
-
-        BaseItemTemplate craftingOutput = null;
-        try {
-            //Was a valid recipe return the crafted item as an output
-            craftingOutput = recipeDictionary[ingredientIDS];
-            return craftingOutput;
-        } catch {
-            //Was not a valid recipe so return null
-            return craftingOutput;
-        }
+        // If no matching recipe found, return null
+        return null;
     }
 
     private static int CompareIngredients(string a, string b) {

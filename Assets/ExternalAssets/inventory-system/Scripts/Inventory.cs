@@ -38,15 +38,38 @@ public class Inventory : MonoBehaviour
 
 	IEnumerator waitadd() {
 		yield return new WaitForSeconds(1f);
-
-		AddItem(9655);
-
 	}
 
-	public virtual void AddItem(int id)
+	public void RemoveItem(int slotNum) {
+		// Check if the slot index is within the valid range
+		if (slotNum >= 0 && slotNum < items.Count) {
+			// Set the item in the specified slot to an empty item or placeholder
+			items[slotNum] = new Item();
+
+			// Here, you can also remove the GameObject representing the item from the UI
+			// For example:
+			if (slots[slotNum].transform.childCount > 0) {
+				Destroy(slots[slotNum].transform.GetChild(0).gameObject);
+			}
+		}
+	}
+
+	public virtual void AddItem(int id, int slotNum = -1)
 	{
 		Item itemToAdd = ItemDatabase.FetchItemById(id);
-		if (itemToAdd.Stackable && CheckIfItemIsInInventory(itemToAdd))
+		if(slotNum != -1) {
+			items[slotNum] = itemToAdd;
+			GameObject itemObj = Instantiate(inventoryItem);
+			itemObj.GetComponent<ItemData>().item = itemToAdd;
+			itemObj.GetComponent<ItemData>().slotId = slotNum;
+			itemObj.transform.SetParent(slots[slotNum].transform);
+			itemObj.transform.localPosition = Vector2.zero;
+			itemObj.GetComponent<Image>().sprite = itemToAdd.Sprite;
+			itemObj.name = "Item: " + itemToAdd.Title;
+			slots[slotNum].name = "Slot: " + itemToAdd.Title;
+		}
+
+		else if (itemToAdd.Stackable && CheckIfItemIsInInventory(itemToAdd))
 		{
 			for (int i = 0; i < items.Count; i++)
 			{

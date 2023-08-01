@@ -2,28 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GunAssembler : MonoBehaviour
-{
-    GameObject gunBody, bodyMagJoint, bodySightJoint, bodyBarrelJoint, bodyStockJoint, bodyGripJoint;
+public static class GunAssembler {
+    public static GameObject AssembleGun(GameObject gunBody, GameObject gunMag, GameObject gunSight, GameObject gunBarrel, GameObject gunStock, GameObject gunGrip) {
+        // Create the root object for the assembled gun.
+        GameObject assembledGun = new GameObject("AssembledGun");
 
-    public GameObject gunMag, gunSight, gunBarrel, gunStock, gunGrip;
+        // Instantiate and attach the body to the root object.
+        GameObject instantiatedBody = GameObject.Instantiate(gunBody, assembledGun.transform);
 
-    private void Start() {
-        gunBody = GameObject.Find("Body");
+        // Get the joints for other gun parts on the body.
+        Transform bodyMagJoint = instantiatedBody.transform.GetChild(0).Find("BodyMagJoint");
+        Transform bodySightJoint = instantiatedBody.transform.GetChild(0).Find("BodySightJoint");
+        Transform bodyBarrelJoint = instantiatedBody.transform.GetChild(0).Find("BodyBarrelJoint");
+        Transform bodyStockJoint = instantiatedBody.transform.GetChild(0).Find("BodyStockJoint");
+        Transform bodyGripJoint = instantiatedBody.transform.GetChild(0).Find("BodyGripJoint");
 
-         bodyMagJoint = gunBody.transform.Find("BodyMagJoint").gameObject;
-         bodySightJoint = gunBody.transform.Find("BodySightJoint").gameObject;
-         bodyBarrelJoint = gunBody.transform.Find("BodyBarrelJoint").gameObject;
-         bodyStockJoint = gunBody.transform.Find("BodyStockJoint").gameObject;
-         bodyGripJoint = gunBody.transform.Find("BodyGripJoint").gameObject;
+        // Instantiate and attach other gun parts to the corresponding joints on the body.
+        GameObject.Instantiate(gunMag, bodyMagJoint.position, bodyMagJoint.rotation, assembledGun.transform);
+        GameObject.Instantiate(gunSight, bodySightJoint.position, bodySightJoint.rotation, assembledGun.transform);
+        GameObject.Instantiate(gunBarrel, bodyBarrelJoint.position, bodyBarrelJoint.rotation, assembledGun.transform);
+        GameObject.Instantiate(gunStock, bodyStockJoint.position, bodyStockJoint.rotation, assembledGun.transform);
+        GameObject.Instantiate(gunGrip, bodyGripJoint.position, bodyGripJoint.rotation, assembledGun.transform);
+
+        // Return the root object for the assembled gun.
+        return assembledGun;
     }
-
-    public void AssembleGun() {
-        Instantiate(gunMag, bodyMagJoint.transform.position, Quaternion.identity, gunBody.transform);
-        Instantiate(gunSight, bodySightJoint.transform.position, Quaternion.identity, gunBody.transform);
-        Instantiate(gunBarrel, bodyBarrelJoint.transform.position, Quaternion.identity, gunBody.transform);
-        Instantiate(gunStock, bodyStockJoint.transform.position, Quaternion.identity, gunBody.transform);
-        Instantiate(gunGrip, bodyGripJoint.transform.position, Quaternion.identity, gunBody.transform);
-    }
-
 }

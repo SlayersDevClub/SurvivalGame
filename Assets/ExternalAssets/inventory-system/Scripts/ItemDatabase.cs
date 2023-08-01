@@ -88,6 +88,7 @@ public class Item {
 
 public static class JsonDataManager {
     private static string SaveFilePath = Application.persistentDataPath + "/data.json";
+    private static string RecipeSaveFilePath = Application.persistentDataPath + "/recipes.json";
 
     public static void SaveData(List<BaseItemTemplate> data) {
         string jsonToSave = JsonUtility.ToJson(new ItemTemplateWrapper(data));
@@ -104,6 +105,23 @@ public static class JsonDataManager {
             return new List<BaseItemTemplate>();
         }
     }
+
+    public static List<RecipeTemplate> LoadRecipeData() {
+        Debug.Log(RecipeSaveFilePath);
+        if (File.Exists(RecipeSaveFilePath)) {
+            string jsonToLoad = File.ReadAllText(RecipeSaveFilePath);
+            RecipeTemplateWrapper wrapper = JsonUtility.FromJson<RecipeTemplateWrapper>(jsonToLoad);
+            return wrapper.recipes;
+        } else {
+            return new List<RecipeTemplate>();
+        }
+    }
+
+
+    public static void SaveRecipeData(List<RecipeTemplate> recipes) {
+        string jsonToSave = JsonUtility.ToJson(new RecipeTemplateWrapper(recipes));
+        File.WriteAllText(RecipeSaveFilePath, jsonToSave);
+    }
 }
 
 [System.Serializable]
@@ -112,5 +130,14 @@ public class ItemTemplateWrapper {
 
     public ItemTemplateWrapper(List<BaseItemTemplate> itemList) {
         items = itemList;
+    }
+}
+
+[System.Serializable]
+public class RecipeTemplateWrapper {
+    public List<RecipeTemplate> recipes;
+
+    public RecipeTemplateWrapper(List<RecipeTemplate> recipeList) {
+        recipes = recipeList;
     }
 }
