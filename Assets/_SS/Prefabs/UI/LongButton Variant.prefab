@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1849075316679679772, guid: 8be70eb9488207745a43363986bb3cd7, type: 3}
       propertyPath: m_Name
-      value: LongButton
+      value: LongButton Variant
       objectReference: {fileID: 0}
     - target: {fileID: 3331114614557095105, guid: 8be70eb9488207745a43363986bb3cd7, type: 3}
       propertyPath: m_SizeDelta.x
@@ -25,7 +25,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4504357264859755964, guid: 8be70eb9488207745a43363986bb3cd7, type: 3}
       propertyPath: m_fontSize
-      value: 32
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 4504357264859755964, guid: 8be70eb9488207745a43363986bb3cd7, type: 3}
       propertyPath: m_fontAsset
@@ -37,7 +37,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4504357264859755964, guid: 8be70eb9488207745a43363986bb3cd7, type: 3}
       propertyPath: m_fontSizeBase
-      value: 32
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 4504357264859755964, guid: 8be70eb9488207745a43363986bb3cd7, type: 3}
       propertyPath: m_sharedMaterial

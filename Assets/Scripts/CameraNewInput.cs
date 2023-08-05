@@ -28,6 +28,7 @@ public class CameraNewInput : CameraInput
         if (pi.currentControlScheme == "Gamepad")
         {
             lookInputSpeed = PlayerPrefs.GetFloat("GamepadLookSensitivity") * 0.001f;
+            //invertHorizontalInput = PlayerPrefs.GetInt("InvertHorizontalLook");
         }
 
         if (pi.currentControlScheme == "MouseKeyboard")

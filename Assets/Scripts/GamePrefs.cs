@@ -31,6 +31,30 @@ public class GamePrefs : MonoBehaviour
         }
     }
 
+    private int _invertHorizontalLook;
+    public int InvertHorizontalLook
+    {
+        get { return PlayerPrefs.GetInt("InvertHorizontalLook"); }
+        set
+        {
+            _invertHorizontalLook = value;
+            PlayerPrefs.SetInt("InvertHorizontalLook", _invertHorizontalLook);
+            cni.UpdateSettings();
+        }
+    }
+
+    private int _invertVerticalLook;
+    public int InvertVerticalLook
+    {
+        get { return PlayerPrefs.GetInt("InvertVerticalLook"); }
+        set
+        {
+            _invertHorizontalLook = value;
+            PlayerPrefs.SetInt("InvertVerticalLook", _invertVerticalLook);
+            cni.UpdateSettings();
+        }
+    }
+
     void Awake()
     {
         //pir = GameObject.Find("Player_1").GetComponent<PlayerInputReader>();
