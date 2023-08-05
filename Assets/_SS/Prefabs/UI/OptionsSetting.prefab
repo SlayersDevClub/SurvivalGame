@@ -688,8 +688,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Controller Look Sensitivity '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 797e8c16f3634924cbd590fa052d8f5b, type: 2}
-  m_sharedMaterial: {fileID: -1357819396329822497, guid: 797e8c16f3634924cbd590fa052d8f5b, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 4b3fd6d18f01b6840be66deaa146bc5f, type: 2}
+  m_sharedMaterial: {fileID: -2766493294240204598, guid: 4b3fd6d18f01b6840be66deaa146bc5f, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

@@ -21,7 +21,7 @@ public class PlayerStateManager : MonoBehaviour
         if (pState == PlayerControlState.Moving)
         {
             pir.playerInput.SwitchCurrentActionMap("Move");
-            transform.Find("PlayerUI").GetComponent<UIManager>().ShowPauseMenu(false);
+            transform.Find("PlayerUI").GetComponent<UIManager>().ShowPlayerInventory(false);
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             print("moving");
@@ -35,7 +35,7 @@ public class PlayerStateManager : MonoBehaviour
         if (pState == PlayerControlState.Paused)
         {
             pir.playerInput.SwitchCurrentActionMap("UI");
-            transform.Find("PlayerUI").GetComponent<UIManager>().ShowPauseMenu(true);
+            transform.Find("PlayerUI").GetComponent<UIManager>().ShowPlayerInventory(true);
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             print("paused");

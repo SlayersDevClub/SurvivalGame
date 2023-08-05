@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class UIManager : MonoBehaviour
 {
@@ -11,13 +12,35 @@ public class UIManager : MonoBehaviour
         saveLoadWindow,
         graphicsWindow,
         statsWindow;
+    public CanvasGroup
+        inventoryGrid;
 
     public GameObject
         pauseMenu;
 
     private void OnEnable()
     {
-        ShowStatsWindow();
+        ShowPauseMenu(false);
+    }
+
+    public void ShowPlayerInventory(bool b)
+    {
+        if (b)
+        {
+            inventoryGrid.DOKill();
+            inventoryGrid.DOFade(1, 1);
+        } else
+        {
+            inventoryGrid.DOKill();
+            inventoryGrid.DOFade(0, 1);
+
+            //Incase the pause menu is ON, turn it off.
+            if (pauseMenu.activeSelf)
+            {
+                ShowPauseMenu(false);
+            }
+        }
+
     }
 
     public void ShowControllerCursor(bool b)

@@ -30,4 +30,10 @@ public class GamePrefs : MonoBehaviour
             cni.UpdateSettings();
         }
     }
+
+    void Awake()
+    {
+        //pir = GameObject.Find("Player_1").GetComponent<PlayerInputReader>();
+        //cni = GameObject.Find("CameraControls").GetComponent<CameraNewInput>();
+    }
 }
