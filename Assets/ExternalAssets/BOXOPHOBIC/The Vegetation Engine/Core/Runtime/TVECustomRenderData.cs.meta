@@ -1,5 +1,12 @@
 fileFormatVersion: 2
 guid: e61e45fe7530a8345b1295d86b5d5cb3
+AssetOrigin:
+  serializedVersion: 1
+  productId: 159647
+  packageName: The Vegetation Engine
+  packageVersion: 10.2.1
+  assetPath: Assets/BOXOPHOBIC/The Vegetation Engine/Core/Runtime/TVECustomRenderData.cs
+  uploadId: 594305
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
