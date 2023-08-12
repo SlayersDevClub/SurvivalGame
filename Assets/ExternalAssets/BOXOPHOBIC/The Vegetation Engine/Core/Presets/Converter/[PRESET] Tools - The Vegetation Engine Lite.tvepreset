@@ -1,0 +1,53 @@
+*******************************************************************
+*                             INFO                                *
+*******************************************************************
+
+InfoTitle The Vegetation Engine Lite
+InfoPreset Use this preset to convert assets using the Vegetation Engine Lite shaders.
+InfoStatus ● ● ● ● ●
+//InfoOnline https://www.evolved-software.com/treeit/treeit
+
+*******************************************************************
+*                             PRESET                              *
+*******************************************************************
+
+OutputTransforms USE_ORIGINAL_TRANSFORMS
+
+Mesh SetVariation GET_MASK_FROM_CHANNEL 0
+Mesh SetOcclusion GET_MASK_FROM_CHANNEL 3
+Mesh SetDetailMask GET_MASK_FROM_CHANNEL 2
+Mesh SetDetailCoord GET_COORD_FROM_CHANNEL 3
+
+Mesh SetHeight GET_MASK_PROCEDURAL 4
+Mesh SetMotion2 GET_MASK_FROM_CHANNEL 1
+Mesh SetMotion3 GET_MASK_FROM_CHANNEL 2
+
+Mesh SetPivots GET_PIVOTS_PROCEDURAL 0
+
+*******************************************************************
+
+if SHADER_NAME_CONTAINS Bark
+{
+	Material SET_SHADER SHADER_DEFAULT_BARK
+}
+
+if SHADER_NAME_CONTAINS Plant
+{
+	Material SET_SHADER SHADER_DEFAULT_PLANT
+}
+
+if SHADER_NAME_CONTAINS Prop
+{
+	Material SET_SHADER SHADER_DEFAULT_PROP
+}
+
+*******************************************************************
+
+Material COPY_PROPS
+
+// Disable Detail layer if the detail is used as snow
+if MATERIAL_FLOAT_EQUALS _DetailSnowMode 1
+{
+	Material SET_FLOAT _DetailMode 0
+}
+
