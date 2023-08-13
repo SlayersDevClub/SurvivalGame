@@ -18,10 +18,7 @@ public class UIManager : MonoBehaviour
     public GameObject
         pauseMenu;
 
-    private void OnEnable()
-    {
-        ShowPauseMenu(false);
-    }
+
 
     public void ShowPlayerInventory(bool b)
     {
@@ -37,7 +34,7 @@ public class UIManager : MonoBehaviour
             //Incase the pause menu is ON, turn it off.
             if (pauseMenu.activeSelf)
             {
-                ShowPauseMenu(false);
+                UnPause();
             }
         }
 
@@ -49,16 +46,15 @@ public class UIManager : MonoBehaviour
         else controllerUICursor.SetActive(false);
     }
 
-    public void ShowPauseMenu(bool b)
+    public void Pause()
     {
-        if (b)
-        {
-            pauseMenu.SetActive(true);
-        }
-        else
-        {
-            pauseMenu.SetActive(false);
-        }
+        pauseMenu.SetActive(true);
+    }
+
+    public void UnPause() {
+        PlayerStateMachine player = transform.parent.GetComponent<PlayerStateMachine>();
+        player.SwitchState(player.MovingState);
+        pauseMenu.SetActive(false);
     }
     public void ShowStatsWindow()
     {

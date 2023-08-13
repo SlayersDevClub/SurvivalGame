@@ -7,7 +7,7 @@ public class PlayerPausedState : PlayerBaseState
 {
     public override void EnterState(PlayerStateMachine player) {
         player.pir.playerInput.SwitchCurrentActionMap("UI");
-        player.transform.Find("PlayerUI").GetComponent<UIManager>().ShowPauseMenu(true);
+        player.transform.Find("PlayerUI").GetComponent<UIManager>().Pause();
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 

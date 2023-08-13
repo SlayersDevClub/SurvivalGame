@@ -7,7 +7,6 @@ public class PlayerMovingState : PlayerBaseState
 {
     public override void EnterState(PlayerStateMachine player) {
         player.pir.playerInput.SwitchCurrentActionMap("Move");
-        player.transform.Find("PlayerUI").GetComponent<UIManager>().ShowPauseMenu(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
