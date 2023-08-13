@@ -10,12 +10,20 @@ public class PlayerCrafterState : PlayerBaseState
 			GameObject slot = slotTransform.gameObject;
 			slot.SetActive(true);
 		}
+		foreach (Transform slotTransform in player.slotPanel.transform.Find("InventorySlots")) {
+			GameObject slot = slotTransform.gameObject;
+			slot.SetActive(true);
+		}
 	}
 
 	public override void HandleInput(PlayerStateMachine player, InputAction.CallbackContext context) {
 		if (context.started) {
 			if (context.action.name == TagManager.INTERACT_ACTION) {
 				foreach (Transform slotTransform in player.slotPanel.transform.Find("GeneralcraftSlots")) {
+					GameObject slot = slotTransform.gameObject;
+					slot.SetActive(false);
+				}
+				foreach (Transform slotTransform in player.slotPanel.transform.Find("InventorySlots")) {
 					GameObject slot = slotTransform.gameObject;
 					slot.SetActive(false);
 				}
