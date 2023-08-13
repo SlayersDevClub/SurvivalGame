@@ -5,6 +5,5 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewGripTemplate", menuName = "Game/Grip Template")]
 public class GripTemplate : BaseItemTemplate {
-    public GameObject prefab;
     public float recoilReduction;
 }

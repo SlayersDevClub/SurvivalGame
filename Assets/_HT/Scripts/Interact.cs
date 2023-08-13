@@ -3,54 +3,56 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Interact : MonoBehaviour {
-    private Queue<GameObject> interactQueue = new Queue<GameObject>();
 
-    private GameObject curObjectInteracting;
-    public void InteractWith() {
-        if (interactQueue.Count > 0) {
-            GameObject obj = interactQueue.Peek(); // Get the first game object in the queue
-            // Perform interaction with 'obj'
-            if(obj.GetComponent<ChestInventory>() != null) {
-                GetComponentInParent<PlayerStateManager>().ChangePlayerState(PlayerControlState.Interacting);
-                obj.GetComponent<ChestInventory>().OpenChest();
-                curObjectInteracting = obj;
+    public void DropItem() {
+        if(PlayerManager.equipItem == null) {
+            return;
+        }
+
+        GameObject.Find("Inventory").GetComponent<Inventory>().RemoveItem(PlayerManager.equipSlot - 1);
+
+        if(PlayerManager.equipItem as ResourceTemplate != null) {
+            GameObject droppedResource = GameObject.Find("Resource").transform.GetChild(0).gameObject;
+            droppedResource.transform.parent = null;
+
+            Rigidbody rb = droppedResource.GetComponent<Rigidbody>();
+            if (rb == null) {
+                rb = droppedResource.AddComponent<Rigidbody>();
+                droppedResource.AddComponent<BoxCollider>();
             }
-            else if(obj.GetComponent<GunInventory>() != null) {
-                GetComponentInParent<PlayerStateManager>().ChangePlayerState(PlayerControlState.Interacting);
-                obj.GetComponent<GunInventory>().OpenWeaponTable();
-                curObjectInteracting = obj;
+
+            Vector3 forceDirection = PlayerManager.GetPlayerTransform().forward; // Adjust the force direction as needed
+            float forceMagnitude = 5.0f; // Adjust the force magnitude as needed
+            rb.AddForce(forceDirection.normalized * forceMagnitude, ForceMode.Impulse);
+
+        } else if(PlayerManager.equipItem as ToolTemplate != null) {
+            GameObject droppedTool = GameObject.Find("Tool").transform.GetChild(0).gameObject;
+            droppedTool.transform.parent = null;
+
+            Rigidbody rb = droppedTool.GetComponent<Rigidbody>();
+            if (rb == null) {
+                rb = droppedTool.AddComponent<Rigidbody>();
+                droppedTool.AddComponent<BoxCollider>();
             }
-            else if(obj.GetComponent<CraftingInventory>() != null) {
-                GetComponentInParent<PlayerStateManager>().ChangePlayerState(PlayerControlState.Interacting);
-                obj.GetComponent<CraftingInventory>().OpenCraftingTable();
-                curObjectInteracting = obj;
+
+            Vector3 forceDirection = PlayerManager.GetPlayerTransform().forward; // Adjust the force direction as needed
+            float forceMagnitude = 5f; // Adjust the force magnitude as needed
+            rb.AddForce(forceDirection.normalized * forceMagnitude, ForceMode.Impulse);
+        } else if (PlayerManager.equipItem as GunTemplate != null) {
+            GameObject droppedGun = GameObject.Find("Gun").transform.GetChild(0).gameObject;
+            droppedGun.transform.parent = null;
+
+            Rigidbody rb = droppedGun.GetComponent<Rigidbody>();
+            if (rb == null) {
+                rb = droppedGun.AddComponent<Rigidbody>();
+                droppedGun.AddComponent<BoxCollider>();
             }
+
+            Vector3 forceDirection = PlayerManager.GetPlayerTransform().forward; // Adjust the force direction as needed
+            float forceMagnitude = 5f; // Adjust the force magnitude as needed
+            rb.AddForce(forceDirection.normalized * forceMagnitude, ForceMode.Impulse);
         }
-    }
 
-    public void StopInteractWith() {
-        if (curObjectInteracting.GetComponent<ChestInventory>() != null) {
-            curObjectInteracting.GetComponent<ChestInventory>().CloseChest();
-
-        } else if (curObjectInteracting.GetComponent<GunInventory>() != null) {
-            curObjectInteracting.GetComponent<GunInventory>().CloseWeaponTable();
-
-        } else if (curObjectInteracting.GetComponent<CraftingInventory>() != null) {
-            curObjectInteracting.GetComponent<CraftingInventory>().CloseCraftingTable();
-        }
-    }
-
-    private void OnTriggerEnter(Collider other) {
-        // Check if the entering object is not already in the queue
-        if (!interactQueue.Contains(other.gameObject)) {
-            interactQueue.Enqueue(other.gameObject);
-        }
-    }
-
-    private void OnTriggerExit(Collider other) {
-        // Remove the exiting object from the queue
-        if (interactQueue.Contains(other.gameObject)) {
-            interactQueue.Dequeue();
-        }
+        PlayerManager.equipItem = null;
     }
 }

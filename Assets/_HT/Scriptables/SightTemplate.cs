@@ -4,6 +4,5 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewSightTemplate", menuName = "Game/Sight Template")]
 public class SightTemplate : BaseItemTemplate {
-    public GameObject prefab;
     public float zoomLevel;
 }

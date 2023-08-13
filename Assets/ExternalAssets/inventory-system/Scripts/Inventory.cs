@@ -8,35 +8,77 @@ public class Inventory : MonoBehaviour
 
 	protected GameObject inventoryPanel;
 	protected GameObject slotPanel;
+	public GameObject hotbarSlots;
+	public GameObject inventorySlots;
+	public GameObject toolcraftSlots;
+	public GameObject guncraftSlots;
+	public GameObject generalcraftSlots;
+	public GameObject chestSlots;
+
+	private GameObject[] slotsContainers;
+
 	public GameObject inventorySlot;
 	public GameObject inventoryItem;
 
-	protected private int slotAmount = 16;
 	public List<Item> items = new List<Item>();
 	public List<GameObject> slots = new List<GameObject>();
 
-	public enum InvState{ PlayerInv, ChestInv, GunInv, SwordInv, CraftInv };
-	public InvState inventoryState;
-	public virtual void Start()
-	{
+	public void Start() {
 		ItemDatabase.Initialize();
-
-		inventoryState = InvState.PlayerInv;
-		inventoryPanel = GameObject.Find("InventoryPanel");
+		inventoryPanel = GameObject.Find("InventoryPanel").gameObject;
 		slotPanel = inventoryPanel.transform.Find("SlotPanel").gameObject;
-		for (int i = 0; i < slotAmount; i++)
-		{
-			items.Add(new Item());
-			slots.Add(Instantiate(inventorySlot));
-			slots[i].GetComponent<Slot>().id = i;
-			slots[i].transform.SetParent(slotPanel.transform);
+
+		hotbarSlots = slotPanel.transform.Find("HotbarSlots").gameObject;
+		inventorySlots = slotPanel.transform.Find("InventorySlots").gameObject;
+		toolcraftSlots = slotPanel.transform.Find("ToolcraftSlots").gameObject;
+		guncraftSlots = slotPanel.transform.Find("GuncraftSlots").gameObject;
+		generalcraftSlots = slotPanel.transform.Find("GeneralcraftSlots").gameObject;
+		chestSlots =slotPanel.transform.Find("ChestSlots").gameObject;
+
+		slotsContainers = new GameObject[] {
+		hotbarSlots, inventorySlots, toolcraftSlots, guncraftSlots, generalcraftSlots, chestSlots
+	};
+
+		int slotId = 0;
+
+		foreach (GameObject container in slotsContainers) {
+			for (int i = 0; i < container.transform.childCount; i++) {
+				items.Add(new Item());
+				slots.Add(container.transform.GetChild(i).gameObject);
+				slots[slotId].GetComponent<Slot>().id = slotId;
+
+				SlotStateMachine slotStateMachine = slots[slotId].GetComponent<SlotStateMachine>();
+
+				if (i == container.transform.childCount - 1 && (container == slotsContainers[2] || container == slotsContainers[3] || container == slotsContainers[4])) {
+					slotStateMachine.SwitchState(slotStateMachine.OutputState);
+				}
+				else if (container == slotsContainers[0]) { //HotbarSlots
+					slotStateMachine.SwitchState(slotStateMachine.HotbarState);
+					slotId++;
+					continue;
+				}
+				 else if (container == slotsContainers[1]) // InventorySlots
+				{
+					slotStateMachine.SwitchState(slotStateMachine.InventoryState);
+				} else if (container == slotsContainers[2]) // ToolcraftSlots
+				{
+				slotStateMachine.SwitchState(slotStateMachine.ToolcrafterState);
+					
+				} else if (container == slotsContainers[3]) // GuncraftSlots
+				{
+					slotStateMachine.SwitchState(slotStateMachine.GuncrafterState);
+				} else if (container == slotsContainers[4]) // GeneralcraftSlots
+				{
+					slotStateMachine.SwitchState(slotStateMachine.GeneralcrafterState);
+				}
+				else if(container == slotsContainers[5]) // ChestSlots
+				{
+					slotStateMachine.SwitchState(slotStateMachine.ChestState);
+                }
+				slots[slotId].SetActive(false);
+				slotId++;
+			}
 		}
-		StartCoroutine(waitadd());
-
-	}
-
-	IEnumerator waitadd() {
-		yield return new WaitForSeconds(1f);
 	}
 
 	public void RemoveItem(int slotNum) {
@@ -45,8 +87,6 @@ public class Inventory : MonoBehaviour
 			// Set the item in the specified slot to an empty item or placeholder
 			items[slotNum] = new Item();
 
-			// Here, you can also remove the GameObject representing the item from the UI
-			// For example:
 			if (slots[slotNum].transform.childCount > 0) {
 				Destroy(slots[slotNum].transform.GetChild(0).gameObject);
 			}

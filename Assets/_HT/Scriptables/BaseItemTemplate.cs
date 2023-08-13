@@ -9,9 +9,9 @@ public class BaseItemTemplate : ScriptableObject
     [ScriptableObjectId]
     public string Id;
     public string itemName;
-
     public string description;
     public bool stackable;
+    public GameObject prefab;
     public Sprite icon;
 }
 

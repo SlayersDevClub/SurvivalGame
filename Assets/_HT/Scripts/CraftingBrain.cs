@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-
+using UnityEditor;
 public static class CraftingBrain {
     // Dictionary to store recipes with BaseItemTemplate.Id as the key
     private static Dictionary<List<string>, BaseItemTemplate> recipeDictionary = new Dictionary<List<string>, BaseItemTemplate>(new ListComparer());
@@ -20,7 +20,79 @@ public static class CraftingBrain {
 
 
     }
-    public static GameObject AttemptBuildGun(List<BaseItemTemplate> gunParts) {
+
+    public static BaseItemTemplate AttemptBuildTool(List<BaseItemTemplate> toolParts) {
+        PickaxeHandleTemplate pickHand = null;
+        AxeHandleTemplate axeHand = null;
+        HammerHandleTemplate hammerHand = null;
+
+        PickaxePickTemplate pickHead = null;
+        AxeBladeTemplate axeHead = null;
+        HammerHeadTemplate hammerHead = null;
+
+        foreach (BaseItemTemplate part in toolParts) {
+            if (part is PickaxeHandleTemplate) {
+                pickHand = (PickaxeHandleTemplate)part;
+            } else if (part is AxeHandleTemplate) {
+                axeHand = (AxeHandleTemplate)part;
+            } else if (part is HammerHandleTemplate) {
+                hammerHand = (HammerHandleTemplate)part;
+            } else if (part is PickaxePickTemplate) {
+                pickHead = (PickaxePickTemplate)part;
+            } else if (part is AxeBladeTemplate) {
+                axeHead = (AxeBladeTemplate)part;
+            } else if (part is HammerHeadTemplate) {
+                hammerHead = (HammerHeadTemplate)part;
+            }
+        }
+
+        if ((pickHand != null && pickHead != null) ||
+        (axeHand != null && axeHead != null) ||
+        (hammerHand != null && hammerHead != null)) {
+
+            ToolTemplate newToolTemplate = ScriptableObject.CreateInstance<ToolTemplate>();
+
+            BaseItemTemplate handle = null;
+            BaseItemTemplate head = null;
+
+            if(pickHand != null) {
+                handle = pickHand;
+                head = pickHead;
+            }else if(axeHand != null) {
+                handle = axeHand;
+                head = axeHead;
+            } else {
+                handle = hammerHand;
+                head = hammerHead;
+            }
+
+            GameObject builtTool = ToolAssembler.AssembleTool(handle.prefab, head.prefab);
+
+            //SAVING
+            string prefabPath = "Assets/_HT/Prefabs/Tool/" + builtTool.name + ".prefab";
+            GameObject toolPrefab = PrefabUtility.SaveAsPrefabAsset(builtTool, prefabPath);
+
+            Texture2D screenshotTexture = SnapShotMaker.instance.TakeScreenShot(builtTool);
+            Sprite iconSprite = Sprite.Create(screenshotTexture, new Rect(0, 0, screenshotTexture.width, screenshotTexture.height), Vector2.zero);
+
+            newToolTemplate.prefab = toolPrefab;
+            newToolTemplate.icon = iconSprite;
+
+            string assetPath = "Assets/Resources/GameComponents/Items/CustomItem/CustomTool.asset";
+            AssetDatabase.CreateAsset(newToolTemplate, assetPath);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+            //FINISH SAVING
+            return newToolTemplate;
+
+        } else {
+            Debug.Log("NOT VALID TOOL");
+            return null;
+        }
+
+    }
+
+public static BaseItemTemplate AttemptBuildGun(List<BaseItemTemplate> gunParts) {
         MagTemplate mag = null;
         StockTemplate stock = null;
         BodyTemplate body = null;
@@ -52,13 +124,31 @@ public static class CraftingBrain {
 
         if (mag == null || stock == null || body == null || grip == null || sight == null || barrel == null) {
             Debug.Log("NOT VALID GUN");
-            return new GameObject("EmptyGun");
+
+            return null;
         }
 
+        GunTemplate newGunTemplate = ScriptableObject.CreateInstance<GunTemplate>();
+        Debug.Log(newGunTemplate.Id);
         GameObject builtGun = GunAssembler.AssembleGun(body.prefab, mag.prefab, sight.prefab, barrel.prefab, stock.prefab, grip.prefab);
-        return builtGun;
-    }
 
+        // Create a prefab from the builtGun GameObject and get its path
+        string prefabPath = "Assets/_HT/Prefabs/Guns/" + builtGun.name + ".prefab";
+        GameObject gunPrefab = PrefabUtility.SaveAsPrefabAsset(builtGun, prefabPath);
+
+        Texture2D screenshotTexture = SnapShotMaker.instance.TakeScreenShot(builtGun);
+        Sprite iconSprite = Sprite.Create(screenshotTexture, new Rect(0, 0, screenshotTexture.width, screenshotTexture.height), Vector2.zero);
+
+        newGunTemplate.icon = iconSprite;
+        newGunTemplate.prefab = gunPrefab;
+
+        string assetPath = "Assets/Resources/GameComponents/Items/CustomItem/CustomGun.asset";
+        AssetDatabase.CreateAsset(newGunTemplate, assetPath);
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+
+        return newGunTemplate;
+    }
 
     public static BaseItemTemplate CheckRecipe(List<BaseItemTemplate> ingredients) {
         List<string> ingredientIDS = new List<string>();

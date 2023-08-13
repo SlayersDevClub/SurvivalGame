@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PathCreation;
 
 public class HexMapGenerator : MonoBehaviour
 {
@@ -19,8 +20,14 @@ public class HexMapGenerator : MonoBehaviour
 
     private List<GameObject> tilesGrid;
 
+    //ROAD
+    private Vector2[] roadPoints;
+    private PathCreator roadPath;
     void Start()
     {
+        roadPath = GetComponent<PathCreator>();
+        roadPath.bezierPath = GenerateRoads(roadPoints, true);
+
         tilesGrid = new List<GameObject>();
         PopulateTilesGrid();
         Debug.Log(tilesGrid.Count);
@@ -40,7 +47,6 @@ public class HexMapGenerator : MonoBehaviour
             }
         }
     }
-
     private void PopulateTilesGrid() {
         List<tile> fillerTiles = new List<tile>();
 
@@ -92,5 +98,10 @@ public class HexMapGenerator : MonoBehaviour
         return list;
     }
 
+    private BezierPath GenerateRoads(Vector2[] points, bool closedPath) {
 
+        BezierPath bezierPath = new BezierPath(points, closedPath, PathSpace.xz);
+
+        return bezierPath;
+    }
 }

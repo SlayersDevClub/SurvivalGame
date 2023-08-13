@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
 using System;
+using UnityEngine.SceneManagement;
 
 public class Slot : MonoBehaviour, IDropHandler
 {
@@ -16,6 +17,11 @@ public class Slot : MonoBehaviour, IDropHandler
 
     public void OnDrop(PointerEventData eventData) {
         ItemData droppedItem = eventData.pointerDrag.GetComponent<ItemData>();
+
+        inv.slots[id].GetComponent<SlotStateMachine>().OnDrop(eventData, id, gameObject);
+
+
+        /*
         //If gun inventory dont allow placement in crafting output slot 
         if ((id == 19 && inv.inventoryState == Inventory.InvState.GunInv) || (inv.inventoryState == Inventory.InvState.CraftInv && id == 21)) {
             // Snap back the item to its original place when dropping on slot 19
@@ -32,6 +38,13 @@ public class Slot : MonoBehaviour, IDropHandler
                 }
             }
             else if(droppedItem.slotId == 21 && inv.inventoryState == Inventory.InvState.CraftInv) {
+                int invSlotCount = inv.slots.Count;
+
+                for (int i = 16; i < invSlotCount; i++) {
+                    inv.RemoveItem(i);
+                }
+            }
+            else if(droppedItem.slotId == 18 && inv.inventoryState == Inventory.InvState.ToolInv) {
                 int invSlotCount = inv.slots.Count;
 
                 for (int i = 16; i < invSlotCount; i++) {
@@ -59,6 +72,7 @@ public class Slot : MonoBehaviour, IDropHandler
             inv.items[id] = droppedItem.item;
         }
 
+
         switch (inv.inventoryState) {
 
 
@@ -72,9 +86,19 @@ public class Slot : MonoBehaviour, IDropHandler
                 gunParts.Add(ItemDatabase.FetchBaseItemTemplateById(inv.items[21].Id));
                 gunParts.Add(ItemDatabase.FetchBaseItemTemplateById(inv.items[22].Id));
 
-                //Returns assembled gun if needed for use
-                CraftingBrain.AttemptBuildGun(gunParts);
+                BaseItemTemplate maybeNewGun = CraftingBrain.AttemptBuildGun(gunParts);
+                GunTemplate newGun = maybeNewGun as GunTemplate;
+
+
+                if (newGun != null) {
+                    newGun.Id = "999";
+                    JsonDataManager.AddBaseItemTemplateToJson(maybeNewGun);
+
+                    inv.AddItem(Int16.Parse(newGun.Id), 19);
+                }
+
                 break;
+
             case Inventory.InvState.CraftInv:
                 List<BaseItemTemplate> ingredients = new List<BaseItemTemplate>();
 
@@ -91,8 +115,24 @@ public class Slot : MonoBehaviour, IDropHandler
                     inv.AddItem(Int16.Parse(output.Id), 21);
                 }
                 break;
-        }
+            case Inventory.InvState.ToolInv:
+                Debug.Log("HERE");
+                List<BaseItemTemplate> toolParts = new List<BaseItemTemplate>();
+
+                toolParts.Add(ItemDatabase.FetchBaseItemTemplateById(inv.items[16].Id));
+                toolParts.Add(ItemDatabase.FetchBaseItemTemplateById(inv.items[17].Id));
+
+                BaseItemTemplate maybeNewTool = CraftingBrain.AttemptBuildTool(toolParts);
+                ToolTemplate newTool = maybeNewTool as ToolTemplate;
+
+                if (newTool != null) {
+                    newTool.Id = "1010";
+                    JsonDataManager.AddBaseItemTemplateToJson(newTool);
+                    //Add item to inventory by item ID and slot number to add to
+                    inv.AddItem(Int16.Parse(newTool.Id), 18);
+                }
+                break;
+        }*/
 
     }
-
 }

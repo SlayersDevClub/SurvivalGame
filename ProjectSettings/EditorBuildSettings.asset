@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/_HT/Scenes/ItemPickupCrafting.unity
+    guid: 4f9d3c3de0c852a46976da99aaf8a101
+  - enabled: 1
+    path: Assets/_SS/Scenes/IconMaker.unity
+    guid: a821e0c545bba734abf7560e4a1f2aac
   m_configObjects: {}

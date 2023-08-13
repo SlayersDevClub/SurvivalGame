@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0240f78658d4cfe4299f2e17e0b68132, type: 3}
+  m_Name: Rock
+  m_EditorClassIdentifier: 
+  Id: 9763
+  itemName: Rock
+  description: Rock
+  stackable: 1
+  prefab: {fileID: 5552050126339256241, guid: 60506e076713fa348a3c9fe7711a87d0, type: 3}
+  icon: {fileID: 21300000, guid: 6cea1e5527a6c6148b34a153137e6d0f, type: 3}
+  resourceName: Rock
+  pickStrengthRequired: 0
+  axeStrengthRequired: 0

@@ -15,6 +15,7 @@ public static class ItemDatabase {
     }
 
     public static Item FetchItemById(int id) {
+
         for (int i = 0; i < database.Count; i++) {
             if (database[i].Id == id) {
                 return database[i];
@@ -90,6 +91,16 @@ public static class JsonDataManager {
     private static string SaveFilePath = Application.persistentDataPath + "/data.json";
     private static string RecipeSaveFilePath = Application.persistentDataPath + "/recipes.json";
 
+    public static void AddBaseItemTemplateToJson(BaseItemTemplate baseItemTemplate) {
+        // Load existing data from JSON
+        List<BaseItemTemplate> existingData = LoadData();
+
+        // Add the new baseItemTemplate to the list
+        existingData.Add(baseItemTemplate);
+
+        // Save the updated data to JSON
+        SaveData(existingData);
+    }
     public static void SaveData(List<BaseItemTemplate> data) {
         string jsonToSave = JsonUtility.ToJson(new ItemTemplateWrapper(data));
         File.WriteAllText(SaveFilePath, jsonToSave);

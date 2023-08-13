@@ -2,22 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ToolAssembler : MonoBehaviour {
-    /*GameObject gunBody, bodyMagJoint, bodySightJoint, bodyBarrelJoint, bodyStockJoint, bodyGripJoint;
+public static class ToolAssembler{
+    
+    public static GameObject AssembleTool(GameObject toolHandle, GameObject toolHead) {
+        GameObject assembledTool = new GameObject("AssembledTool");
+        GameObject handleBodyJoint = new GameObject("HandleBodyJoint");
+        GameObject headBodyJoint = new GameObject("HeadBodyJoint");
 
-    public GameObject gunMag, gunSight, gunBarrel, gunStock, gunGrip;
+        GameObject.Instantiate(toolHandle);
+        GameObject.Instantiate(toolHandle, handleBodyJoint.transform);
+        GameObject.Instantiate(toolHead, headBodyJoint.transform);
 
-    private void Start() {
-        toolHandle = GameObject.Find("handle");
+        GameObject.Instantiate(handleBodyJoint, assembledTool.transform);
+        GameObject.Instantiate(headBodyJoint, assembledTool.transform);
 
-        toolHandleJoint = gunBody.transform.Find("BodyMagJoint").gameObject;
+
+
+        return assembledTool;
     }
 
-    public void AssembleGun() {
-        Instantiate(gunMag, bodyMagJoint.transform.position, Quaternion.identity, gunBody.transform);
-        Instantiate(gunSight, bodySightJoint.transform.position, Quaternion.identity, gunBody.transform);
-        Instantiate(gunBarrel, bodyBarrelJoint.transform.position, Quaternion.identity, gunBody.transform);
-        Instantiate(gunStock, bodyStockJoint.transform.position, Quaternion.identity, gunBody.transform);
-        Instantiate(gunGrip, bodyGripJoint.transform.position, Quaternion.identity, gunBody.transform);
-    }*/
 }
