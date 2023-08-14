@@ -1691,6 +1691,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 572338325291981259, guid: 8cf632956ad880b4ab4ea668fe0e1525, type: 3}
+    - {fileID: 1215110785, guid: 8cf632956ad880b4ab4ea668fe0e1525, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 8cf632956ad880b4ab4ea668fe0e1525, type: 3}
 --- !u!1 &919302607
 GameObject:
@@ -6239,7 +6240,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1084898497, guid: 573204a9147c1254381d51adbe89a392, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.00004308282
+      value: 0.0000031106456
       objectReference: {fileID: 0}
     - target: {fileID: 1087795135, guid: 573204a9147c1254381d51adbe89a392, type: 3}
       propertyPath: m_AnchorMax.x
@@ -6845,6 +6846,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5556668526374454873, guid: 573204a9147c1254381d51adbe89a392, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5556668526374454873, guid: 573204a9147c1254381d51adbe89a392, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UnPause
+      objectReference: {fileID: 0}
     - target: {fileID: 5677773146188293092, guid: 573204a9147c1254381d51adbe89a392, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -7371,6 +7380,7 @@ PrefabInstance:
       objectReference: {fileID: 1670826332}
     m_RemovedComponents:
     - {fileID: 5894604398209551489, guid: fe32ad700f4cba44195c0a80510b0d42, type: 3}
+    - {fileID: 7760725314712742078, guid: fe32ad700f4cba44195c0a80510b0d42, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: fe32ad700f4cba44195c0a80510b0d42, type: 3}
 --- !u!1001 &3811902600043519568
 PrefabInstance:
@@ -7820,6 +7830,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8409919851779929531, guid: e2a28a298cd770d4688263cf29e6c2d6, type: 3}
+    - {fileID: 6106957076575828339, guid: e2a28a298cd770d4688263cf29e6c2d6, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e2a28a298cd770d4688263cf29e6c2d6, type: 3}
 --- !u!1001 &7644157657542450277
 PrefabInstance:
