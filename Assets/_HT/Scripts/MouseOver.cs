@@ -38,6 +38,11 @@ public class MouseOver : MonoBehaviour {
         eventData.position = Input.mousePosition;
         List<RaycastResult> raysastResults = new List<RaycastResult>();
         EventSystem.current.RaycastAll(eventData, raysastResults);
+
+        foreach(RaycastResult hit in raysastResults) {
+            Debug.Log(hit.gameObject.name);
+        }
+
         return raysastResults;
     }
 

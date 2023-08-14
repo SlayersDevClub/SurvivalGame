@@ -17,7 +17,6 @@ public class BaseItemTemplate : ScriptableObject
 
 public class ScriptableObjectIdAttribute : PropertyAttribute { }
 
-#if UNITY_EDITOR
 [CustomPropertyDrawer(typeof(ScriptableObjectIdAttribute))]
 public class ScriptableObjectIdDrawer : PropertyDrawer {
     private static HashSet<int> usedNumbers = new HashSet<int>();
@@ -48,5 +47,5 @@ public class ScriptableObjectIdDrawer : PropertyDrawer {
         return 0; // Return 0 as a fallback value if unique number generation fails.
     }
 }
-#endif
+
 

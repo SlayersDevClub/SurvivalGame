@@ -15,8 +15,6 @@ public class SlotGuncrafterState : SlotBaseState {
         
     }
     public override void OnDrop(SlotStateMachine item, PointerEventData pointerEventData, int slotID, GameObject slot) {
-        Debug.Log("DROPPING IN GUN SLOT");
-
         ItemData droppedSlot = pointerEventData.pointerDrag.GetComponent<ItemData>();
 
         item.inv.items[droppedSlot.slotId] = new Item();
@@ -50,10 +48,9 @@ public class SlotGuncrafterState : SlotBaseState {
         GunTemplate newGun = maybeNewGun as GunTemplate;
 
         if (newGun != null) {
-            newGun.Id = "999";
             JsonDataManager.AddBaseItemTemplateToJson(maybeNewGun);
-
-            item.inv.AddItem(Int16.Parse(newGun.Id), 19);
+            newGun.Id = "999";
+            item.inv.AddItem(Int16.Parse(newGun.Id), item.inv.guncraftSlots.transform.GetChild(item.inv.guncraftSlots.transform.childCount -1).GetComponent<Slot>().id);
         }
 
 

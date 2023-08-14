@@ -129,17 +129,16 @@ public static BaseItemTemplate AttemptBuildGun(List<BaseItemTemplate> gunParts) 
         }
 
         GunTemplate newGunTemplate = ScriptableObject.CreateInstance<GunTemplate>();
-        Debug.Log(newGunTemplate.Id);
         GameObject builtGun = GunAssembler.AssembleGun(body.prefab, mag.prefab, sight.prefab, barrel.prefab, stock.prefab, grip.prefab);
 
         // Create a prefab from the builtGun GameObject and get its path
         string prefabPath = "Assets/_HT/Prefabs/Guns/" + builtGun.name + ".prefab";
         GameObject gunPrefab = PrefabUtility.SaveAsPrefabAsset(builtGun, prefabPath);
 
-        Texture2D screenshotTexture = SnapShotMaker.instance.TakeScreenShot(builtGun);
-        Sprite iconSprite = Sprite.Create(screenshotTexture, new Rect(0, 0, screenshotTexture.width, screenshotTexture.height), Vector2.zero);
+        //Texture2D screenshotTexture = SnapShotMaker.instance.TakeScreenShot(builtGun);
+        //Sprite iconSprite = Sprite.Create(screenshotTexture, new Rect(0, 0, screenshotTexture.width, screenshotTexture.height), Vector2.zero);
 
-        newGunTemplate.icon = iconSprite;
+        //newGunTemplate.icon = iconSprite;
         newGunTemplate.prefab = gunPrefab;
 
         string assetPath = "Assets/Resources/GameComponents/Items/CustomItem/CustomGun.asset";

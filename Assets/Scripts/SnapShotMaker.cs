@@ -63,7 +63,7 @@ public class SnapShotMaker : MonoBehaviour {
     }
 
     public Texture2D SnapShot(string name) {
-        RenderTexture rt = new RenderTexture(resWidth, resHeight, 24);
+        RenderTexture rt = new RenderTexture(resWidth, resHeight, 32);
         camera.targetTexture = rt;
         Texture2D screenShot = new Texture2D(resWidth, resHeight, TextureFormat.RGBA32, false);
         camera.Render();

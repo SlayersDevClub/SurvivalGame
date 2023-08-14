@@ -34,5 +34,12 @@ public class SlotInventoryState : SlotBaseState {
             item.inv.items[droppedSlot.slotId] = newSlot.GetComponent<ItemData>().item;
             item.inv.items[slotID] = droppedSlot.item;
         }
+        if (droppedSlot.transform.parent != item.inv.inventorySlots || droppedSlot.transform.parent != item.inv.hotbarSlots || droppedSlot.transform.parent != item.inv.chestSlots) {
+            Debug.Log("CRAFTING OUTPUT");
+            foreach (Transform ingredient in droppedSlot.transform.parent) {
+                item.inv.RemoveItem(ingredient.GetComponent<Slot>().id);
+            }
+        }
+
     }
 }
