@@ -45,8 +45,7 @@ public class SlotGeneralcrafterState : SlotBaseState {
         BaseItemTemplate output = CraftingBrain.AttemptCraft(ingredients);
 
         if (output != null) {
-            //Add item to inventory by item ID and slot number to add to
-            item.inv.AddItem(Int16.Parse(output.Id), 21);
+            item.inv.AddItem(Int16.Parse(output.Id), item.transform.parent.GetChild(item.transform.parent.childCount - 1).GetComponent<Slot>().id);
         }
     }
 

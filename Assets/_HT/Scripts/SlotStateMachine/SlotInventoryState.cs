@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 public class SlotInventoryState : SlotBaseState {
 
     public override void EnterState(SlotStateMachine item) {
-        item.gameObject.SetActive(false);
+        //item.gameObject.SetActive(false);
     }
     public override void HandleInput(SlotStateMachine item, InputAction.CallbackContext context) {
         throw new System.NotImplementedException();

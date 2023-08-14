@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 public class PlayerInventoryState : PlayerBaseState {
 	public override void EnterState(PlayerStateMachine player) {
         player.ui.ShowPlayerInventory(true);
-
 	}
 
 	public override void HandleInput(PlayerStateMachine player, InputAction.CallbackContext context) {

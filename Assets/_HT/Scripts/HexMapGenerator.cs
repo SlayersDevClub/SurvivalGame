@@ -25,6 +25,7 @@ public class HexMapGenerator : MonoBehaviour
     private PathCreator roadPath;
     void Start()
     {
+        //Vector2[] outline = GeneratePath();
         roadPath = GetComponent<PathCreator>();
         roadPath.bezierPath = GenerateRoads(roadPoints, true);
 

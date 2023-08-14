@@ -53,6 +53,7 @@ public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
 	public void OnPointerEnter(PointerEventData eventData)
 	{
+		Debug.Log("POINTR ENTER");
 		tooltip.Activate(item);
 	}
 

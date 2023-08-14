@@ -28,12 +28,12 @@ public class Inventory : MonoBehaviour
 		inventoryPanel = GameObject.Find("InventoryPanel").gameObject;
 		slotPanel = inventoryPanel.transform.Find("SlotPanel").gameObject;
 
-		hotbarSlots = slotPanel.transform.Find("HotbarSlots").gameObject;
-		inventorySlots = slotPanel.transform.Find("InventorySlots").gameObject;
-		toolcraftSlots = slotPanel.transform.Find("ToolcraftSlots").gameObject;
-		guncraftSlots = slotPanel.transform.Find("GuncraftSlots").gameObject;
-		generalcraftSlots = slotPanel.transform.Find("GeneralcraftSlots").gameObject;
-		chestSlots =slotPanel.transform.Find("ChestSlots").gameObject;
+		hotbarSlots = slotPanel.transform.Find("HotbarSlots/Slots").gameObject;
+		inventorySlots = slotPanel.transform.Find("InventorySlots/Slots").gameObject;
+		toolcraftSlots = slotPanel.transform.Find("ToolcraftSlots/Slots").gameObject;
+		guncraftSlots = slotPanel.transform.Find("GuncraftSlots/Slots").gameObject;
+		generalcraftSlots = slotPanel.transform.Find("GeneralcraftSlots/Slots").gameObject;
+		chestSlots =slotPanel.transform.Find("ChestSlots/Slots").gameObject;
 
 		slotsContainers = new GameObject[] {
 		hotbarSlots, inventorySlots, toolcraftSlots, guncraftSlots, generalcraftSlots, chestSlots
@@ -45,8 +45,12 @@ public class Inventory : MonoBehaviour
 			for (int i = 0; i < container.transform.childCount; i++) {
 				items.Add(new Item());
 				slots.Add(container.transform.GetChild(i).gameObject);
-				slots[slotId].GetComponent<Slot>().id = slotId;
 
+				try {
+					slots[slotId].GetComponent<Slot>().id = slotId;
+                } catch {
+					continue;
+                }
 				SlotStateMachine slotStateMachine = slots[slotId].GetComponent<SlotStateMachine>();
 
 				if (i == container.transform.childCount - 1 && (container == slotsContainers[2] || container == slotsContainers[3] || container == slotsContainers[4])) {
@@ -75,7 +79,7 @@ public class Inventory : MonoBehaviour
 				{
 					slotStateMachine.SwitchState(slotStateMachine.ChestState);
                 }
-				slots[slotId].SetActive(false);
+				
 				slotId++;
 			}
 		}
