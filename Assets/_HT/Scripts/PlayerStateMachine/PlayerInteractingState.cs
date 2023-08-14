@@ -36,12 +36,13 @@ public class PlayerInteractingState : PlayerBaseState
                     GameObject.Destroy(obj);
                 player.SwitchState(player.MovingState);
             } else {
-                //player.SwitchState(player.InventoryState);
+                player.SwitchState(player.MovingState);
             }
             } catch {
                 Debug.Log("DIDNT FIND");
+            player.SwitchState(player.MovingState);
             //player.SwitchState(player.InventoryState);
-            }
+        }
 
     }
 
