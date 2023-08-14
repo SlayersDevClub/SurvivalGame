@@ -20,7 +20,6 @@ public class UIManager : MonoBehaviour
         chestGrid,
         generalCraftGrid;
 
-
     public void ShowPlayerInventory(bool b)
     {
         if (b)
@@ -39,6 +38,17 @@ public class UIManager : MonoBehaviour
             }
         }
 
+    }
+
+    void ShowOptions()
+    {
+        optionsMenu.gameObject.SetActive(true);
+
+    }
+
+    void HideOptions()
+    {
+        optionsMenu.gameObject.SetActive(false);
     }
 
     public void ShowControllerCursor(bool b)
@@ -106,13 +116,13 @@ public class UIManager : MonoBehaviour
     public void ShowOptionsMenu()
     {
         optionsMenu.DOKill();
-        optionsMenu.DOFade(1, 1);
+        optionsMenu.DOFade(1, 1).OnStart(ShowOptions); ;
     }
 
     public void HideOptionsMenu()
     {
         optionsMenu.DOKill();
-        optionsMenu.DOFade(0, 1);
+        optionsMenu.DOFade(0, 1).OnComplete(HideOptions); ;
     }
 
     public void ShowStatsWindow()
