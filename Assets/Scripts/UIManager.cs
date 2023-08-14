@@ -20,6 +20,18 @@ public class UIManager : MonoBehaviour
         chestGrid,
         generalCraftGrid;
 
+    private void Start()
+    {
+        Invoke("DelayTurnOffInventories", 0.5f);
+    }
+    
+    void DelayTurnOffInventories()
+    {
+        TurnOffGunCrafter();
+        TurnOffChest();
+        TurnOffToolCrafting();
+        TurnOffCrafting();
+    }
     public void ShowPlayerInventory(bool b)
     {
         if (b)
@@ -37,18 +49,6 @@ public class UIManager : MonoBehaviour
                 HideOptionsMenu();
             }
         }
-
-    }
-
-    void ShowOptions()
-    {
-        optionsMenu.gameObject.SetActive(true);
-
-    }
-
-    void HideOptions()
-    {
-        optionsMenu.gameObject.SetActive(false);
     }
 
     public void ShowControllerCursor(bool b)
@@ -61,47 +61,82 @@ public class UIManager : MonoBehaviour
     {
         if (b)
         {
-            gunCrafterGrid.DOFade(1, 1);
+            gunCrafterGrid.DOFade(1, 1).OnStart(TurnOnGunCrafter);
         }
         else
         {
-            gunCrafterGrid.DOFade(0, 1);
+            gunCrafterGrid.DOFade(0, 1).OnComplete(TurnOffGunCrafter);
         }
+    }
+
+    void TurnOnGunCrafter()
+    {
+        gunCrafterGrid.gameObject.SetActive(true);
+    }
+    void TurnOffGunCrafter()
+    {
+        gunCrafterGrid.gameObject.SetActive(false);
     }
 
     public void ShowToolCraftingPanel(bool b)
     {
         if (b)
         {
-            toolCrafterGrid.DOFade(1, 1);
+            toolCrafterGrid.DOFade(1, 1).OnStart(TurnOnToolCrafting);
         } else
         {
-            toolCrafterGrid.DOFade(0, 1);
+            toolCrafterGrid.DOFade(0, 1).OnComplete(TurnOffToolCrafting);
         }
+    }
+
+    void TurnOnToolCrafting()
+    {
+        toolCrafterGrid.gameObject.SetActive(true);
+    }
+    void TurnOffToolCrafting()
+    {
+        toolCrafterGrid.gameObject.SetActive(false);
     }
 
     public void ShowGeneralCraftingPanel(bool b)
     {
         if (b)
         {
-            generalCraftGrid.DOFade(1, 1);
+            generalCraftGrid.DOFade(1, 1).OnStart(TurnOnCrafting);
         }
         else
         {
-            generalCraftGrid.DOFade(0, 1);
+            generalCraftGrid.DOFade(0, 1).OnComplete(TurnOffCrafting);
         }
+    }
+    void TurnOnCrafting()
+    {
+        generalCraftGrid.gameObject.SetActive(true);
+    }
+    void TurnOffCrafting()
+    {
+        generalCraftGrid.gameObject.SetActive(false);
     }
 
     public void ShowChestPanel(bool b)
     {
         if (b)
         {
-            chestGrid.DOFade(1, 1);
+            chestGrid.DOFade(1, 1).OnStart(TurnOnChest);
         }
         else
         {
-            chestGrid.DOFade(0, 1);
+            chestGrid.DOFade(0, 1).OnComplete(TurnOffChest);
         }
+    }
+
+    void TurnOnChest()
+    {
+        chestGrid.gameObject.SetActive(true);
+    }
+    void TurnOffChest()
+    {
+        chestGrid.gameObject.SetActive(false);
     }
     public void Pause()
     {
@@ -123,6 +158,16 @@ public class UIManager : MonoBehaviour
     {
         optionsMenu.DOKill();
         optionsMenu.DOFade(0, 1).OnComplete(HideOptions); ;
+    }
+
+    void ShowOptions()
+    {
+        optionsMenu.gameObject.SetActive(true);
+    }
+
+    void HideOptions()
+    {
+        optionsMenu.gameObject.SetActive(false);
     }
 
     public void ShowStatsWindow()
