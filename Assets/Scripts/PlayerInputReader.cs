@@ -78,5 +78,22 @@ public class PlayerInputReader : CharacterInput
         }
     }
 
+    public void GamePaused(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            if (!paused)
+            {
+                GetComponent<PlayerStateManager>().ChangePlayerState(PlayerControlState.Paused);
+                paused = true;
+            }
+            else
+            {
+                GetComponent<PlayerStateManager>().ChangePlayerState(PlayerControlState.Moving);
+                paused = false;
+            }
+        }
+    }
+
 
 }

@@ -15,10 +15,10 @@ namespace TheVegetationEngine
 
         static void OnInit()
         {
-            EditorApplication.update -= OnInit;
-            TVEHub window = EditorWindow.GetWindow<TVEHub>(false, "The Vegetation Engine", true);
-            window.minSize = new Vector2(800, 300);
-            window.Show();
+            //EditorApplication.update -= OnInit;
+            //TVEHub window = EditorWindow.GetWindow<TVEHub>(false, "The Vegetation Engine", true);
+            //window.minSize = new Vector2(800, 300);
+            //window.Show();
         }
     }
 }

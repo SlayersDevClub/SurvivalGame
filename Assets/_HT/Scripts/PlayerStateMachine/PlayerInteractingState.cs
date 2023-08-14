@@ -10,7 +10,7 @@ public class PlayerInteractingState : PlayerBaseState
         Cursor.visible = true;
 
         if (player.pir.playerInput.currentControlScheme == "Gamepad") {
-            player.transform.Find("PlayerUI").GetComponent<UIManager>().ShowControllerCursor(true);
+            player.ui.ShowControllerCursor(true);
         }
 
             float interactDistance = 5f;
@@ -36,11 +36,11 @@ public class PlayerInteractingState : PlayerBaseState
                     GameObject.Destroy(obj);
                 player.SwitchState(player.MovingState);
             } else {
-                player.SwitchState(player.InventoryState);
+                //player.SwitchState(player.InventoryState);
             }
             } catch {
                 Debug.Log("DIDNT FIND");
-            player.SwitchState(player.InventoryState);
+            //player.SwitchState(player.InventoryState);
             }
 
     }

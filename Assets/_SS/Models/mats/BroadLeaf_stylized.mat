@@ -27,17 +27,12 @@ Material:
   m_Shader: {fileID: 4800000, guid: 7befaa6f41d00a6478d5f4af21d66518, type: 3}
   m_ValidKeywords:
   - TVE_FEATURE_CLIP
-  - _DISABLE_DECALS
-  - _DISABLE_SSR
   m_InvalidKeywords:
-  - _ALPHATEST_ON
-  - _DISABLE_SSR_TRANSPARENT
-  - _MATERIAL_FEATURE_TRANSMISSION
+  - _EMISSION
   - _NORMALMAP
-  - _NORMALMAP_TANGENT_SPACE
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 1
+  m_DoubleSidedGI: 0
   m_CustomRenderQueue: 2450
   stringTagMap:
     NatureRendererInstancing: true
@@ -60,6 +55,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: efde8fe677199b54f9a136730765c0f4, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _BaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BentNormalMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -76,7 +75,23 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _DetailMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -120,11 +135,23 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _NormalMap:
         m_Texture: {fileID: 2800000, guid: 8107d0560f87b764f884aab7d3ff52cb, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMapOS:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -137,6 +164,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SecondNormalTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -183,6 +214,7 @@ Material:
     - _ATDistance: 1
     - _AddPrecomputedVelocity: 0
     - _AlbedoAffectEmissive: 0
+    - _AlphaClip: 0
     - _AlphaClipValue: 0.5
     - _AlphaCutoff: 0.5
     - _AlphaCutoffEnable: 1
@@ -195,6 +227,7 @@ Material:
     - _AlphaToMaskInspectorValue: 0
     - _AlphaVariationValue: 0.5
     - _Anisotropy: 0
+    - _Blend: 0
     - _BlendMode: 0
     - _BumpScale: 1
     - _CategoryDetail: 1
@@ -211,16 +244,20 @@ Material:
     - _CategoryRimLight: 1
     - _CategorySizeFade: 1
     - _CategorySubsurface: 1
+    - _ClearCoatMask: 0
+    - _ClearCoatSmoothness: 0
     - _CoatMask: 0
     - _ColorsMaskMaxValue: 0
     - _ColorsMaskMinValue: 1
     - _ColorsMaskMode: 0
     - _ColorsPositionMode: 0
     - _ColorsVariationValue: 0.5
+    - _Cull: 2
     - _CullMode: 0
     - _CullModeForward: 0
     - _Cutoff: 0.5
     - _DepthOffsetEnable: 0
+    - _DetailAlbedoMapScale: 1
     - _DetailAlbedoScale: 1
     - _DetailAlphaMode: 1
     - _DetailBlendMaxValue: 0.6
@@ -268,6 +305,7 @@ Material:
     - _EnableFogOnTransparent: 1
     - _EnableGeometricSpecularAA: 0
     - _EnergyConservingSpecularColor: 1
+    - _EnvironmentReflections: 1
     - _ExtrasPositionMode: 0
     - _FadeCameraValue: 1
     - _FadeConstantValue: 0
@@ -364,7 +402,10 @@ Material:
     - _PerspectiveAngleValue: 1
     - _PerspectiveNoiseValue: 0
     - _PerspectivePushValue: 0
+    - _QueueControl: -1
+    - _QueueOffset: 0
     - _RayTracing: 0
+    - _ReceiveShadows: 1
     - _ReceivesSSR: 1
     - _ReceivesSSRTransparent: 0
     - _RefractionModel: 0
@@ -429,6 +470,7 @@ Material:
     - _SubsurfaceShadowValue: 1
     - _SubsurfaceValue: 1
     - _SupportDecals: 1
+    - _Surface: 0
     - _SurfaceType: 0
     - _TexWorldScale: 1
     - _TexWorldScaleEmissive: 1
@@ -452,11 +494,17 @@ Material:
     - _VertexOcclusionMinValue: 0
     - _VertexPivotMode: 0
     - _VertexVariationMode: 0
+    - _WorkflowMode: 1
     - _ZTestDepthEqualForOpaque: 3
     - _ZTestGBuffer: 3
     - _ZTestTransparent: 4
     - _ZWrite: 1
     - _emissive_intensity_value: 1
+    - _render_coverage: 0
+    - _render_cull: 0
+    - _render_dst: 0
+    - _render_src: 1
+    - _render_zw: 1
     m_Colors:
     - _BaseColor: {r: 0.5427719, g: 0.6509434, b: 0.06448024, a: 0.999}
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
@@ -486,6 +534,7 @@ Material:
     - _SecondColor: {r: 1, g: 1, b: 1, a: 1}
     - _SecondMaskRemap: {r: 0, g: 0, b: 0, a: 0}
     - _SecondUVs: {r: 1, g: 1, b: 0, a: 0}
+    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
     - _SubsurfaceColor: {r: 1, g: 1, b: 1, a: 1}
     - _SubsurfaceDiffusion_Asset: {r: 0, g: 0, b: 0, a: 0}
@@ -499,3 +548,16 @@ Material:
     - _render_normals: {r: -1, g: -1, b: -1, a: 0}
     - _second_uvs_mode: {r: 1, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
+--- !u!114 &2129978762098561407
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 5

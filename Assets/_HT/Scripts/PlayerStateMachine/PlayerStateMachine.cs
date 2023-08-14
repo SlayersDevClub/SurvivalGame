@@ -23,6 +23,8 @@ public class PlayerStateMachine : MonoBehaviour
     public GameObject slotPanel;
     public GameObject inventorySlot;
 
+    public UIManager ui;
+
     public int equipItemSlot;
 
     void Start() {
@@ -41,6 +43,7 @@ public class PlayerStateMachine : MonoBehaviour
     }
 
     public void SwitchState(PlayerBaseState state) {
+        Debug.Log(state);
         currentState = state;
         currentState.EnterState(this);
     }

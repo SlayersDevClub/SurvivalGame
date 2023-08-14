@@ -4,28 +4,16 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 public class PlayerToolcraftState : PlayerBaseState {
 	public override void EnterState(PlayerStateMachine player) {
-		foreach (Transform slotTransform in player.slotPanel.transform.Find("ToolcraftSlots")) {
-			GameObject slot = slotTransform.gameObject;
-			slot.SetActive(true);
-		}
-		foreach (Transform slotTransform in player.slotPanel.transform.Find("InventorySlots")) {
-			GameObject slot = slotTransform.gameObject;
-			slot.SetActive(true);
-		}
-	}
+        player.ui.ShowToolCraftingPanel(true);
+        player.ui.ShowPlayerInventory(true);
+    }
 
 	public override void HandleInput(PlayerStateMachine player, InputAction.CallbackContext context) {
 		if (context.started) {
 			if (context.action.name == TagManager.INTERACT_ACTION) {
-				foreach (Transform slotTransform in player.slotPanel.transform.Find("ToolcraftSlots")) {
-					GameObject slot = slotTransform.gameObject;
-					slot.SetActive(false);
-				}
-				foreach (Transform slotTransform in player.slotPanel.transform.Find("InventorySlots")) {
-					GameObject slot = slotTransform.gameObject;
-					slot.SetActive(false);
-				}
-				player.SwitchState(player.MovingState);
+                player.ui.ShowToolCraftingPanel(false);
+                player.ui.ShowPlayerInventory(false);
+                player.SwitchState(player.MovingState);
 			}
 		}
 	}

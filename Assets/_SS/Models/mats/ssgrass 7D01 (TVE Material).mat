@@ -8,15 +8,14 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: ssgrass 7D01 (TVE Material)
-  m_Shader: {fileID: 4800000, guid: 7befaa6f41d00a6478d5f4af21d66518, type: 3}
+  m_Shader: {fileID: 4800000, guid: a933075b367f9b24981408633f72ff34, type: 3}
   m_ValidKeywords:
   - TVE_FEATURE_CLIP
-  - _DISABLE_DECALS
-  - _DISABLE_SSR
-  m_InvalidKeywords: []
+  m_InvalidKeywords:
+  - _ALPHATEST_ON
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 1
-  m_DoubleSidedGI: 0
+  m_DoubleSidedGI: 1
   m_CustomRenderQueue: 2450
   stringTagMap:
     NatureRendererInstancing: true
@@ -30,7 +29,27 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 2800000, guid: 9db7833d6a284d64bb39683456068fdc, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 0.89}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -52,6 +71,18 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: 9db7833d6a284d64bb39683456068fdc, type: 3}
+        m_Scale: {x: 1, y: 0.89}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SecondAlbedoTex:
@@ -63,6 +94,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SecondNormalTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -81,6 +116,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _AddPrecomputedVelocity: 1
+    - _AlphaClip: 1
     - _AlphaClipValue: 0.844
     - _AlphaCutoff: 0.844
     - _AlphaCutoffEnable: 0
@@ -89,7 +125,9 @@ Material:
     - _AlphaToMask: 0
     - _AlphaToMaskInspectorValue: 0
     - _AlphaVariationValue: 0.525
+    - _Blend: 0
     - _BlendMode: 0
+    - _BumpScale: 1
     - _CategoryDetail: 1
     - _CategoryEmissive: 1
     - _CategoryGlobals: 1
@@ -104,14 +142,18 @@ Material:
     - _CategoryRimLight: 1
     - _CategorySizeFade: 1
     - _CategorySubsurface: 1
+    - _ClearCoatMask: 0
+    - _ClearCoatSmoothness: 0
     - _ColorsMaskMaxValue: 0
     - _ColorsMaskMinValue: 1
     - _ColorsMaskMode: 0
     - _ColorsPositionMode: 1
     - _ColorsVariationValue: 0.622
+    - _Cull: 0
     - _CullMode: 0
     - _CullModeForward: 0
     - _Cutoff: 0.844
+    - _DetailAlbedoMapScale: 1
     - _DetailAlphaMode: 1
     - _DetailBlendMaxValue: 0.6
     - _DetailBlendMinValue: 0.4
@@ -127,6 +169,7 @@ Material:
     - _DetailMeshMinValue: 0
     - _DetailMeshMode: 0
     - _DetailMode: 0
+    - _DetailNormalMapScale: 1
     - _DetailNormalValue: 1
     - _DetailOpaqueMode: 0
     - _DetailTypeMode: 2
@@ -144,6 +187,7 @@ Material:
     - _EmissiveTexMinValue: 0
     - _EnableBlendModePreserveSpecularLighting: 1
     - _EnableFogOnTransparent: 1
+    - _EnvironmentReflections: 1
     - _ExtrasPositionMode: 0
     - _FadeCameraValue: 1
     - _FadeConstantValue: 0
@@ -154,6 +198,9 @@ Material:
     - _GlobalOverlay: 1
     - _GlobalSize: 1
     - _GlobalWetness: 1
+    - _GlossMapScale: 0
+    - _Glossiness: 0
+    - _GlossyReflections: 0
     - _GradientMaxValue: 1
     - _GradientMinValue: 0
     - _HasEmissive: 1
@@ -168,8 +215,8 @@ Material:
     - _IsIdentifier: 20
     - _IsPlantShader: 1
     - _IsShared: 1
-    - _IsStandardShader: 1
-    - _IsSubsurfaceShader: 0
+    - _IsStandardShader: 0
+    - _IsSubsurfaceShader: 1
     - _IsTVEShader: 1
     - _IsVersion: 1200
     - _LayerColorsValue: 0
@@ -188,6 +235,7 @@ Material:
     - _MessageOcclusion: 0
     - _MessageSecondMask: 0
     - _MessageSubsurface: 0
+    - _Metallic: 0
     - _MotionAmplitude_10: 1
     - _MotionAmplitude_20: 0.2
     - _MotionAmplitude_22: 0.2
@@ -205,12 +253,17 @@ Material:
     - _MotionVariation_10: 1
     - _MotionVariation_20: 0
     - _MotionVariation_32: 10
+    - _OcclusionStrength: 1
     - _OpaqueCullMode: 2
     - _OverlayProjectionValue: 0.5
     - _OverlayVariationValue: 0.522
+    - _Parallax: 0.005
     - _PerspectiveAngleValue: 1
     - _PerspectiveNoiseValue: 0
     - _PerspectivePushValue: 0
+    - _QueueControl: -1
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
     - _ReceivesSSR: 1
     - _ReceivesSSRTransparent: 0
     - _RenderAmbient: 1
@@ -238,6 +291,8 @@ Material:
     - _SecondUVsMode: 0
     - _SizeFadeEndValue: 0
     - _SizeFadeStartValue: 0
+    - _Smoothness: 0
+    - _SmoothnessTextureChannel: 0
     - _SpaceGlobalLayers: 0
     - _SpaceGlobalLocals: 0
     - _SpaceGlobalOptions: 0
@@ -245,6 +300,7 @@ Material:
     - _SpaceMotionLocals: 0
     - _SpaceRenderFade: 0
     - _SpaceSubsurface: 0
+    - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _StencilRef: 0
     - _StencilRefDepth: 0
@@ -265,7 +321,14 @@ Material:
     - _SubsurfaceShadowValue: 1
     - _SubsurfaceValue: 1
     - _SupportDecals: 1
+    - _Surface: 0
     - _SurfaceType: 0
+    - _TransAmbient: 0.2
+    - _TransDirect: 1
+    - _TransNormal: 0
+    - _TransScattering: 8
+    - _TransShadow: 1
+    - _TransStrength: 2
     - _TransparentBackfaceEnable: 0
     - _TransparentCullMode: 0
     - _TransparentSortPriority: 0
@@ -277,12 +340,19 @@ Material:
     - _VertexOcclusionMinValue: 0
     - _VertexPivotMode: 1
     - _VertexVariationMode: 1
+    - _WorkflowMode: 1
     - _ZTestDepthEqualForOpaque: 3
     - _ZTestGBuffer: 3
     - _ZTestTransparent: 4
     - _ZWrite: 1
     - _emissive_intensity_value: 1
+    - _render_coverage: 0
+    - _render_cull: 0
+    - _render_dst: 0
+    - _render_src: 1
+    - _render_zw: 1
     m_Colors:
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 0.36567017, g: 0.929, b: 0.16801062, a: 1}
     - _DetailBlendRemap: {r: 0, g: 0, b: 0, a: 0}
     - _DetailMaskRemap: {r: 0, g: 0, b: 0, a: 0}
@@ -297,7 +367,7 @@ Material:
     - _GradientMaskRemap: {r: 0, g: 0, b: 0, a: 0}
     - _MainColor: {r: 0.36567017, g: 0.929, b: 0.16801062, a: 1}
     - _MainMaskRemap: {r: 0, g: 0, b: 0, a: 0}
-    - _MainUVs: {r: 1, g: 1, b: 0, a: 0}
+    - _MainUVs: {r: 1, g: 0.89, b: 0, a: 0}
     - _MaxBoundsInfo: {r: 1, g: 1, b: 1, a: 1}
     - _MotionHighlightColor: {r: 1.5, g: 1.5, b: 1.5, a: 1}
     - _NoiseMaskRemap: {r: 0, g: 0, b: 0, a: 0}
@@ -305,6 +375,7 @@ Material:
     - _SecondColor: {r: 1, g: 1, b: 1, a: 1}
     - _SecondMaskRemap: {r: 0, g: 0, b: 0, a: 0}
     - _SecondUVs: {r: 1, g: 1, b: 0, a: 0}
+    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _SubsurfaceColor: {r: 1, g: 1, b: 1, a: 1}
     - _SubsurfaceDiffusion_Asset: {r: 0, g: 0, b: 0, a: 0}
     - _VertexOcclusionColor: {r: 1, g: 1, b: 1, a: 0.5019608}
@@ -312,3 +383,16 @@ Material:
     - _render_normals: {r: -1, g: -1, b: -1, a: 0}
     - _second_uvs_mode: {r: 1, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
+--- !u!114 &203496080592952337
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 5

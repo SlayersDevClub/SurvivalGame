@@ -9,10 +9,6 @@ public class PlayerMovingState : PlayerBaseState
         player.pir.playerInput.SwitchCurrentActionMap("Move");
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-
-        if (player.pir.playerInput.currentControlScheme == "Gamepad") {
-            player.transform.Find("PlayerUI").GetComponent<UIManager>().ShowControllerCursor(false);
-        }
     }
 
     public override void HandleInput(PlayerStateMachine player, InputAction.CallbackContext context) {

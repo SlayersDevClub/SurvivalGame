@@ -13,11 +13,12 @@ public class UIManager : MonoBehaviour
         graphicsWindow,
         statsWindow;
     public CanvasGroup
-        inventoryGrid;
-
-    public GameObject
-        pauseMenu;
-
+        inventoryGrid,
+        optionsMenu,
+        gunCrafterGrid,
+        toolCrafterGrid,
+        chestGrid,
+        generalCraftGrid;
 
 
     public void ShowPlayerInventory(bool b)
@@ -32,9 +33,9 @@ public class UIManager : MonoBehaviour
             inventoryGrid.DOFade(0, 1);
 
             //Incase the pause menu is ON, turn it off.
-            if (pauseMenu.activeSelf)
+            if (optionsMenu.gameObject.activeSelf)
             {
-                UnPause();
+                HideOptionsMenu();
             }
         }
 
@@ -46,16 +47,74 @@ public class UIManager : MonoBehaviour
         else controllerUICursor.SetActive(false);
     }
 
+    public void ShowGunCrafterPanel(bool b)
+    {
+        if (b)
+        {
+            gunCrafterGrid.DOFade(1, 1);
+        }
+        else
+        {
+            gunCrafterGrid.DOFade(0, 1);
+        }
+    }
+
+    public void ShowToolCraftingPanel(bool b)
+    {
+        if (b)
+        {
+            toolCrafterGrid.DOFade(1, 1);
+        } else
+        {
+            toolCrafterGrid.DOFade(0, 1);
+        }
+    }
+
+    public void ShowGeneralCraftingPanel(bool b)
+    {
+        if (b)
+        {
+            generalCraftGrid.DOFade(1, 1);
+        }
+        else
+        {
+            generalCraftGrid.DOFade(0, 1);
+        }
+    }
+
+    public void ShowChestPanel(bool b)
+    {
+        if (b)
+        {
+            chestGrid.DOFade(1, 1);
+        }
+        else
+        {
+            chestGrid.DOFade(0, 1);
+        }
+    }
     public void Pause()
     {
-        pauseMenu.SetActive(true);
+        //optionsMenu.SetActive(true);
     }
 
     public void UnPause() {
-        PlayerStateMachine player = transform.parent.GetComponent<PlayerStateMachine>();
-        player.SwitchState(player.MovingState);
-        pauseMenu.SetActive(false);
+        //PlayerStateMachine player = transform.parent.GetComponent<PlayerStateMachine>();
+        //player.SwitchState(player.MovingState);
     }
+
+    public void ShowOptionsMenu()
+    {
+        optionsMenu.DOKill();
+        optionsMenu.DOFade(1, 1);
+    }
+
+    public void HideOptionsMenu()
+    {
+        optionsMenu.DOKill();
+        optionsMenu.DOFade(0, 1);
+    }
+
     public void ShowStatsWindow()
     {
         ShowWindow(statsWindow);

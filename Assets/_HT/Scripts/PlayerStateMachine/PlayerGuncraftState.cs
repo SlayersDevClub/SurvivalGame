@@ -2,31 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using DG.Tweening;
 
 public class PlayerGunCraftState : PlayerBaseState {
 	public override void EnterState(PlayerStateMachine player) {
-		foreach (Transform slotTransform in player.slotPanel.transform.Find("GuncraftSlots")) {
-			GameObject slot = slotTransform.gameObject;
-			slot.SetActive(true);
-		}
-		foreach (Transform slotTransform in player.slotPanel.transform.Find("InventorySlots")) {
-			GameObject slot = slotTransform.gameObject;
-			slot.SetActive(true);
-		}
+        player.ui.ShowGunCrafterPanel(true);
+        player.ui.ShowPlayerInventory(true);
 	}
 
 	public override void HandleInput(PlayerStateMachine player, InputAction.CallbackContext context) {
 		if (context.started) {
 			if (context.action.name == TagManager.INTERACT_ACTION) {
-				foreach (Transform slotTransform in player.slotPanel.transform.Find("GuncraftSlots")) {
-					GameObject slot = slotTransform.gameObject;
-					slot.SetActive(false);
-				}
-				foreach (Transform slotTransform in player.slotPanel.transform.Find("InventorySlots")) {
-					GameObject slot = slotTransform.gameObject;
-					slot.SetActive(false);
-				}
-				player.SwitchState(player.MovingState);
+                player.ui.ShowGunCrafterPanel(false);
+                player.ui.ShowPlayerInventory(false);
+                player.SwitchState(player.MovingState);
 			}
 		}
 	}
