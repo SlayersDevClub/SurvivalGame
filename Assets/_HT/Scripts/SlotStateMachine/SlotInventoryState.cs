@@ -34,6 +34,35 @@ public class SlotInventoryState : SlotBaseState {
             item.inv.items[droppedSlot.slotId] = newSlot.GetComponent<ItemData>().item;
             item.inv.items[slotID] = droppedSlot.item;
         }
+        if (slot.GetComponent<Slot>().id != item.player.equipItemSlot) {
+            if (GameObject.Find("Resource").transform.childCount > 0) {
+                GameObject.Destroy(GameObject.Find("Resource").transform.GetChild(0).gameObject);
+            } else if (GameObject.Find("Gun").transform.childCount > 0) {
+                GameObject.Destroy(GameObject.Find("Gun").transform.GetChild(0).gameObject);
+            } else if (GameObject.Find("Tool").transform.childCount > 0) {
+                GameObject.Destroy(GameObject.Find("Tool").transform.GetChild(0).gameObject);
+            }
+        } else {
+            BaseItemTemplate equipItem = ItemDatabase.FetchBaseItemTemplateById(item.inv.items[item.transform.GetComponent<Slot>().id].Id);
+
+
+            item.player.equipItemSlot = item.transform.GetComponent<Slot>().id;
+            item.player.equipItem = equipItem;
+
+            //ADD PLAYER ITEM HERE SO WHEN USING IS CALLED IT FIRES WEAPON OR KNOW WHAT TYPE OF WEAPON IT IS    player.equip
+
+            ResourceTemplate resource = equipItem as ResourceTemplate;
+            GunTemplate gun = equipItem as GunTemplate;
+            ToolTemplate tool = equipItem as ToolTemplate;
+
+            if (resource != null) {
+                GameObject.Instantiate(equipItem.prefab, GameObject.Find("Resource").transform);
+            } else if (gun != null) {
+                GameObject.Instantiate(equipItem.prefab, GameObject.Find("Gun").transform);
+            } else if (tool != null) {
+                GameObject.Instantiate(equipItem.prefab, GameObject.Find("Tool").transform);
+            }
+        }
 
         Transform toolSlots = item.inv.toolcraftSlots.transform;
         Transform gunSlots = item.inv.guncraftSlots.transform;
@@ -43,7 +72,10 @@ public class SlotInventoryState : SlotBaseState {
             item.ToolcrafterState.TryCraftTool(item);
         }
 
-        if ((droppedSlot.transform == toolSlots.GetChild(toolSlots.childCount-1)) || droppedSlot.transform == gunSlots.GetChild(gunSlots.childCount - 1) || droppedSlot.transform == craftSlots.GetChild(craftSlots.childCount - 1)) {
+        if ((droppedSlot.transform == toolSlots.GetChild(toolSlots.childCount-1)) || droppedSlot.transform == gunSlots.GetChild(gunSlots.childCount - 1) || droppedSlot.transform == craftSlots.GetChild(craftSlots.childCount - 2)) {
+            if(droppedSlot.transform == craftSlots.GetChild(craftSlots.childCount - 1)){
+                Debug.Log("REMOVING CRAFTING ING");
+            }
             for (int i = 0; i < droppedSlot.transform.parent.childCount-1; i++) {
                 Transform ingredient = droppedSlot.transform.parent.GetChild(i);
                 Debug.Log(ingredient.gameObject.name);

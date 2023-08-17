@@ -11,52 +11,32 @@ public class SlotDropState : SlotBaseState
             return;
         }
 
-        item.player.inv.RemoveItem(item.player.equipItemSlot);
+        GameObject droppedItem = null;
 
-        if (item.player.equipItem as ResourceTemplate != null) {
-            GameObject droppedResource = GameObject.Find("Resource").transform.GetChild(0).gameObject;
-            droppedResource.transform.parent = null;
+        if (item.player.equipItem is ResourceTemplate) {
+            droppedItem = GameObject.Find("Resource").transform.GetChild(0).gameObject;
+        } else if (item.player.equipItem is ToolTemplate) {
+            droppedItem = GameObject.Find("Tool").transform.GetChild(0).gameObject;
+        } else if (item.player.equipItem is GunTemplate) {
+            droppedItem = GameObject.Find("Gun").transform.GetChild(0).gameObject;
+        }
 
-            Rigidbody rb = droppedResource.GetComponent<Rigidbody>();
+        if (droppedItem != null) {
+            droppedItem.transform.parent = null;
+
+            Rigidbody rb = droppedItem.GetComponent<Rigidbody>();
             if (rb == null) {
-                rb = droppedResource.AddComponent<Rigidbody>();
-                droppedResource.AddComponent<BoxCollider>();
+                rb = droppedItem.AddComponent<Rigidbody>();
+                droppedItem.AddComponent<BoxCollider>();
             }
 
             Vector3 forceDirection = item.player.playerTransform.forward; // Adjust the force direction as needed
             float forceMagnitude = 5.0f; // Adjust the force magnitude as needed
             rb.AddForce(forceDirection.normalized * forceMagnitude, ForceMode.Impulse);
-
-        } else if (item.player.equipItem as ToolTemplate != null) {
-            GameObject droppedTool = GameObject.Find("Tool").transform.GetChild(0).gameObject;
-            droppedTool.transform.parent = null;
-
-            Rigidbody rb = droppedTool.GetComponent<Rigidbody>();
-            if (rb == null) {
-                rb = droppedTool.AddComponent<Rigidbody>();
-                droppedTool.AddComponent<BoxCollider>();
-            }
-
-            Vector3 forceDirection = item.player.playerTransform.forward; // Adjust the force direction as needed
-            float forceMagnitude = 5f; // Adjust the force magnitude as needed
-            rb.AddForce(forceDirection.normalized * forceMagnitude, ForceMode.Impulse);
-        } else if (item.player.equipItem as GunTemplate != null) {
-            GameObject droppedGun = GameObject.Find("Gun").transform.GetChild(0).gameObject;
-            droppedGun.transform.parent = null;
-
-            Rigidbody rb = droppedGun.GetComponent<Rigidbody>();
-            if (rb == null) {
-                rb = droppedGun.AddComponent<Rigidbody>();
-                droppedGun.AddComponent<BoxCollider>();
-            }
-
-            Vector3 forceDirection = item.player.playerTransform.forward; // Adjust the force direction as needed
-            float forceMagnitude = 5f; // Adjust the force magnitude as needed
-            rb.AddForce(forceDirection.normalized * forceMagnitude, ForceMode.Impulse);
         }
 
+        item.player.inv.RemoveItem(item.player.equipItemSlot);
         item.player.equipItem = null;
-
         item.SwitchState(item.EquipState);
     }
     public override void HandleInput(SlotStateMachine item, InputAction.CallbackContext context) {
