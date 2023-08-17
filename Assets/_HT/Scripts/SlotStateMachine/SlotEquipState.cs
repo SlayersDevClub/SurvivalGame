@@ -4,12 +4,14 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 using System;
+using UnityEngine.UI;
 
 
 public class SlotEquipState : SlotBaseState {
 
     BaseItemTemplate equipItem;
     public override void EnterState(SlotStateMachine item) {
+        //UNEQUIP
         if (GameObject.Find("Resource").transform.childCount > 0) {
             GameObject.Destroy(GameObject.Find("Resource").transform.GetChild(0).gameObject);
         } else if (GameObject.Find("Gun").transform.childCount > 0) {
@@ -18,10 +20,15 @@ public class SlotEquipState : SlotBaseState {
             GameObject.Destroy(GameObject.Find("Tool").transform.GetChild(0).gameObject);
         }
 
+        SlotStateMachine itemToUnequip = item.inv.slots[item.player.equipItemSlot].GetComponent<SlotStateMachine>();
+        itemToUnequip.SwitchState(itemToUnequip.HotbarState);
+        //EQUIP
         equipItem = ItemDatabase.FetchBaseItemTemplateById(item.inv.items[item.transform.GetComponent<Slot>().id].Id);
 
-     
-        item.player.equipItemSlot = item.transform.GetComponent<Slot>().id;
+        Transform itemToEquip = item.transform;
+        itemToEquip.GetComponent<Image>().color = Color.yellow;
+
+        item.player.equipItemSlot = itemToEquip.GetComponent<Slot>().id;
         item.player.equipItem = equipItem;
         
         //ADD PLAYER ITEM HERE SO WHEN USING IS CALLED IT FIRES WEAPON OR KNOW WHAT TYPE OF WEAPON IT IS    player.equip
@@ -81,6 +88,9 @@ public class SlotEquipState : SlotBaseState {
             } else if (GameObject.Find("Tool").transform.childCount > 0) {
                 GameObject.Destroy(GameObject.Find("Tool").transform.GetChild(0).gameObject);
             }
+            item.player.equipItem = null;
+
+            item.SwitchState(item.HotbarState);
         } else {
             BaseItemTemplate equipItem = ItemDatabase.FetchBaseItemTemplateById(item.inv.items[item.transform.GetComponent<Slot>().id].Id);
 
@@ -102,8 +112,6 @@ public class SlotEquipState : SlotBaseState {
                 GameObject.Instantiate(equipItem.prefab, GameObject.Find("Tool").transform);
             }
         }
-
-        item.SwitchState(item.HotbarState);
     }
 
 }

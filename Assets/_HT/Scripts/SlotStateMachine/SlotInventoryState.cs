@@ -42,6 +42,7 @@ public class SlotInventoryState : SlotBaseState {
             } else if (GameObject.Find("Tool").transform.childCount > 0) {
                 GameObject.Destroy(GameObject.Find("Tool").transform.GetChild(0).gameObject);
             }
+            item.player.equipItem = null;
         } else {
             BaseItemTemplate equipItem = ItemDatabase.FetchBaseItemTemplateById(item.inv.items[item.transform.GetComponent<Slot>().id].Id);
 

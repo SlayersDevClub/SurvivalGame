@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
-
+using UnityEngine.UI;
 
 public class SlotHotbarState : SlotBaseState {
 
     public override void EnterState(SlotStateMachine item) {
-        Debug.Log("ENTER HOTBAR");
+        Color normalSlotColor = new Color(135, 135, 135);
+        if (item.transform.GetComponent<Image>().color != normalSlotColor) {
+            item.transform.GetComponent<Image>().color = normalSlotColor;
+        }
     }
     public override void HandleInput(SlotStateMachine item, InputAction.CallbackContext context) {
 
@@ -43,6 +46,8 @@ public class SlotHotbarState : SlotBaseState {
             } else if (GameObject.Find("Tool").transform.childCount > 0) {
                 GameObject.Destroy(GameObject.Find("Tool").transform.GetChild(0).gameObject);
             }
+
+            item.player.equipItem = null;
         } else {
             BaseItemTemplate equipItem = ItemDatabase.FetchBaseItemTemplateById(item.inv.items[item.transform.GetComponent<Slot>().id].Id);
 
