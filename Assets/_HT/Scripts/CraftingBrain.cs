@@ -51,7 +51,7 @@ public static class CraftingBrain {
         (hammerHand != null && hammerHead != null)) {
 
             ToolTemplate newToolTemplate = ScriptableObject.CreateInstance<ToolTemplate>();
-
+            
             BaseItemTemplate handle = null;
             BaseItemTemplate head = null;
 
@@ -69,24 +69,24 @@ public static class CraftingBrain {
             GameObject builtTool = ToolAssembler.AssembleTool(handle.prefab, head.prefab);
 
             //SAVING
-            string prefabPath = "Assets/_HT/Prefabs/Tool/" + builtTool.name + ".prefab";
+            string prefabPath = "Assets/_HT/Prefabs/Tool/" + builtTool.name + newToolTemplate.Id.ToString() + ".prefab";
             GameObject toolPrefab = PrefabUtility.SaveAsPrefabAsset(builtTool, prefabPath);
 
             Texture2D screenshotTexture = SnapShotMaker.instance.TakeScreenShot(builtTool);
             Sprite iconSprite = Sprite.Create(screenshotTexture, new Rect(0, 0, screenshotTexture.width, screenshotTexture.height), Vector2.zero);
 
             newToolTemplate.prefab = toolPrefab;
-            newToolTemplate.icon = iconSprite;
+            newToolTemplate.icon = (Sprite)AssetDatabase.LoadAssetAtPath("Assets/_SS/Textures/GeneratedIcons/AssembledTool" + newToolTemplate.Id.ToString() +".png", typeof(Sprite));
 
-            string assetPath = "Assets/Resources/GameComponents/Items/CustomItem/CustomTool.asset";
+            string assetPath = "Assets/Resources/GameComponents/Items/CustomItem/CustomTool" + newToolTemplate.Id.ToString() + ".asset";
             AssetDatabase.CreateAsset(newToolTemplate, assetPath);
             AssetDatabase.SaveAssets();
+            EditorUtility.SetDirty(newToolTemplate);
             AssetDatabase.Refresh();
             //FINISH SAVING
             return newToolTemplate;
 
         } else {
-            Debug.Log("NOT VALID TOOL");
             return null;
         }
 
@@ -102,29 +102,21 @@ public static BaseItemTemplate AttemptBuildGun(List<BaseItemTemplate> gunParts) 
 
         foreach (BaseItemTemplate part in gunParts) {
             if (part is MagTemplate) {
-                Debug.Log("ONE MAG");
                 mag = (MagTemplate)part;
             } else if (part is StockTemplate) {
                 stock = (StockTemplate)part;
-                Debug.Log("ONE STOCK");
             } else if (part is BodyTemplate) {
                 body = (BodyTemplate)part;
-                Debug.Log("ONE BODY");
             } else if (part is GripTemplate) {
                 grip = (GripTemplate)part;
-                Debug.Log("ONE GRIP");
             } else if (part is SightTemplate) {
                 sight = (SightTemplate)part;
-                Debug.Log("ONE SIGTH");
             } else if (part is BarrelTemplate) {
                 barrel = (BarrelTemplate)part;
-                Debug.Log("ONE BARREL");
             }
         }
 
         if (mag == null || stock == null || body == null || grip == null || sight == null || barrel == null) {
-            Debug.Log("NOT VALID GUN");
-
             return null;
         }
 
@@ -132,16 +124,16 @@ public static BaseItemTemplate AttemptBuildGun(List<BaseItemTemplate> gunParts) 
         GameObject builtGun = GunAssembler.AssembleGun(body.prefab, mag.prefab, sight.prefab, barrel.prefab, stock.prefab, grip.prefab);
 
         // Create a prefab from the builtGun GameObject and get its path
-        string prefabPath = "Assets/_HT/Prefabs/Guns/" + builtGun.name + ".prefab";
+        string prefabPath = "Assets/_HT/Prefabs/Guns/" + builtGun.name+ newGunTemplate.Id.ToString() + ".prefab";
         GameObject gunPrefab = PrefabUtility.SaveAsPrefabAsset(builtGun, prefabPath);
 
-        //Texture2D screenshotTexture = SnapShotMaker.instance.TakeScreenShot(builtGun);
-        //Sprite iconSprite = Sprite.Create(screenshotTexture, new Rect(0, 0, screenshotTexture.width, screenshotTexture.height), Vector2.zero);
+        Texture2D screenshotTexture = SnapShotMaker.instance.TakeScreenShot(builtGun);
+        Sprite iconSprite = Sprite.Create(screenshotTexture, new Rect(0, 0, screenshotTexture.width, screenshotTexture.height), Vector2.zero);
 
-        //newGunTemplate.icon = iconSprite;
+        newGunTemplate.icon = (Sprite)AssetDatabase.LoadAssetAtPath("Assets/_SS/Textures/GeneratedIcons/AssembledGun" + newGunTemplate.Id.ToString() + ".png", typeof(Sprite));
         newGunTemplate.prefab = gunPrefab;
 
-        string assetPath = "Assets/Resources/GameComponents/Items/CustomItem/CustomGun.asset";
+        string assetPath = "Assets/Resources/GameComponents/Items/CustomItem/" + "CustomGun" + newGunTemplate.Id.ToString() + ".asset";
         AssetDatabase.CreateAsset(newGunTemplate, assetPath);
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();

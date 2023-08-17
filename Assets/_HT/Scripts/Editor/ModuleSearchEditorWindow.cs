@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System;
 
 public class ModuleSearchEditorWindow : EditorWindow {
     private enum Category {
@@ -604,6 +605,10 @@ public class ModuleSearchEditorWindow : EditorWindow {
         BaseItemTemplate selectedObject = Selection.activeObject as BaseItemTemplate;
 
         if (selectedObject != null) {
+            
+            ItemSetup itemToSetup = selectedObject.prefab.AddComponent<ItemSetup>();
+            itemToSetup.SetItemID(Int16.Parse(selectedObject.Id));
+            EditorUtility.SetDirty(selectedObject);
             // Add the selected object to the list
             loadListData.Add(selectedObject);
 

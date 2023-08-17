@@ -9,13 +9,16 @@ using System;
 public class SlotGuncrafterState : SlotBaseState {
 
     public override void EnterState(SlotStateMachine item) {
-        Debug.Log("GUNSLOT ENTER");
     }
     public override void HandleInput(SlotStateMachine item, InputAction.CallbackContext context) {
         
     }
     public override void OnDrop(SlotStateMachine item, PointerEventData pointerEventData, int slotID, GameObject slot) {
         ItemData droppedSlot = pointerEventData.pointerDrag.GetComponent<ItemData>();
+
+        if (droppedSlot.transform == item.inv.guncraftSlots.transform.GetChild(item.inv.guncraftSlots.transform.childCount - 1)) {
+            return;
+        }
 
         item.inv.items[droppedSlot.slotId] = new Item();
         item.inv.items[slotID] = droppedSlot.item;
@@ -49,7 +52,7 @@ public class SlotGuncrafterState : SlotBaseState {
 
         if (newGun != null) {
             JsonDataManager.AddBaseItemTemplateToJson(maybeNewGun);
-            newGun.Id = "999";
+            ItemDatabase.Initialize();
             item.inv.AddItem(Int16.Parse(newGun.Id), item.inv.guncraftSlots.transform.GetChild(item.inv.guncraftSlots.transform.childCount -1).GetComponent<Slot>().id);
         }
 

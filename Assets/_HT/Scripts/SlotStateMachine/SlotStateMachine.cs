@@ -15,12 +15,14 @@ public class SlotStateMachine : MonoBehaviour {
     public SlotEquipState EquipState = new SlotEquipState();
     public SlotUseState UseState = new SlotUseState();
     public SlotOutputState OutputState = new SlotOutputState();
+    public SlotDropState DropState = new SlotDropState();
 
     public Inventory inv;
+    public PlayerStateMachine player;
 
     private void Start() {
         inv = GameObject.Find("PlayerUI/Inventory").GetComponent<Inventory>();
-
+        player = GameObject.Find("Player_1").GetComponent<PlayerStateMachine>();
 
     }
 

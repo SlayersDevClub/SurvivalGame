@@ -34,10 +34,25 @@ public class SlotInventoryState : SlotBaseState {
             item.inv.items[droppedSlot.slotId] = newSlot.GetComponent<ItemData>().item;
             item.inv.items[slotID] = droppedSlot.item;
         }
-        if (droppedSlot.transform.parent != item.inv.inventorySlots || droppedSlot.transform.parent != item.inv.hotbarSlots || droppedSlot.transform.parent != item.inv.chestSlots) {
-            Debug.Log("CRAFTING OUTPUT");
-            foreach (Transform ingredient in droppedSlot.transform.parent) {
-                item.inv.RemoveItem(ingredient.GetComponent<Slot>().id);
+
+        Transform toolSlots = item.inv.toolcraftSlots.transform;
+        Transform gunSlots = item.inv.guncraftSlots.transform;
+        Transform craftSlots = item.inv.generalcraftSlots.transform;
+
+        if(droppedSlot.transform.parent == toolSlots) {
+            item.ToolcrafterState.TryCraftTool(item);
+        }
+
+        if ((droppedSlot.transform == toolSlots.GetChild(toolSlots.childCount-1)) || droppedSlot.transform == gunSlots.GetChild(gunSlots.childCount - 1) || droppedSlot.transform == craftSlots.GetChild(craftSlots.childCount - 1)) {
+            for (int i = 0; i < droppedSlot.transform.parent.childCount-1; i++) {
+                Transform ingredient = droppedSlot.transform.parent.GetChild(i);
+                Debug.Log(ingredient.gameObject.name);
+
+                Slot ingredientToRemove = ingredient.GetComponent<Slot>();
+
+                if (ingredientToRemove != null) {
+                    item.inv.RemoveItem(ingredientToRemove.id);
+                }
             }
         }
 

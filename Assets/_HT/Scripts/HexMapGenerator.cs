@@ -19,15 +19,8 @@ public class HexMapGenerator : MonoBehaviour
     public List<tile> tiles;
 
     private List<GameObject> tilesGrid;
-
-    //ROAD
-    private Vector2[] roadPoints;
-    private PathCreator roadPath;
     void Start()
     {
-        //Vector2[] outline = GeneratePath();
-        roadPath = GetComponent<PathCreator>();
-        roadPath.bezierPath = GenerateRoads(roadPoints, true);
 
         tilesGrid = new List<GameObject>();
         PopulateTilesGrid();
@@ -99,10 +92,4 @@ public class HexMapGenerator : MonoBehaviour
         return list;
     }
 
-    private BezierPath GenerateRoads(Vector2[] points, bool closedPath) {
-
-        BezierPath bezierPath = new BezierPath(points, closedPath, PathSpace.xz);
-
-        return bezierPath;
-    }
 }

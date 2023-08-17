@@ -46,6 +46,12 @@ public class SnapShotMaker : MonoBehaviour {
     public Texture2D TakeScreenShot(GameObject subject) {
         int IconMakerLayer = LayerMask.NameToLayer("IconMaker");
         subject.layer = IconMakerLayer;
+        foreach(Transform child in subject.transform) {
+            child.gameObject.layer = IconMakerLayer;
+            foreach(Transform childOfChild in child.transform) {
+                childOfChild.gameObject.layer = IconMakerLayer;
+            }
+        }
 
         subject.transform.parent = snapShotObjectHolder;
         Texture2D screenShotTexture = SnapShot(subject.name);
@@ -53,14 +59,6 @@ public class SnapShotMaker : MonoBehaviour {
         return screenShotTexture;
     }
 
-    // Save a sprite to a PNG file
-    private string SaveSpriteToPNG(Sprite sprite, string name) {
-        Texture2D texture = sprite.texture;
-        byte[] bytes = texture.EncodeToPNG();
-        string filename = ScreenShotName(resWidth, resHeight, name) + ".png";
-        System.IO.File.WriteAllBytes(filename, bytes);
-        return filename;
-    }
 
     public Texture2D SnapShot(string name) {
         RenderTexture rt = new RenderTexture(resWidth, resHeight, 32);

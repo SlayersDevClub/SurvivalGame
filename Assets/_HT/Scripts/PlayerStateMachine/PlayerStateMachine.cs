@@ -17,6 +17,7 @@ public class PlayerStateMachine : MonoBehaviour
     public PlayerToolcraftState ToolCraftState = new PlayerToolcraftState();
 
     public PlayerInputReader pir;
+    public Transform playerTransform;
 
     public Inventory inv;
     public GameObject inventoryPanel;
@@ -26,6 +27,7 @@ public class PlayerStateMachine : MonoBehaviour
     public UIManager ui;
 
     public int equipItemSlot;
+    public BaseItemTemplate equipItem;
 
     void Start() {
         pir = GetComponent<PlayerInputReader>();
@@ -38,6 +40,8 @@ public class PlayerStateMachine : MonoBehaviour
 
     public void HandleInput(InputAction.CallbackContext context) {
         if (context.started) {
+            Debug.Log(pir.playerInput.currentActionMap.name);
+            Debug.Log(context.action.name);
             currentState.HandleInput(this, context);
         }
     }

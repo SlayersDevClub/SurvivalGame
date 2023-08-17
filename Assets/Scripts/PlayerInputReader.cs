@@ -66,7 +66,7 @@ public class PlayerInputReader : CharacterInput
     public void UseEquipItem(InputAction.CallbackContext context) {
         if (context.started) {
 
-            SlotStateMachine slotToUse = inventory.slots[GameObject.Find("Player_1").GetComponent<PlayerStateMachine>().equipItemSlot].GetComponent<SlotStateMachine>();
+            SlotStateMachine slotToUse = inventory.slots[transform.GetComponent<PlayerStateMachine>().equipItemSlot].GetComponent<SlotStateMachine>();
             slotToUse.HandleInput(context);
 
         }
@@ -74,7 +74,8 @@ public class PlayerInputReader : CharacterInput
 
     public void DropItem(InputAction.CallbackContext context) {
         if (context.started) {
-            interactor.DropItem();
+            SlotStateMachine slotToUse = inventory.slots[transform.GetComponent<PlayerStateMachine>().equipItemSlot].GetComponent<SlotStateMachine>();
+            slotToUse.HandleInput(context);
         }
     }
 

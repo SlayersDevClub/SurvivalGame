@@ -8,6 +8,7 @@ using System;
 
 public class SlotEquipState : SlotBaseState {
 
+    BaseItemTemplate equipItem;
     public override void EnterState(SlotStateMachine item) {
         if (GameObject.Find("Resource").transform.childCount > 0) {
             GameObject.Destroy(GameObject.Find("Resource").transform.GetChild(0).gameObject);
@@ -17,10 +18,11 @@ public class SlotEquipState : SlotBaseState {
             GameObject.Destroy(GameObject.Find("Tool").transform.GetChild(0).gameObject);
         }
 
-        BaseItemTemplate equipItem = ItemDatabase.FetchBaseItemTemplateById(item.inv.items[item.transform.GetComponent<Slot>().id].Id);
+        equipItem = ItemDatabase.FetchBaseItemTemplateById(item.inv.items[item.transform.GetComponent<Slot>().id].Id);
 
-        PlayerStateMachine player = GameObject.Find("Player_1").GetComponent<PlayerStateMachine>();
-        player.equipItemSlot = item.transform.GetComponent<Slot>().id;
+     
+        item.player.equipItemSlot = item.transform.GetComponent<Slot>().id;
+        item.player.equipItem = equipItem;
         
         //ADD PLAYER ITEM HERE SO WHEN USING IS CALLED IT FIRES WEAPON OR KNOW WHAT TYPE OF WEAPON IT IS    player.equip
 
@@ -39,7 +41,14 @@ public class SlotEquipState : SlotBaseState {
     }
     public override void HandleInput(SlotStateMachine item, InputAction.CallbackContext context) {
         if (context.started) {
-            item.SwitchState(item.UseState);
+
+            if(context.action.name == TagManager.USE_ACTION) {
+                item.SwitchState(item.UseState);
+            }
+            else if(context.action.name == TagManager.DROP_ACTION) {
+                item.SwitchState(item.DropState);
+            }
+
         }
     }
     public override void OnDrop(SlotStateMachine item, PointerEventData pointerEventData, int slotID, GameObject slot) {

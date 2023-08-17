@@ -4,8 +4,7 @@ using System;
 using System.Collections.Generic;
 
 [Serializable]
-public class BaseItemTemplate : ScriptableObject
-{
+public class BaseItemTemplate : ScriptableObject {
     [ScriptableObjectId]
     public string Id;
     public string itemName;
@@ -13,24 +12,37 @@ public class BaseItemTemplate : ScriptableObject
     public bool stackable;
     public GameObject prefab;
     public Sprite icon;
+
+    // Constructor to initialize ID, called when created
+    public BaseItemTemplate() {
+        // The ID will be generated in the OnEnable method
+    }
+
+    private void OnEnable() {
+        if (string.IsNullOrEmpty(Id)) {
+            Id = ScriptableObjectIdUtility.GenerateUnique4DigitNumber().ToString();
+        }
+    }
 }
 
 public class ScriptableObjectIdAttribute : PropertyAttribute { }
 
 [CustomPropertyDrawer(typeof(ScriptableObjectIdAttribute))]
 public class ScriptableObjectIdDrawer : PropertyDrawer {
-    private static HashSet<int> usedNumbers = new HashSet<int>();
-
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
         GUI.enabled = false;
         if (string.IsNullOrEmpty(property.stringValue)) {
-            property.stringValue = GenerateUnique4DigitNumber().ToString();
+            property.stringValue = ScriptableObjectIdUtility.GenerateUnique4DigitNumber().ToString();
         }
         EditorGUI.PropertyField(position, property, label, true);
         GUI.enabled = true;
     }
+}
 
-    private int GenerateUnique4DigitNumber() {
+public static class ScriptableObjectIdUtility {
+    private static HashSet<int> usedNumbers = new HashSet<int>();
+
+    public static int GenerateUnique4DigitNumber() {
         int maxAttempts = 10000; // Limit the number of attempts to avoid infinite loop
         int attemptCount = 0;
 
@@ -47,5 +59,3 @@ public class ScriptableObjectIdDrawer : PropertyDrawer {
         return 0; // Return 0 as a fallback value if unique number generation fails.
     }
 }
-
-

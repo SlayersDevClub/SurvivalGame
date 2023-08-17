@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7587238d529736e42a173cd806549621, type: 3}
-  m_Name: CustomGun
+  m_Name: CustomGun3955
   m_EditorClassIdentifier: 
-  Id: 
+  Id: 3955
   itemName: 
   description: 
   stackable: 0
-  prefab: {fileID: 4055480789013692252, guid: d80112baf7a668c4ba6e51df7bb0d1b6, type: 3}
+  prefab: {fileID: 3626069410905639677, guid: 92a3abcfb8aa78f4a8aa2bb8563d5fc0, type: 3}
   icon: {fileID: 0}
   ammoCapacity: 0
   fireRate: 0

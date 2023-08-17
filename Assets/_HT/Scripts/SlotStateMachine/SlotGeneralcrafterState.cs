@@ -13,8 +13,13 @@ public class SlotGeneralcrafterState : SlotBaseState {
     public override void HandleInput(SlotStateMachine item, InputAction.CallbackContext context) {
         throw new System.NotImplementedException();
     }
+
     public override void OnDrop(SlotStateMachine item, PointerEventData pointerEventData, int slotID, GameObject slot) {
         ItemData droppedSlot = pointerEventData.pointerDrag.GetComponent<ItemData>();
+
+        if (droppedSlot.transform == item.inv.generalcraftSlots.transform.GetChild(item.inv.generalcraftSlots.transform.childCount - 1)) {
+            return;
+        }
 
         item.inv.items[droppedSlot.slotId] = new Item();
         item.inv.items[slotID] = droppedSlot.item;

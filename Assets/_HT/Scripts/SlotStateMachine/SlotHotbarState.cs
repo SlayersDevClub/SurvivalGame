@@ -35,7 +35,18 @@ public class SlotHotbarState : SlotBaseState {
             item.inv.items[slotID] = droppedSlot.item;
         }
 
-        Debug.Log("HOTBAR STATE DROP");
+        Transform toolSlots = item.inv.toolcraftSlots.transform;
+        Transform gunSlots = item.inv.guncraftSlots.transform;
+        Transform craftSlots = item.inv.generalcraftSlots.transform;
+        if ((droppedSlot.transform == toolSlots.GetChild(toolSlots.childCount - 1)) || droppedSlot.transform == gunSlots.GetChild(gunSlots.childCount - 1) || droppedSlot.transform == craftSlots.GetChild(craftSlots.childCount - 1)) {
+            foreach (Transform ingredient in droppedSlot.transform.parent) {
+                Slot ingredientToRemove = ingredient.GetComponent<Slot>();
+
+                if (ingredientToRemove != null) {
+                    item.inv.RemoveItem(ingredientToRemove.id);
+                }
+            }
+        }
     }
 
 }
