@@ -58,6 +58,8 @@ public class PlayerInputReader : CharacterInput
                 int slotNum = int.Parse(slotName[slotName.Length - 1].ToString());
 
                 SlotStateMachine slotToEquip = inventory.slots[slotNum - 1].GetComponent<SlotStateMachine>();
+                SlotStateMachine slotToUnequip = inventory.slots[transform.GetComponent<PlayerStateMachine>().equipItemSlot].GetComponent<SlotStateMachine>();
+                slotToUnequip.SwitchState(slotToUnequip.HotbarState);
                 slotToEquip.SwitchState(slotToEquip.EquipState);
             }
         }

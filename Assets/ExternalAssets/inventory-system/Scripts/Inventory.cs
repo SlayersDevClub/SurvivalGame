@@ -40,6 +40,7 @@ public class Inventory : MonoBehaviour
 	};
 
 		int slotId = 0;
+		bool eqipSlotAssigned = false;
 
 		foreach (GameObject container in slotsContainers) {
 			for (int i = 0; i < container.transform.childCount; i++) {
@@ -57,9 +58,14 @@ public class Inventory : MonoBehaviour
 					slotStateMachine.SwitchState(slotStateMachine.OutputState);
 				}
 				else if (container == slotsContainers[0]) { //HotbarSlots
-					slotStateMachine.SwitchState(slotStateMachine.HotbarState);
-					slotId++;
-					continue;
+                    if (!eqipSlotAssigned) {
+						slotStateMachine.SwitchState(slotStateMachine.EquipState);
+						eqipSlotAssigned = true;
+                    } else {
+						slotStateMachine.SwitchState(slotStateMachine.HotbarState);
+					}
+					//slotId++;
+					//continue;
 				}
 				 else if (container == slotsContainers[1]) // InventorySlots
 				{

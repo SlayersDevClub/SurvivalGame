@@ -14,37 +14,19 @@ public class SlotGuncrafterState : SlotBaseState {
         
     }
     public override void OnDrop(SlotStateMachine item, PointerEventData pointerEventData, int slotID, GameObject slot) {
-        ItemData droppedSlot = pointerEventData.pointerDrag.GetComponent<ItemData>();
+        HandleDropAndSwap(item, pointerEventData, slotID, slot);
+        HandleIfEquipChanges(item);
 
-        if (droppedSlot.transform == item.inv.guncraftSlots.transform.GetChild(item.inv.guncraftSlots.transform.childCount - 1)) {
-            return;
-        }
-
-        item.inv.items[droppedSlot.slotId] = new Item();
-        item.inv.items[slotID] = droppedSlot.item;
-        droppedSlot.slotId = slotID;
-
-        if (droppedSlot.slotId != slotID) {
-            // Swapping items (except when the current slot is 19)
-            Transform newSlot = slot.transform.GetChild(0);
-            newSlot.GetComponent<ItemData>().slotId = droppedSlot.slotId;
-            newSlot.transform.SetParent(item.inv.slots[droppedSlot.slotId].transform);
-            item.transform.position = item.inv.slots[droppedSlot.slotId].transform.position;
-
-            droppedSlot.slotId = slotID;
-            droppedSlot.transform.SetParent(slot.transform);
-            droppedSlot.transform.position = slot.transform.position;
-
-            item.inv.items[droppedSlot.slotId] = newSlot.GetComponent<ItemData>().item;
-            item.inv.items[slotID] = droppedSlot.item;
-        }
-
-        
         List<BaseItemTemplate> gunParts = new List<BaseItemTemplate>();
 
         foreach (Transform slotTransform in item.inv.guncraftSlots.transform) {
             GameObject gunSlot = slotTransform.gameObject;
-            gunParts.Add(ItemDatabase.FetchBaseItemTemplateById(item.inv.items[gunSlot.GetComponent<Slot>().id].Id));
+
+            Slot slotItem = gunSlot.GetComponent<Slot>();
+
+            if (slotItem != null) {
+                gunParts.Add(ItemDatabase.FetchBaseItemTemplateById(item.inv.items[slotItem.GetComponent<Slot>().id].Id));
+            }
         }
 
         BaseItemTemplate maybeNewGun = CraftingBrain.AttemptBuildGun(gunParts);
