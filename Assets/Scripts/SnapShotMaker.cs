@@ -64,10 +64,10 @@ public class SnapShotMaker : MonoBehaviour {
         camera.targetTexture = null;
         RenderTexture.active = null;
         Destroy(rt);
-        byte[] bytes = screenShot.EncodeToPNG();
-        string filename = ScreenShotName(name) + ".png";
-        File.WriteAllBytes(filename, bytes);
-        Debug.Log(string.Format("Took screenshot to: {0}", filename));
+        //byte[] bytes = screenShot.EncodeToPNG();
+        //string filename = ScreenShotName(name) + ".png";
+        //File.WriteAllBytes(filename, bytes);
+        //Debug.Log(string.Format("Took screenshot to: {0}", filename));
         screenShot.Apply();
         return screenShot;
     }
@@ -79,7 +79,7 @@ public class SnapShotMaker : MonoBehaviour {
 
         File.WriteAllBytes(path, sp.texture.EncodeToPNG());
         AssetDatabase.Refresh();
-        AssetDatabase.AddObjectToAsset(sp, path);
+        //AssetDatabase.AddObjectToAsset(sp, path);
         AssetDatabase.SaveAssets();
 
         TextureImporter ti = AssetImporter.GetAtPath(path) as TextureImporter;
