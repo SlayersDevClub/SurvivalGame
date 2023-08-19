@@ -2,37 +2,27 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using System.IO;
+using UnityEditor;
 
 public class SnapShotMaker : MonoBehaviour {
     public int resWidth = 256;
     public int resHeight = 256;
-
     List<GameObject> snapShotObjects = new List<GameObject>();
     public Transform snapShotObjectHolder;
-
     private bool takeHiResShot = false;
     Camera camera;
-
     public static SnapShotMaker instance;
 
     private void Start() {
         instance = this;
-
         camera = GetComponent<Camera>();
-
-        foreach (Transform child in snapShotObjectHolder) {
-            snapShotObjects.Add(child.gameObject);
-            child.gameObject.SetActive(false);
-        }
-
-        //TakeAllScreenShots();
     }
 
-    public static string ScreenShotName(int width, int height, string name) {
-        return string.Format("{0}/_SS/Textures/GeneratedIcons/" + name,
-                             Application.dataPath,
-                             width, height,
-                             System.DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss"));
+    public static string ScreenShotName(string name) {
+        return string.Format("{0}/_SS/Textures/GeneratedIcons/PlayerCrafting" + name,
+                             Application.dataPath
+                             );
     }
 
     public void TakeAllScreenShots() {
@@ -44,6 +34,7 @@ public class SnapShotMaker : MonoBehaviour {
     }
 
     public Texture2D TakeScreenShot(GameObject subject) {
+
         int IconMakerLayer = LayerMask.NameToLayer("IconMaker");
         subject.layer = IconMakerLayer;
         foreach(Transform child in subject.transform) {
@@ -53,12 +44,15 @@ public class SnapShotMaker : MonoBehaviour {
             }
         }
 
-        subject.transform.parent = snapShotObjectHolder;
+        if (subject.name == "AssembledTool")  subject.transform.parent = snapShotObjectHolder.GetChild(0);
+        else subject.transform.parent = snapShotObjectHolder.GetChild(1);
+        subject.transform.localPosition = Vector3.zero;
+        subject.transform.localEulerAngles = Vector3.zero;
         Texture2D screenShotTexture = SnapShot(subject.name);
-
+        Destroy(subject);
         return screenShotTexture;
-    }
 
+    }
 
     public Texture2D SnapShot(string name) {
         RenderTexture rt = new RenderTexture(resWidth, resHeight, 32);
@@ -71,15 +65,33 @@ public class SnapShotMaker : MonoBehaviour {
         RenderTexture.active = null;
         Destroy(rt);
         byte[] bytes = screenShot.EncodeToPNG();
-        string filename = ScreenShotName(resWidth, resHeight, name) + ".png";
-        System.IO.File.WriteAllBytes(filename, bytes);
+        string filename = ScreenShotName(name) + ".png";
+        File.WriteAllBytes(filename, bytes);
         Debug.Log(string.Format("Took screenshot to: {0}", filename));
-
+        screenShot.Apply();
         return screenShot;
     }
 
-    public static Sprite SpriteFromTexture(Texture2D texture) {
-        Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.one * 0.5f);
-        return sprite;
+    public Sprite SaveSpriteToEditorPath(Sprite sp, string path)
+    {
+        string dir = Path.GetDirectoryName(path);
+        Directory.CreateDirectory(dir);
+
+        File.WriteAllBytes(path, sp.texture.EncodeToPNG());
+        AssetDatabase.Refresh();
+        AssetDatabase.AddObjectToAsset(sp, path);
+        AssetDatabase.SaveAssets();
+
+        TextureImporter ti = AssetImporter.GetAtPath(path) as TextureImporter;
+
+        ti.textureType = TextureImporterType.Sprite;
+        ti.spritePixelsPerUnit = sp.pixelsPerUnit;
+        ti.mipmapEnabled = false;
+        ti.alphaIsTransparency = true;
+        //ti.isReadable = true;
+        EditorUtility.SetDirty(ti);
+        ti.SaveAndReimport();
+
+        return AssetDatabase.LoadAssetAtPath<Sprite>(path);
     }
 }

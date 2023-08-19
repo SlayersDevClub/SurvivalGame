@@ -8,7 +8,6 @@ using UnityEngine.UI;
 public class SlotHotbarState : SlotBaseState {
 
     public override void EnterState(SlotStateMachine item) {
-        Debug.Log("SWITCHING TO HOTBAR");
         Color32 normalSlotColor = new Color32(198, 198, 198, 240);
         if (item.transform.GetComponent<Image>().color != normalSlotColor) {
             item.transform.GetComponent<Image>().color = normalSlotColor;
