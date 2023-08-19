@@ -17,8 +17,6 @@ public static class CraftingBrain {
         } else {
             return output;
         }
-
-
     }
 
     public static BaseItemTemplate AttemptBuildTool(List<BaseItemTemplate> toolParts) {
@@ -67,18 +65,26 @@ public static class CraftingBrain {
             }
 
             GameObject builtTool = ToolAssembler.AssembleTool(handle.prefab, head.prefab);
-
+            //Set object to Equipped layer for camera culling
+            foreach (Transform child in builtTool.GetComponentsInChildren<Transform>())
+            {
+                child.gameObject.layer = LayerMask.NameToLayer("Equipped");
+            }
             //SAVING
             string prefabPath = "Assets/_HT/Prefabs/Tool/" + builtTool.name + newToolTemplate.Id.ToString() + ".prefab";
             GameObject toolPrefab = PrefabUtility.SaveAsPrefabAsset(builtTool, prefabPath);
-
-            Texture2D screenshotTexture = SnapShotMaker.instance.TakeScreenShot(builtTool);
-            Sprite iconSprite = Sprite.Create(screenshotTexture, new Rect(0, 0, screenshotTexture.width, screenshotTexture.height), Vector2.zero);
-
             newToolTemplate.prefab = toolPrefab;
-            newToolTemplate.icon = (Sprite)AssetDatabase.LoadAssetAtPath("Assets/_SS/Textures/GeneratedIcons/AssembledTool" + newToolTemplate.Id.ToString() +".png", typeof(Sprite));
+            //Create the item's texture
+            Texture2D screenshotTexture = SnapShotMaker.instance.TakeScreenShot(builtTool);
+            //Create sprite from texture
+            Sprite iconSprite = Sprite.Create(screenshotTexture, new Rect(0, 0, screenshotTexture.width, screenshotTexture.height), Vector2.zero);
+            //Save the sprite to disk
+            var newSprite= SnapShotMaker.instance.SaveSpriteToEditorPath(iconSprite, "Assets/Resources/GameComponents/Items/CustomItem/Icons/" + "CustomTool" + newToolTemplate.Id.ToString() + "-sprite.png");
+            //Set loaded sprite as icon
+            newToolTemplate.icon = newSprite;
 
-            string assetPath = "Assets/Resources/GameComponents/Items/CustomItem/CustomTool" + newToolTemplate.Id.ToString() + ".asset";
+
+            string assetPath = "Assets/Resources/GameComponents/Items/CustomItem/" + "CustomTool" + newToolTemplate.Id.ToString() + ".asset";
             AssetDatabase.CreateAsset(newToolTemplate, assetPath);
             AssetDatabase.SaveAssets();
             EditorUtility.SetDirty(newToolTemplate);
@@ -91,6 +97,7 @@ public static class CraftingBrain {
         }
 
     }
+
 
 public static BaseItemTemplate AttemptBuildGun(List<BaseItemTemplate> gunParts) {
         MagTemplate mag = null;
@@ -122,15 +129,23 @@ public static BaseItemTemplate AttemptBuildGun(List<BaseItemTemplate> gunParts) 
 
         GunTemplate newGunTemplate = ScriptableObject.CreateInstance<GunTemplate>();
         GameObject builtGun = GunAssembler.AssembleGun(body.prefab, mag.prefab, sight.prefab, barrel.prefab, stock.prefab, grip.prefab);
-
+        //Set object to Equipped layer for camera culling
+        foreach (Transform child in builtGun.GetComponentsInChildren<Transform>())
+        {
+            child.gameObject.layer = LayerMask.NameToLayer("Equipped");
+        }
         // Create a prefab from the builtGun GameObject and get its path
         string prefabPath = "Assets/_HT/Prefabs/Guns/" + builtGun.name+ newGunTemplate.Id.ToString() + ".prefab";
         GameObject gunPrefab = PrefabUtility.SaveAsPrefabAsset(builtGun, prefabPath);
-
+        //Create the item's texture
         Texture2D screenshotTexture = SnapShotMaker.instance.TakeScreenShot(builtGun);
+        //Create sprite from texture
         Sprite iconSprite = Sprite.Create(screenshotTexture, new Rect(0, 0, screenshotTexture.width, screenshotTexture.height), Vector2.zero);
-
-        newGunTemplate.icon = (Sprite)AssetDatabase.LoadAssetAtPath("Assets/_SS/Textures/GeneratedIcons/AssembledGun" + newGunTemplate.Id.ToString() + ".png", typeof(Sprite));
+        //Save the sprite to disk
+        var newSprite = SnapShotMaker.instance.SaveSpriteToEditorPath(iconSprite, "Assets/Resources/GameComponents/Items/CustomItem/Icons/" + "CustomGun" + newGunTemplate.Id.ToString() + "-sprite.png");
+        //Set loaded sprite as icon
+        newGunTemplate.icon = newSprite;
+        
         newGunTemplate.prefab = gunPrefab;
 
         string assetPath = "Assets/Resources/GameComponents/Items/CustomItem/" + "CustomGun" + newGunTemplate.Id.ToString() + ".asset";
