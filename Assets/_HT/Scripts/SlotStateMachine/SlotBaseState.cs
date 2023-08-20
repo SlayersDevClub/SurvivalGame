@@ -72,12 +72,12 @@ public virtual void HandleIfEquipChanges(SlotStateMachine item) {
         }
     }
     public void Unequip(SlotStateMachine item) {
-        if (GameObject.Find("Resource").transform.childCount > 0) {
-            GameObject.Destroy(GameObject.Find("Resource").transform.GetChild(0).gameObject);
-        } else if (GameObject.Find("Gun").transform.childCount > 0) {
-            GameObject.Destroy(GameObject.Find("Gun").transform.GetChild(0).gameObject);
-        } else if (GameObject.Find("Tool").transform.childCount > 0) {
-            GameObject.Destroy(GameObject.Find("Tool").transform.GetChild(0).gameObject);
+        if (item.player.transform.Find("Model/ItemHolder/Resource").transform.childCount > 0) {
+            GameObject.Destroy(item.player.transform.Find("Model/ItemHolder/Resource").GetChild(0).gameObject);
+        } else if (item.player.transform.Find("Model/ItemHolder/Gun").transform.childCount > 0) {
+            GameObject.Destroy(item.player.transform.Find("Model/ItemHolder/Gun").GetChild(0).gameObject);
+        } else if (item.player.transform.Find("Model/ItemHolder/Tool").transform.childCount > 0) {
+            GameObject.Destroy(item.player.transform.Find("Model/ItemHolder/Tool").GetChild(0).gameObject);
         }
     }
 
@@ -87,11 +87,11 @@ public virtual void HandleIfEquipChanges(SlotStateMachine item) {
         ToolTemplate tool = item.player.equipItem as ToolTemplate;
 
         if (resource != null) {
-            GameObject.Instantiate(item.player.equipItem.prefab, GameObject.Find("Resource").transform);
+            GameObject.Instantiate(item.player.equipItem.prefab, item.player.transform.Find("Model/ItemHolder/Resource").transform);
         } else if (gun != null) {
-            GameObject.Instantiate(item.player.equipItem.prefab, GameObject.Find("Gun").transform);
+            GameObject.Instantiate(item.player.equipItem.prefab, item.player.transform.Find("Model/ItemHolder/Gun").transform);
         } else if (tool != null) {
-            GameObject.Instantiate(item.player.equipItem.prefab, GameObject.Find("Tool").transform);
+            GameObject.Instantiate(item.player.equipItem.prefab, item.player.transform.Find("Model/ItemHolder/Tool").transform);
         }
     }
 
