@@ -42,5 +42,9 @@ public class SlotStateMachine : MonoBehaviour {
     public void HandleEquip() {
         currentState.HandleIfEquipChanges(this);
     }
+
+    public SlotBaseState GetCurrentState() {
+        return currentState;
+    }
 }
 

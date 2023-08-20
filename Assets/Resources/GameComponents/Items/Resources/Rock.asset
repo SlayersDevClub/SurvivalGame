@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0240f78658d4cfe4299f2e17e0b68132, type: 3}
   m_Name: Rock
   m_EditorClassIdentifier: 
-  Id: 3854
-  itemName: 
-  description: 
-  stackable: 0
+  Id: 9773
+  itemName: Rock
+  description: rock
+  stackable: 1
   prefab: {fileID: 5552050126339256241, guid: 60506e076713fa348a3c9fe7711a87d0, type: 3}
   icon: {fileID: 21300000, guid: 6cea1e5527a6c6148b34a153137e6d0f, type: 3}
-  resourceName: 
-  pickStrengthRequired: 0
-  axeStrengthRequired: 0
+  resourceName: rock
+  pickStrengthRequired: 1
+  axeStrengthRequired: 2

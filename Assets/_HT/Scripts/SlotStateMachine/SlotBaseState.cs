@@ -95,4 +95,20 @@ public virtual void HandleIfEquipChanges(SlotStateMachine item) {
         }
     }
 
+    public void ClearCraftersSlots(SlotStateMachine item) {
+        ClearCrafterSlots(item, item.player.inv.toolcraftSlots);
+        ClearCrafterSlots(item, item.player.inv.guncraftSlots);
+        ClearCrafterSlots(item, item.player.inv.generalcraftSlots);
+    }
+
+    private void ClearCrafterSlots(SlotStateMachine item, GameObject crafter) {
+        foreach (Transform slot in crafter.transform) {
+            Slot curSlot = slot.GetComponent<Slot>();
+
+            if(curSlot != null) {
+                item.player.inv.RemoveItem(curSlot.id);
+            }
+        }
+    }
+
 }

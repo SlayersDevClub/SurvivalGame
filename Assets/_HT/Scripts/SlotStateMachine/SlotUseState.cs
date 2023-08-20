@@ -7,7 +7,6 @@ using System;
 public class SlotUseState : SlotBaseState {
 
     public override void EnterState(SlotStateMachine item) {
-        Debug.Log("IN USE STATE");
     }
     public override void HandleInput(SlotStateMachine item, InputAction.CallbackContext context) {
         try {
@@ -15,7 +14,6 @@ public class SlotUseState : SlotBaseState {
 
             //Pass the input to the prefabs script
             if (context.started) {
-                Debug.Log("REACHED");
                 itemWithUse.HandleInput(context);
             }
             if (context.canceled) {
@@ -27,7 +25,6 @@ public class SlotUseState : SlotBaseState {
         }
     }
     public override void OnDrop(SlotStateMachine item, PointerEventData pointerEventData, int slotID, GameObject slot) {
-        Debug.Log("USIKNG ON DROP");
         HandleDropAndSwap(item, pointerEventData, slotID, slot);
     }
 }

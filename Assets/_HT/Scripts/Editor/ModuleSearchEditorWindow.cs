@@ -608,6 +608,7 @@ public class ModuleSearchEditorWindow : EditorWindow {
             
             ItemSetup itemToSetup = selectedObject.prefab.AddComponent<ItemSetup>();
             itemToSetup.SetItemID(Int16.Parse(selectedObject.Id));
+            itemToSetup.SetBaseItemTemplate(selectedObject);
             EditorUtility.SetDirty(selectedObject);
             // Add the selected object to the list
             loadListData.Add(selectedObject);
