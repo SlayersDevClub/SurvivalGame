@@ -7,31 +7,28 @@ using System;
 public class SlotUseState : SlotBaseState {
 
     public override void EnterState(SlotStateMachine item) {
-
+        Debug.Log("IN USE STATE");
     }
     public override void HandleInput(SlotStateMachine item, InputAction.CallbackContext context) {
-        if (context.started) {
-            GunTemplate equipGun = item.player.equipItem as GunTemplate;
-            ToolTemplate equipTool = item.player.equipItem as ToolTemplate;
-            ResourceTemplate equipResource = item.player.equipItem as ResourceTemplate;
+        try {
+            IUsable itemWithUse = item.player.equipItem.prefab.GetComponent<IUsable>();
 
-            if (equipGun != null) {
-                Debug.Log("Shooting");
+            //Pass the input to the prefabs script
+            if (context.started) {
+                Debug.Log("REACHED");
+                itemWithUse.HandleInput(context);
             }
-            if (equipTool != null) {
-                Debug.Log("Mining");
+            if (context.canceled) {
+                item.SwitchState(item.EquipState);
             }
-            if (equipResource != null) {
-                Debug.Log("Using Resource");
-            }
-        }
-        if (context.canceled) {
+        } catch {
             item.SwitchState(item.EquipState);
+            
         }
-
     }
     public override void OnDrop(SlotStateMachine item, PointerEventData pointerEventData, int slotID, GameObject slot) {
-       
+        Debug.Log("USIKNG ON DROP");
+        HandleDropAndSwap(item, pointerEventData, slotID, slot);
     }
 }
 

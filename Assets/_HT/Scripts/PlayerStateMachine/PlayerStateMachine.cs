@@ -40,8 +40,6 @@ public class PlayerStateMachine : MonoBehaviour
 
     public void HandleInput(InputAction.CallbackContext context) {
         if (context.started) {
-            Debug.Log(pir.playerInput.currentActionMap.name);
-            Debug.Log(context.action.name);
             currentState.HandleInput(this, context);
         }
     }

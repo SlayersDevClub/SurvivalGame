@@ -105,6 +105,8 @@ public class Inventory : MonoBehaviour
 
 	public virtual void AddItem(int id, int slotNum = -1)
 	{
+		int addedToSlotNum = -2;
+
 		Item itemToAdd = ItemDatabase.FetchItemById(id);
 		if(slotNum != -1) {
 			items[slotNum] = itemToAdd;
@@ -116,6 +118,8 @@ public class Inventory : MonoBehaviour
 			itemObj.GetComponent<Image>().sprite = itemToAdd.Sprite;
 			itemObj.name = "Item: " + itemToAdd.Title;
 			slots[slotNum].name = "Slot: " + itemToAdd.Title;
+
+			addedToSlotNum = slotNum;
 		}
 
 		else if (itemToAdd.Stackable && CheckIfItemIsInInventory(itemToAdd))
@@ -146,10 +150,19 @@ public class Inventory : MonoBehaviour
 					itemObj.GetComponent<Image>().sprite = itemToAdd.Sprite;
 					itemObj.name = "Item: " + itemToAdd.Title;
 					slots[i].name = "Slot: " + itemToAdd.Title;
+
+					addedToSlotNum = i;
 					break;
 				}
 			}
 		}
+		
+		if(addedToSlotNum != -2) {
+			SlotStateMachine addedToSlot = slots[addedToSlotNum].GetComponent<SlotStateMachine>();
+
+			addedToSlot.HandleEquip();
+		}
+
 	}
 
 	protected bool CheckIfItemIsInInventory(Item item)

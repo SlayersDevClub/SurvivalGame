@@ -10,7 +10,7 @@ public class PlayerInputReader : CharacterInput
     private InputAction move;
 
     Interact interactor;
-    bool jumping = false, sprinting = false, paused = false, interacting = false;
+    bool jumping = false, sprinting = false, paused = false;
     Inventory inventory;
     void Start()
     {

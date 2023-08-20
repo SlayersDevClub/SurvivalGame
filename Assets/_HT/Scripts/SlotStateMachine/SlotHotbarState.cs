@@ -12,14 +12,12 @@ public class SlotHotbarState : SlotBaseState {
         if (item.transform.GetComponent<Image>().color != normalSlotColor) {
             item.transform.GetComponent<Image>().color = normalSlotColor;
         }
-        HandleIfEquipChanges(item);
     }
     public override void HandleInput(SlotStateMachine item, InputAction.CallbackContext context) {
 
     }
     public override void OnDrop(SlotStateMachine item, PointerEventData pointerEventData, int slotID, GameObject slot) {
         HandleDropAndSwap(item, pointerEventData, slotID, slot);
-        HandleIfEquipChanges(item);
 
         ItemData droppedSlot = pointerEventData.pointerDrag.GetComponent<ItemData>(); // Assuming item is the dragged object
 

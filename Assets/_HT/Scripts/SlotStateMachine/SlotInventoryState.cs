@@ -17,8 +17,9 @@ public class SlotInventoryState : SlotBaseState {
     }
     public override void OnDrop(SlotStateMachine item, PointerEventData pointerEventData, int slotID, GameObject slot) {
         HandleDropAndSwap(item, pointerEventData, slotID, slot);
-        HandleIfEquipChanges(item);
+        //HandleIfEquipChanges(item);
 
+        /*
         Transform toolSlots = item.inv.toolcraftSlots.transform;
         Transform gunSlots = item.inv.guncraftSlots.transform;
         Transform craftSlots = item.inv.generalcraftSlots.transform;
@@ -43,7 +44,7 @@ public class SlotInventoryState : SlotBaseState {
                     item.inv.RemoveItem(ingredientToRemove.id);
                 }
             }
-        }
+        }*/
 
     }
 }

@@ -9,5 +9,7 @@ public static class TagManager
     public const string INTERACT_ACTION = "Interact";
     public const string USE_ACTION = "Use";
     public const string DROP_ACTION = "DropItem";
+    public const string USE2_ACTION = "Use2";
+    public const string RELOAD_ACTION = "Reload";
 
 }

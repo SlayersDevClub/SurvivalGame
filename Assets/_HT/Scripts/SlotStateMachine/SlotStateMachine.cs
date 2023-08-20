@@ -38,5 +38,9 @@ public class SlotStateMachine : MonoBehaviour {
         currentState = state;
         currentState.EnterState(this);
     }
+
+    public void HandleEquip() {
+        currentState.HandleIfEquipChanges(this);
+    }
 }
 

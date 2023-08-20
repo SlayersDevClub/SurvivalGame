@@ -12,36 +12,63 @@ public abstract class SlotBaseState {
 
     public abstract void HandleInput(SlotStateMachine item, InputAction.CallbackContext context);
 
-    public virtual void HandleDropAndSwap(SlotStateMachine item, PointerEventData pointerEventData, int slotID, GameObject slot) {
+
+public virtual void HandleDropAndSwap(SlotStateMachine item, PointerEventData pointerEventData, int slotID, GameObject slot) {
         ItemData droppedItem = pointerEventData.pointerDrag.GetComponent<ItemData>(); // Assuming item is the dragged object
         Slot thisSlot = slot.GetComponent<Slot>();
 
-        if (item.inv.items[thisSlot.id].Id == -1) {
+        if (item.inv.items[slotID].Id == -1) {
             item.inv.items[droppedItem.slotId] = new Item();
-            item.inv.items[thisSlot.id] = droppedItem.item;
+            item.inv.items[slotID] = droppedItem.item;
             droppedItem.slotId = thisSlot.id;
-        } else if (droppedItem.slotId != thisSlot.id) {
+
+            Debug.Log("EMPTY SLOT");
+        } else {
             Transform itemTransform = thisSlot.transform.GetChild(0);
+
             ItemData slotItemData = itemTransform.GetComponent<ItemData>();
             slotItemData.slotId = droppedItem.slotId;
+
+            // Create a new item to swap and copy properties
+            Item newItem = new Item();
+            newItem.Id = slotItemData.item.Id != -1 ? slotItemData.item.Id : -1;
+            // Copy other properties similarly
+
+            item.inv.items[droppedItem.slotId] = newItem;
+
+            // Swap the items
+            newItem = new Item();
+            newItem.Id = droppedItem.item.Id != -1 ? droppedItem.item.Id : -1;
+            // Copy other properties similarly
+
+            item.inv.items[slotID] = newItem;
+
+            // Update positions and parent transforms
             itemTransform.SetParent(item.inv.slots[droppedItem.slotId].transform);
             itemTransform.position = item.inv.slots[droppedItem.slotId].transform.position;
 
-            droppedItem.slotId = thisSlot.id;
+            droppedItem.slotId = slotID;
             droppedItem.transform.SetParent(thisSlot.transform);
             droppedItem.transform.position = thisSlot.transform.position;
 
-            item.inv.items[droppedItem.slotId] = slotItemData.item;
-            item.inv.items[thisSlot.id] = droppedItem.item;
+            Debug.Log("SWAPPED");
+            
         }
+        HandleIfEquipChanges(item);
+
     }
 
-    public virtual void HandleIfEquipChanges(SlotStateMachine item) {
+
+public virtual void HandleIfEquipChanges(SlotStateMachine item) {
+        
         BaseItemTemplate equipItem = ItemDatabase.FetchBaseItemTemplateById(item.inv.items[item.player.equipItemSlot].Id);
 
         if (equipItem != item.player.equipItem){
             Unequip(item);
-            Equip(item, equipItem);
+
+            item.player.equipItem = equipItem;
+
+            Equip(item);
         }
     }
     public void Unequip(SlotStateMachine item) {
@@ -54,19 +81,17 @@ public abstract class SlotBaseState {
         }
     }
 
-    public void Equip(SlotStateMachine item, BaseItemTemplate equipItem) {
-        item.player.equipItem = equipItem;
-
-        ResourceTemplate resource = equipItem as ResourceTemplate;
-        GunTemplate gun = equipItem as GunTemplate;
-        ToolTemplate tool = equipItem as ToolTemplate;
+    public void Equip(SlotStateMachine item) {
+        ResourceTemplate resource = item.player.equipItem as ResourceTemplate;
+        GunTemplate gun = item.player.equipItem as GunTemplate;
+        ToolTemplate tool = item.player.equipItem as ToolTemplate;
 
         if (resource != null) {
-            GameObject.Instantiate(equipItem.prefab, GameObject.Find("Resource").transform);
+            GameObject.Instantiate(item.player.equipItem.prefab, GameObject.Find("Resource").transform);
         } else if (gun != null) {
-            GameObject.Instantiate(equipItem.prefab, GameObject.Find("Gun").transform);
+            GameObject.Instantiate(item.player.equipItem.prefab, GameObject.Find("Gun").transform);
         } else if (tool != null) {
-            GameObject.Instantiate(equipItem.prefab, GameObject.Find("Tool").transform);
+            GameObject.Instantiate(item.player.equipItem.prefab, GameObject.Find("Tool").transform);
         }
     }
 

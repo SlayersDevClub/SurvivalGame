@@ -22,7 +22,6 @@ public static class MeshGenerator {
         float topLeftZ = (gridSizeY - 1) * cellSizeX * 0.5f;
 
         int vertexIndex = 0;
-        int triangleIndex = 0;
 
         for (int x = 0; x < gridSizeX; x++) {
             for (int y = 0; y < gridSizeY; y++) {

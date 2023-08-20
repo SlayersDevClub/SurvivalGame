@@ -15,7 +15,6 @@ public class SlotGuncrafterState : SlotBaseState {
     }
     public override void OnDrop(SlotStateMachine item, PointerEventData pointerEventData, int slotID, GameObject slot) {
         HandleDropAndSwap(item, pointerEventData, slotID, slot);
-        HandleIfEquipChanges(item);
 
         List<BaseItemTemplate> gunParts = new List<BaseItemTemplate>();
 
