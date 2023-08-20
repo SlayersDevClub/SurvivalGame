@@ -16,20 +16,19 @@ public class SlotInventoryState : SlotBaseState {
         throw new System.NotImplementedException();
     }
     public override void OnDrop(SlotStateMachine item, PointerEventData pointerEventData, int slotID, GameObject slot) {
+        ItemData droppedSlot = pointerEventData.pointerDrag.GetComponent<ItemData>(); // Assuming item is the dragged object
+        int cameFromSlotNum = droppedSlot.slotId;
+
         HandleDropAndSwap(item, pointerEventData, slotID, slot);
 
-
-        ItemData droppedSlot = pointerEventData.pointerDrag.GetComponent<ItemData>(); // Assuming item is the dragged object
-        /*
-        if (droppedSlot.transform.parent == toolSlots) {
-            item.ToolcrafterState.TryCraftTool(item);
-        }
-        */
-
-
-        if ((droppedSlot.transform.GetComponent<SlotStateMachine>().GetCurrentState() as SlotOutputState != null)) {
-            ClearCraftersSlots(item);
+        if (item.inv.slots[cameFromSlotNum].TryGetComponent<SlotStateMachine>(out SlotStateMachine droppedSlotStateMachine)) {
+            if(droppedSlotStateMachine.GetCurrentState() as SlotOutputState != null) {
+                ClearCraftersSlots(item);
+            }
         }
 
+        TryCraftTool(item);
+        TryCraftGun(item);
+        TryGeneralCraft(item);
     }
 }

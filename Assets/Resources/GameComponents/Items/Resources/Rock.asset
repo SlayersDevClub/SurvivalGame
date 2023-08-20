@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Rock
   m_EditorClassIdentifier: 
   Id: 9773
-  itemName: Rock
+  itemName: Massive Rock
   description: rock
   stackable: 1
   prefab: {fileID: 5552050126339256241, guid: 60506e076713fa348a3c9fe7711a87d0, type: 3}

@@ -12,6 +12,8 @@ public class SlotOutputState : SlotBaseState
         throw new System.NotImplementedException();
     }
     public override void OnDrop(SlotStateMachine item, PointerEventData pointerEventData, int slotID, GameObject slot) {
+        Debug.Log("OUTPUT SLOT");
+
         ItemData droppedSlot = pointerEventData.pointerDrag.GetComponent<ItemData>();
 
         if (droppedSlot.transform == item.inv.toolcraftSlots.transform.GetChild(item.inv.toolcraftSlots.transform.childCount - 1)) {

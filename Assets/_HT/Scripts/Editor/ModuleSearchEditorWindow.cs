@@ -604,11 +604,16 @@ public class ModuleSearchEditorWindow : EditorWindow {
         // Get the selected ScriptableObject
         BaseItemTemplate selectedObject = Selection.activeObject as BaseItemTemplate;
 
-        if (selectedObject != null) {
+            if (selectedObject != null) {
+                ItemSetup existingItemSetup = selectedObject.prefab.GetComponent<ItemSetup>();
+            existingItemSetup.SetItemID(Int16.Parse(selectedObject.Id));
+            existingItemSetup.SetBaseItemTemplate(selectedObject);
+            if (existingItemSetup == null) {
+                    ItemSetup itemToSetup = selectedObject.prefab.AddComponent<ItemSetup>();
+                itemToSetup.SetItemID(Int16.Parse(selectedObject.Id));
+                itemToSetup.SetBaseItemTemplate(selectedObject);
+            }
             
-            ItemSetup itemToSetup = selectedObject.prefab.AddComponent<ItemSetup>();
-            itemToSetup.SetItemID(Int16.Parse(selectedObject.Id));
-            itemToSetup.SetBaseItemTemplate(selectedObject);
             EditorUtility.SetDirty(selectedObject);
             // Add the selected object to the list
             loadListData.Add(selectedObject);

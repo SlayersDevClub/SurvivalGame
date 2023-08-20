@@ -17,22 +17,19 @@ public class SlotHotbarState : SlotBaseState {
 
     }
     public override void OnDrop(SlotStateMachine item, PointerEventData pointerEventData, int slotID, GameObject slot) {
+        ItemData droppedSlot = pointerEventData.pointerDrag.GetComponent<ItemData>(); // Assuming item is the dragged object
+        int cameFromSlotNum = droppedSlot.slotId;
+
         HandleDropAndSwap(item, pointerEventData, slotID, slot);
 
-        ItemData droppedSlot = pointerEventData.pointerDrag.GetComponent<ItemData>(); // Assuming item is the dragged object
-
-        Transform toolSlots = item.inv.toolcraftSlots.transform;
-        Transform gunSlots = item.inv.guncraftSlots.transform;
-        Transform craftSlots = item.inv.generalcraftSlots.transform;
-        if ((droppedSlot.transform == toolSlots.GetChild(toolSlots.childCount - 1)) || droppedSlot.transform == gunSlots.GetChild(gunSlots.childCount - 1) || droppedSlot.transform == craftSlots.GetChild(craftSlots.childCount - 1)) {
-            foreach (Transform ingredient in droppedSlot.transform.parent) {
-                Slot ingredientToRemove = ingredient.GetComponent<Slot>();
-
-                if (ingredientToRemove != null) {
-                    item.inv.RemoveItem(ingredientToRemove.id);
-                }
+        if (item.inv.slots[cameFromSlotNum].TryGetComponent<SlotStateMachine>(out SlotStateMachine droppedSlotStateMachine)) {
+            if (droppedSlotStateMachine.GetCurrentState() as SlotOutputState != null) {
+                ClearCraftersSlots(item);
             }
         }
+        TryCraftTool(item);
+        TryCraftGun(item);
+        TryGeneralCraft(item);
     }
 
 }

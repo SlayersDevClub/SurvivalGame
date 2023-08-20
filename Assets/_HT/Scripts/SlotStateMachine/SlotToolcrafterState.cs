@@ -17,37 +17,5 @@ public class SlotToolcrafterState : SlotBaseState {
         HandleIfEquipChanges(item);
         TryCraftTool(item);
     }
-
-    public void TryCraftTool(SlotStateMachine item) {
-        //item.inv.RemoveItem(item.inv.toolcraftSlots.transform.GetChild(item.inv.toolcraftSlots.transform.childCount - 1).GetComponent<Slot>().id);
-    
-
-        List<BaseItemTemplate> toolParts = new List<BaseItemTemplate>();
-
-        foreach (Transform slotTransform in item.inv.toolcraftSlots.transform) {
-            GameObject toolSlot = slotTransform.gameObject;
-
-            Slot slotItem = toolSlot.GetComponent<Slot>();
-
-            if (slotItem != null) {
-                toolParts.Add(ItemDatabase.FetchBaseItemTemplateById(item.inv.items[slotItem.GetComponent<Slot>().id].Id));
-            }
-        }
-
-        BaseItemTemplate maybeNewTool = CraftingBrain.AttemptBuildTool(toolParts);
-        ToolTemplate newTool = maybeNewTool as ToolTemplate;
-
-        if (newTool != null) {
-            
-            JsonDataManager.AddBaseItemTemplateToJson(newTool);
-            ItemDatabase.Initialize();
-            //Add item to inventory by item ID and slot number to add to
-            Slot outputSlot = item.inv.toolcraftSlots.transform.GetChild(item.inv.toolcraftSlots.transform.childCount - 1).GetComponent<Slot>();
-
-            if(outputSlot != null) {
-                item.inv.AddItem(Int16.Parse(newTool.Id), outputSlot.GetComponent<Slot>().id);
-            }
-        }
-    }
 }
 

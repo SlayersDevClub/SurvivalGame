@@ -15,6 +15,11 @@ public class Inventory : MonoBehaviour
 	public GameObject generalcraftSlots;
 	public GameObject chestSlots;
 
+	public GameObject toolcraftSlotOutput;
+	public GameObject guncraftSlotOutput;
+	public GameObject generalcraftSlotOutput;
+
+
 	private GameObject[] slotsContainers;
 
 	public GameObject inventorySlot;
