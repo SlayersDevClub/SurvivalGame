@@ -39,6 +39,9 @@ public class Inventory : MonoBehaviour
 		guncraftSlots = slotPanel.transform.Find("GuncraftSlots/Slots").gameObject;
 		generalcraftSlots = slotPanel.transform.Find("GeneralcraftSlots/Slots").gameObject;
 		chestSlots =slotPanel.transform.Find("ChestSlots/Slots").gameObject;
+		toolcraftSlotOutput = toolcraftSlots.transform.GetChild(toolcraftSlots.transform.childCount - 1).gameObject;
+		guncraftSlotOutput = guncraftSlots.transform.GetChild(guncraftSlots.transform.childCount - 1).gameObject;
+		generalcraftSlotOutput = generalcraftSlots.transform.GetChild(generalcraftSlots.transform.childCount - 1).gameObject;
 
 		slotsContainers = new GameObject[] {
 		hotbarSlots, inventorySlots, toolcraftSlots, guncraftSlots, generalcraftSlots, chestSlots
