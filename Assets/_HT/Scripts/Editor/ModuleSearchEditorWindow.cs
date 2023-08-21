@@ -15,7 +15,8 @@ public class ModuleSearchEditorWindow : EditorWindow {
     private enum ItemSubCategory {
         Consumables,
         Resources,
-        Equiptables
+        Equiptables,
+        Structures
     }
 
     private enum EquiptableSubCategory {
@@ -412,6 +413,9 @@ public class ModuleSearchEditorWindow : EditorWindow {
 
     private void CreateItemScriptableObject() {
         switch (selectedItemSubCategory) {
+            case ItemSubCategory.Structures:
+                CreateScriptableObjectOfType<StructureTemplate>("Items/Structures");
+                break;
             case ItemSubCategory.Consumables:
                 CreateScriptableObjectOfType<ConsumableTemplate>("Items/Consumables");
                 break;

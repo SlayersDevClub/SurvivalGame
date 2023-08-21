@@ -78,6 +78,9 @@ public abstract class SlotBaseState {
 
             Equip(item);
         }
+        else if(equipItem == item.player.equipItem && GetEquipGameObject(item) == null) {
+            Equip(item);
+        }
     }
     public void Unequip(SlotStateMachine item) {
         if (item.player.transform.Find("Model/ItemHolder/Resource").transform.childCount > 0) {
@@ -86,6 +89,22 @@ public abstract class SlotBaseState {
             GameObject.Destroy(item.player.transform.Find("Model/ItemHolder/Gun").GetChild(0).gameObject);
         } else if (item.player.transform.Find("Model/ItemHolder/Tool").transform.childCount > 0) {
             GameObject.Destroy(item.player.transform.Find("Model/ItemHolder/Tool").GetChild(0).gameObject);
+        } else if (item.player.transform.Find("Model/ItemHolder/Structure").transform.childCount > 0) {
+            GameObject.Destroy(item.player.transform.Find("Model/ItemHolder/Structure").GetChild(0).gameObject);
+        }
+    }
+
+    public GameObject GetEquipGameObject(SlotStateMachine item) {
+        if (item.player.transform.Find("Model/ItemHolder/Resource").transform.childCount > 0) {
+            return (item.player.transform.Find("Model/ItemHolder/Resource").GetChild(0).gameObject);
+        } else if (item.player.transform.Find("Model/ItemHolder/Gun").transform.childCount > 0) {
+            return  (item.player.transform.Find("Model/ItemHolder/Gun").GetChild(0).gameObject);
+        } else if (item.player.transform.Find("Model/ItemHolder/Tool").transform.childCount > 0) {
+            return (item.player.transform.Find("Model/ItemHolder/Tool").GetChild(0).gameObject);
+        } else if (item.player.transform.Find("Model/ItemHolder/Structure").transform.childCount > 0) {
+            return  (item.player.transform.Find("Model/ItemHolder/Structure").GetChild(0).gameObject);
+        } else {
+            return null;
         }
     }
 
@@ -93,6 +112,7 @@ public abstract class SlotBaseState {
         ResourceTemplate resource = item.player.equipItem as ResourceTemplate;
         GunTemplate gun = item.player.equipItem as GunTemplate;
         ToolTemplate tool = item.player.equipItem as ToolTemplate;
+        StructureTemplate structure = item.player.equipItem as StructureTemplate;
 
         if (resource != null) {
             GameObject.Instantiate(item.player.equipItem.prefab, item.player.transform.Find("Model/ItemHolder/Resource").transform);
@@ -100,6 +120,8 @@ public abstract class SlotBaseState {
             GameObject.Instantiate(item.player.equipItem.prefab, item.player.transform.Find("Model/ItemHolder/Gun").transform);
         } else if (tool != null) {
             GameObject.Instantiate(item.player.equipItem.prefab, item.player.transform.Find("Model/ItemHolder/Tool").transform);
+        } else if (structure != null) {
+            GameObject.Instantiate(item.player.equipItem.prefab, item.player.transform.Find("Model/ItemHolder/Structure").transform);
         }
     }
 

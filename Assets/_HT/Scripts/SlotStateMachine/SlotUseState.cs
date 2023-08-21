@@ -10,7 +10,7 @@ public class SlotUseState : SlotBaseState {
     }
     public override void HandleInput(SlotStateMachine item, InputAction.CallbackContext context) {
         try {
-            IUsable itemWithUse = item.player.equipItem.prefab.GetComponent<IUsable>();
+            IUsable itemWithUse = GetEquipGameObject(item).GetComponent<IUsable>();
 
             //Pass the input to the prefabs script
             if (context.started) {

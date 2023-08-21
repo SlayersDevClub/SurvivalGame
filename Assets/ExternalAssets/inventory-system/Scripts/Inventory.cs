@@ -102,14 +102,27 @@ public class Inventory : MonoBehaviour
 	public void RemoveItem(int slotNum) {
 		// Check if the slot index is within the valid range
 		if (slotNum >= 0 && slotNum < items.Count) {
-			// Set the item in the specified slot to an empty item or placeholder
-			items[slotNum] = new Item();
-
-			if (slots[slotNum].transform.childCount > 0) {
-				Destroy(slots[slotNum].transform.GetChild(0).gameObject);
+			// Check if there's an item in the slot
+			if (items[slotNum].Id != -1) {
+				ItemData data = slots[slotNum].transform.GetChild(0).GetComponent<ItemData>();
+				if (data.amount > 0) {
+					// Decrease the amount of the item if it's stackable
+					data.amount--;
+					data.transform.GetChild(0).GetComponent<Text>().text = data.amount.ToString();
+				} else {
+					// Remove the item if there's only one left
+					items[slotNum] = new Item();
+					Destroy(slots[slotNum].transform.GetChild(0).gameObject);
+				}
 			}
 		}
+
+		SlotStateMachine removedFromSlot = slots[slotNum].GetComponent<SlotStateMachine>();
+
+		removedFromSlot.HandleEquip();
+		
 	}
+
 
 	public virtual void AddItem(int id, int slotNum = -1)
 	{
