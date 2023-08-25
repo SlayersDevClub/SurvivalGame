@@ -1,7 +1,12 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Resources/GameComponents/Mineable.meta
 guid: 639ea6b3ee5eea649a67426ff0ad5fce
 folderAsset: yes
 DefaultImporter:
+========
+guid: 534a5d6d93848fa44b28b589c6ad7b90
+NativeFormatImporter:
+>>>>>>>> 347ce26cca8092d6066c74de82cec678665a68a5:Assets/Resources/GameComponents/Items/CustomItem/CustomTool1967.asset.meta
   externalObjects: {}
   userData: 
   assetBundleName: 

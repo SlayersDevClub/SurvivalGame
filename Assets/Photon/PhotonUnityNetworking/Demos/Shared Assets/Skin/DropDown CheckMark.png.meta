@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Photon/PhotonUnityNetworking/Demos/Shared Assets/Skin/DropDown CheckMark.png.meta
 guid: fd47c8b4ebfbd4339858d4d23f587519
+========
+guid: 058cf54c0fc6d3f49a2029b611851ce6
+>>>>>>>> 347ce26cca8092d6066c74de82cec678665a68a5:Assets/Plugins/Tiny Giant Studio/Modular To Do List/Artworks/Icon Back.png.meta
 TextureImporter:
   fileIDToRecycleName: {}
   externalObjects: {}
@@ -36,11 +40,11 @@ TextureImporter:
     mipBias: -100
     wrapU: 1
     wrapV: 1
-    wrapW: 1
+    wrapW: 0
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 0
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -51,7 +55,7 @@ TextureImporter:
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
-  textureType: 8
+  textureType: 2
   textureShape: 1
   singleChannelComponent: 0
   maxTextureSizeSet: 0
@@ -75,7 +79,12 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
+<<<<<<<< HEAD:Assets/Photon/PhotonUnityNetworking/Demos/Shared Assets/Skin/DropDown CheckMark.png.meta
     spriteID: 1f09ade87616aae46b46e6ab4bf072b5
+========
+    spriteID: 
+    internalID: 0
+>>>>>>>> 347ce26cca8092d6066c74de82cec678665a68a5:Assets/Plugins/Tiny Giant Studio/Modular To Do List/Artworks/Icon Back.png.meta
     vertices: []
     indices: 
     edges: []

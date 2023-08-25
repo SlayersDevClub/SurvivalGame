@@ -1,7 +1,12 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/_HT/JSONS.meta
 guid: a01420cf4b970a64082b5652fb96e120
 folderAsset: yes
 DefaultImporter:
+========
+guid: af3b50fdfe4091b4faf64978ab866741
+NativeFormatImporter:
+>>>>>>>> 347ce26cca8092d6066c74de82cec678665a68a5:Assets/Resources/GameComponents/Items/CustomItem/CustomTool6411.asset.meta
   externalObjects: {}
   userData: 
   assetBundleName: 

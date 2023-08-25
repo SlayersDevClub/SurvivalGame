@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Photon/PhotonUnityNetworking/Resources/PhotonServerSettings.asset.meta
 guid: e85c3d3315d175e478348035b43768aa
+========
+guid: 0309f772488b89f4d9877e712e36283a
+>>>>>>>> 347ce26cca8092d6066c74de82cec678665a68a5:Assets/Resources/GameComponents/Items/CustomItem/CustomGun4777.asset.meta
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 11400000

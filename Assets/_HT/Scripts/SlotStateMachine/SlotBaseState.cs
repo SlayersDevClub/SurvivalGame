@@ -140,7 +140,8 @@ public abstract class SlotBaseState {
                     kid.gameObject.layer = LayerMask.NameToLayer("Default");
                 }
             }
-            GameObject.Instantiate(original, item.player.transform.Find("Model/ItemHolder/Tool").transform);
+             var toolTranny = GameObject.Instantiate(item.player.equipItem.prefab, item.player.transform.Find("Model/ItemHolder/Tool").transform);
+            toolTranny.transform.localPosition = new Vector3(0, 0.73f, 0);
         } else if (structure != null) {
             GameObject.Instantiate(item.player.equipItem.prefab, item.player.transform.Find("Model/ItemHolder/Structure").transform);
         }

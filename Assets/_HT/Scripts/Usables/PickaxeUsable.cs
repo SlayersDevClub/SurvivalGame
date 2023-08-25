@@ -2,21 +2,58 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using DG.Tweening;
+
 public class PickaxeUsable : MonoBehaviour, IUsable
 {
-    //APPLY THIS SCRIPT TO TOOL TO TEST AND SPAWN THAT TOOL IN YOUR INVENTORY
-
+    bool isTimerFinished = true;
+    float attackSpeed = 0.2f;
+    Animator anim;
+    private void Start()
+    {
+        anim = GetComponentInParent<Animator>();
+    }
     public void HandleInput(InputAction.CallbackContext context) {
 
         //LEFT CLICK
-        if (context.action.name == TagManager.USE_ACTION) {
-            Debug.Log("LEFT CLICKING PICKAXE");
+        if (context.action.name == TagManager.USE_ACTION)
+        {
+            if (context.started)
+            {
+                if (isTimerFinished)
+                {
+                    SwingTool();
+                    StartCoroutine(AttackSpeed(attackSpeed));
+                }
+            }
         }
+
         //RIGHT CLICK
         else if (context.action.name == TagManager.USE2_ACTION) {
             Debug.Log("RIGHT CLICKING PICKAXE");
         }
+    }
 
+    private IEnumerator AttackSpeed(float countdownDuration)
+    {
+        float currentTime = countdownDuration;
+        isTimerFinished = false;
+        while (currentTime > 0)
+        {
+            yield return new WaitForSeconds(attackSpeed); // Wait for 1 second
+            currentTime--;
+        }
+        // Timer finished
+        isTimerFinished = true;
+    }
+
+    private void SwingTool()
+    {
+        //DOTween.Restart("DoToolAction");
+        //DOTween.PlayForward("DoToolAction");
+        anim.SetTrigger("Swing");
+        anim.SetFloat("X", Random.Range(-1f, 1f));
+        anim.SetFloat("Y", Random.Range(0f, 1f));
     }
 
 }

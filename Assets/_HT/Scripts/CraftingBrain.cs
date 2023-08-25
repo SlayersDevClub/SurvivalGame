@@ -18,7 +18,7 @@ public static class CraftingBrain {
             return output;
         }
     }
-
+    
     public static BaseItemTemplate AttemptBuildTool(List<BaseItemTemplate> toolParts) {
         PickaxeHandleTemplate pickHand = null;
         AxeHandleTemplate axeHand = null;
@@ -65,6 +65,7 @@ public static class CraftingBrain {
             }
 
             GameObject builtTool = ToolAssembler.AssembleTool(handle.prefab, head.prefab);
+            builtTool.AddComponent<PickaxeUsable>();
             //Set object to Equipped layer for camera culling
             foreach (Transform child in builtTool.GetComponentsInChildren<Transform>())
             {
@@ -124,6 +125,7 @@ public static BaseItemTemplate AttemptBuildGun(List<BaseItemTemplate> gunParts) 
 
         GunTemplate newGunTemplate = ScriptableObject.CreateInstance<GunTemplate>();
         GameObject builtGun = GunAssembler.AssembleGun(body.prefab, mag.prefab, sight.prefab, barrel.prefab, stock.prefab, grip.prefab);
+        builtGun.AddComponent<GunUsable>();
         //Set object to Equipped layer for camera culling
         foreach (Transform child in builtGun.GetComponentsInChildren<Transform>())
         {
