@@ -9,6 +9,7 @@ public class ModuleSearchEditorWindow : EditorWindow {
     private enum Category {
         Item,
         Enemy,
+        Mineable,
         Recipes
     }
 
@@ -116,6 +117,9 @@ public class ModuleSearchEditorWindow : EditorWindow {
                 break;
             case Category.Recipes:
                 // Show recipe related subcategories if needed
+                break;
+            case Category.Mineable:
+
                 break;
             default:
                 break;
@@ -387,6 +391,8 @@ public class ModuleSearchEditorWindow : EditorWindow {
             case Category.Recipes:
                 // Return recipe related subcategory string if needed
                 break;
+            case Category.Mineable:
+                break;
             default:
                 break;
         }
@@ -406,9 +412,16 @@ public class ModuleSearchEditorWindow : EditorWindow {
             case Category.Recipes:
                 CreateRecipeScriptableObject();
                 break;
+            case Category.Mineable:
+                CreateMineableScriptableObject();
+                break;
             default:
                 break;
         }
+    }
+
+    private void CreateMineableScriptableObject() {
+        CreateScriptableObjectOfType<MineableTemplate>("Mineable");
     }
 
     private void CreateItemScriptableObject() {
@@ -603,21 +616,31 @@ public class ModuleSearchEditorWindow : EditorWindow {
 
     private void RenameScriptableObject() {
         //LOADING
-        List<BaseItemTemplate> loadListData = JsonDataManager.LoadData();
+        List<BaseItemTemplate> loadListData = new List<BaseItemTemplate>();
 
         // Get the selected ScriptableObject
         BaseItemTemplate selectedObject = Selection.activeObject as BaseItemTemplate;
+        MineableTemplate selectedMineable = Selection.activeObject as MineableTemplate;
 
-            if (selectedObject != null) {
-                ItemSetup existingItemSetup = selectedObject.prefab.GetComponent<ItemSetup>();
+        if (selectedObject != null) {
+            loadListData = JsonDataManager.LoadData();
+
+            ItemSetup existingItemSetup = selectedObject.prefab.GetComponent<ItemSetup>();
+            if(existingItemSetup == null) {
+                existingItemSetup = selectedObject.prefab.AddComponent<ItemSetup>();
+
+            }
             existingItemSetup.SetItemID(Int16.Parse(selectedObject.Id));
             existingItemSetup.SetBaseItemTemplate(selectedObject);
-            if (existingItemSetup == null) {
-                    ItemSetup itemToSetup = selectedObject.prefab.AddComponent<ItemSetup>();
-                itemToSetup.SetItemID(Int16.Parse(selectedObject.Id));
-                itemToSetup.SetBaseItemTemplate(selectedObject);
+
+        } else if (selectedMineable != null) {
+            MineableSetup mineable = selectedMineable.prefab.GetComponent<MineableSetup>();
+            if (mineable == null) {
+                mineable = selectedMineable.prefab.AddComponent<MineableSetup>();
             }
-            
+            mineable.SetMineableTemplate(selectedMineable);
+        }
+
             EditorUtility.SetDirty(selectedObject);
             // Add the selected object to the list
             loadListData.Add(selectedObject);
@@ -646,7 +669,7 @@ public class ModuleSearchEditorWindow : EditorWindow {
                 AssetDatabase.Refresh();
             }
         }
-    }
+    
 
     private void RecompileJSONData() {
         // Recompile item data

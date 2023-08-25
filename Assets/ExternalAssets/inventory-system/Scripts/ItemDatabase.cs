@@ -8,9 +8,13 @@ public static class ItemDatabase {
     private static List<Item> database = new List<Item>();
     private static List<BaseItemTemplate> itemList = new List<BaseItemTemplate>();
 
-    public static void Initialize() {
-        // Load data from JSON using JsonDataManager
+    public static void Initialize(TextAsset data, TextAsset recipes) {
+
+
+        JsonDataManager.SetTextAssets(data, recipes);
+
         itemList = JsonDataManager.LoadData();
+
         ConstructItemDatabase();
     }
 
@@ -38,7 +42,8 @@ public static class ItemDatabase {
 
 
     private static void ConstructItemDatabase() {
-        for (int i = 0; i < itemList.Count; i++) {
+        for (int i = 0; i < itemList.Count; i++) 
+            {
             Item newItem = new Item();
             newItem.Id = Int16.Parse(itemList[i].Id);
             newItem.Title = itemList[i].itemName;
@@ -82,73 +87,5 @@ public class Item {
 
     public Item() {
         this.Id = -1;
-    }
-}
-
-// Rest of the code remains the same...
-
-public static class JsonDataManager {
-    private static string SaveFilePath = Application.persistentDataPath + "/data.json";
-    private static string RecipeSaveFilePath = Application.persistentDataPath + "/recipes.json";
-
-    public static void AddBaseItemTemplateToJson(BaseItemTemplate baseItemTemplate) {
-        // Load existing data from JSON
-        List<BaseItemTemplate> existingData = LoadData();
-
-        // Add the new baseItemTemplate to the list
-        existingData.Add(baseItemTemplate);
-
-        // Save the updated data to JSON
-        SaveData(existingData);
-    }
-    public static void SaveData(List<BaseItemTemplate> data) {
-        string jsonToSave = JsonUtility.ToJson(new ItemTemplateWrapper(data));
-        File.WriteAllText(SaveFilePath, jsonToSave);
-    }
-
-    public static List<BaseItemTemplate> LoadData() {
-        Debug.Log(SaveFilePath);
-        if (File.Exists(SaveFilePath)) {
-            string jsonToLoad = File.ReadAllText(SaveFilePath);
-            ItemTemplateWrapper wrapper = JsonUtility.FromJson<ItemTemplateWrapper>(jsonToLoad);
-            return wrapper.items;
-        } else {
-            return new List<BaseItemTemplate>();
-        }
-    }
-
-    public static List<RecipeTemplate> LoadRecipeData() {
-        Debug.Log(RecipeSaveFilePath);
-        if (File.Exists(RecipeSaveFilePath)) {
-            string jsonToLoad = File.ReadAllText(RecipeSaveFilePath);
-            RecipeTemplateWrapper wrapper = JsonUtility.FromJson<RecipeTemplateWrapper>(jsonToLoad);
-            return wrapper.recipes;
-        } else {
-            return new List<RecipeTemplate>();
-        }
-    }
-
-
-    public static void SaveRecipeData(List<RecipeTemplate> recipes) {
-        string jsonToSave = JsonUtility.ToJson(new RecipeTemplateWrapper(recipes));
-        File.WriteAllText(RecipeSaveFilePath, jsonToSave);
-    }
-}
-
-[System.Serializable]
-public class ItemTemplateWrapper {
-    public List<BaseItemTemplate> items;
-
-    public ItemTemplateWrapper(List<BaseItemTemplate> itemList) {
-        items = itemList;
-    }
-}
-
-[System.Serializable]
-public class RecipeTemplateWrapper {
-    public List<RecipeTemplate> recipes;
-
-    public RecipeTemplateWrapper(List<RecipeTemplate> recipeList) {
-        recipes = recipeList;
     }
 }

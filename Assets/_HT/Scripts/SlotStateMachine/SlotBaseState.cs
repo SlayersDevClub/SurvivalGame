@@ -115,11 +115,32 @@ public abstract class SlotBaseState {
         StructureTemplate structure = item.player.equipItem as StructureTemplate;
 
         if (resource != null) {
+            
             GameObject.Instantiate(item.player.equipItem.prefab, item.player.transform.Find("Model/ItemHolder/Resource").transform);
         } else if (gun != null) {
-            GameObject.Instantiate(item.player.equipItem.prefab, item.player.transform.Find("Model/ItemHolder/Gun").transform);
+            Debug.Log("CustomGun" + item.player.equipItem.Id);
+            GameObject original = GameObject.Find("CustomItems/CustomGun" + item.player.equipItem.Id);
+            original.layer = LayerMask.NameToLayer("Default");
+
+            foreach (Transform child in original.transform) {
+                child.gameObject.layer = LayerMask.NameToLayer("Default");
+                foreach (Transform kid in child.transform) {
+                    kid.gameObject.layer = LayerMask.NameToLayer("Default");
+                }
+            }
+
+            GameObject.Instantiate(original, item.player.transform.Find("Model/ItemHolder/Gun").transform);
         } else if (tool != null) {
-            GameObject.Instantiate(item.player.equipItem.prefab, item.player.transform.Find("Model/ItemHolder/Tool").transform);
+            GameObject original = GameObject.Find("CustomItems/CustomTool" + item.player.equipItem.Id);
+            original.layer = LayerMask.NameToLayer("Default");
+
+            foreach (Transform child in original.transform) {
+                child.gameObject.layer = LayerMask.NameToLayer("Default");
+                foreach (Transform kid in child.transform) {
+                    kid.gameObject.layer = LayerMask.NameToLayer("Default");
+                }
+            }
+            GameObject.Instantiate(original, item.player.transform.Find("Model/ItemHolder/Tool").transform);
         } else if (structure != null) {
             GameObject.Instantiate(item.player.equipItem.prefab, item.player.transform.Find("Model/ItemHolder/Structure").transform);
         }
@@ -163,7 +184,7 @@ public abstract class SlotBaseState {
         if (newTool != null) {
 
             JsonDataManager.AddBaseItemTemplateToJson(newTool);
-            ItemDatabase.Initialize();
+            ItemDatabase.Initialize(item.player.data, item.player.recipes);
             //Add item to inventory by item ID and slot number to add to
             Slot outputSlot = item.inv.toolcraftSlotOutput.GetComponent<Slot>();
 
@@ -196,7 +217,7 @@ public abstract class SlotBaseState {
 
         if (newGun != null) {
             JsonDataManager.AddBaseItemTemplateToJson(maybeNewGun);
-            ItemDatabase.Initialize();
+            ItemDatabase.Initialize(item.player.data, item.player.recipes);
             item.inv.AddItem(Int16.Parse(newGun.Id),item.inv.guncraftSlotOutput.GetComponent<Slot>().id);
 
             return true;

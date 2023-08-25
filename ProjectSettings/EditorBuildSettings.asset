@@ -6,9 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/_HT/Scenes/ItemPickupCrafting.unity
-    guid: 4f9d3c3de0c852a46976da99aaf8a101
+    path: Assets/_HT/Scenes/Multiplayer/LoadingScene.unity
+    guid: 456b8adeadb8d6a4a9985ab5f5f61d30
   - enabled: 1
-    path: Assets/_SS/Scenes/IconMaker.unity
-    guid: a821e0c545bba734abf7560e4a1f2aac
+    path: Assets/_HT/Scenes/Multiplayer/Lobby.unity
+    guid: 5f4e474a85ccdca4494d3399994fece6
+  - enabled: 1
+    path: Assets/_HT/Scenes/Multiplayer/Game.unity
+    guid: 4f9d3c3de0c852a46976da99aaf8a101
   m_configObjects: {}

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6217766212473849971}
   - component: {fileID: 7054373111245899734}
   - component: {fileID: 5044838289097487132}
+  - component: {fileID: -4714147473691983310}
   m_Layer: 0
   m_Name: SmallTree-1
   m_TagString: Untagged
@@ -85,3 +86,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &-4714147473691983310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6701956311721857737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67b9e8e45553cd2409d5e1685a6daa38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thisMineable: {fileID: 11400000, guid: 70f8f98404fa7994f81fb72364e5ae4d, type: 2}
+  health: 10
+  requiredPickaxeStrength: 100
+  requiredAxeStrength: 1

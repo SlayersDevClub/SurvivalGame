@@ -812,7 +812,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1854100102}
-  - component: {fileID: 1854100101}
   - component: {fileID: 1854100103}
   - component: {fileID: 1854100104}
   m_Layer: 0
@@ -822,18 +821,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1854100101
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1854100100}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 019e139eff4527a45a442acb4e0d406c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1854100102
 Transform:
   m_ObjectHideFlags: 0
@@ -861,6 +848,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d7d37594450cb4a9555725035152b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hotbarSlots: {fileID: 0}
+  inventorySlots: {fileID: 0}
+  toolcraftSlots: {fileID: 0}
+  guncraftSlots: {fileID: 0}
+  generalcraftSlots: {fileID: 0}
+  chestSlots: {fileID: 0}
+  toolcraftSlotOutput: {fileID: 0}
+  guncraftSlotOutput: {fileID: 0}
+  generalcraftSlotOutput: {fileID: 0}
   inventorySlot: {fileID: 169076, guid: 8590ae9dd07d18d49a49b092889561e8, type: 3}
   inventoryItem: {fileID: 197196, guid: 6baca13da4ff36d4e87e971092d2ffc1, type: 3}
   slots: []

@@ -10,7 +10,6 @@ public class ItemStateMachine : MonoBehaviour
     public ItemDroppedState DroppedState = new ItemDroppedState();
     public ItemHotbarState HotbarState = new ItemHotbarState();
     public ItemIdleState IdleState = new ItemIdleState();
-    public ItemUseState UseState = new ItemUseState();
     public ItemEquipState EquipState = new ItemEquipState();
 
     public Inventory inv;

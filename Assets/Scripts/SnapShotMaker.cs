@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using System.IO;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 public class SnapShotMaker : MonoBehaviour {
     public int resWidth = 256;
@@ -72,26 +74,15 @@ public class SnapShotMaker : MonoBehaviour {
         return screenShot;
     }
 
-    public Sprite SaveSpriteToEditorPath(Sprite sp, string path)
-    {
-        string dir = Path.GetDirectoryName(path);
-        Directory.CreateDirectory(dir);
+    public Sprite SaveSpriteToScenePath(Sprite sprite) {
+        byte[] spriteBytes = sprite.texture.EncodeToPNG();
+        Texture2D spriteTexture = new Texture2D(sprite.texture.width, sprite.texture.height);
+        spriteTexture.LoadImage(spriteBytes);
 
-        File.WriteAllBytes(path, sp.texture.EncodeToPNG());
-        AssetDatabase.Refresh();
-        //AssetDatabase.AddObjectToAsset(sp, path);
-        AssetDatabase.SaveAssets();
+        // Create a new texture asset on the target GameObject
+        Texture2D savedTexture = new Texture2D(spriteTexture.width, spriteTexture.height);
+        Graphics.CopyTexture(spriteTexture, savedTexture);
 
-        TextureImporter ti = AssetImporter.GetAtPath(path) as TextureImporter;
-
-        ti.textureType = TextureImporterType.Sprite;
-        ti.spritePixelsPerUnit = sp.pixelsPerUnit;
-        ti.mipmapEnabled = false;
-        ti.alphaIsTransparency = true;
-        //ti.isReadable = true;
-        EditorUtility.SetDirty(ti);
-        ti.SaveAndReimport();
-
-        return AssetDatabase.LoadAssetAtPath<Sprite>(path);
+        return Sprite.Create(savedTexture, new Rect(0, 0, savedTexture.width, savedTexture.height), Vector2.zero);
     }
 }
