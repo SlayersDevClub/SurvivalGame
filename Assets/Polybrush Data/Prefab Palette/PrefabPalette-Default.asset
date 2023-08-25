@@ -82,8 +82,8 @@ MonoBehaviour:
       m_Strength: 100
       m_RotationRangeMin: {x: 0, y: 0, z: 0}
       m_RotationRangeMax: {x: 0, y: 360, z: 0}
-      m_ScaleRangeMin: {x: 1, y: 0.3, z: 1}
-      m_ScaleRangeMax: {x: 1.5, y: 1, z: 1.5}
+      m_ScaleRangeMin: {x: 1, y: 0.49772725, z: 1}
+      m_ScaleRangeMax: {x: 1, y: 1, z: 1}
       m_UniformScale: {x: 1, y: 1}
       m_UniformBool: 0
       m_XRotationBool: 0
@@ -100,7 +100,7 @@ MonoBehaviour:
       m_RotationRangeMax: {x: 318.6063, y: 360, z: 360}
       m_ScaleRangeMin: {x: 1.533101, y: 1, z: 1}
       m_ScaleRangeMax: {x: 7.874564, y: 8.317073, z: 7.0278745}
-      m_UniformScale: {x: 3.2277226, y: 8.277227}
+      m_UniformScale: {x: 1.3212478, y: 6.3707533}
       m_UniformBool: 1
       m_XRotationBool: 1
       m_YRotationBool: 1
@@ -145,10 +145,10 @@ MonoBehaviour:
     settings:
       m_Strength: 50
       m_RotationRangeMin: {x: 0, y: 0, z: 0}
-      m_RotationRangeMax: {x: 0, y: 0, z: 0}
+      m_RotationRangeMax: {x: 0, y: 360, z: 0}
       m_ScaleRangeMin: {x: 1, y: 1, z: 1}
       m_ScaleRangeMax: {x: 1, y: 1, z: 1}
-      m_UniformScale: {x: 2.7821782, y: 7.584158}
+      m_UniformScale: {x: 1.2354156, y: 6.0373955}
       m_UniformBool: 1
       m_XRotationBool: 0
       m_YRotationBool: 1
@@ -164,7 +164,7 @@ MonoBehaviour:
       m_RotationRangeMax: {x: 0, y: 360, z: 0}
       m_ScaleRangeMin: {x: 4.6236935, y: 4.7630663, z: 6.261324}
       m_ScaleRangeMax: {x: 6.4355397, y: 6.3658533, z: 8.073172}
-      m_UniformScale: {x: 1, y: 3.6732671}
+      m_UniformScale: {x: 0.49640286, y: 3.16967}
       m_UniformBool: 1
       m_XRotationBool: 0
       m_YRotationBool: 1
