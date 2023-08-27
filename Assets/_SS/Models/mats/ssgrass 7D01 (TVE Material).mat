@@ -283,7 +283,12 @@ Material:
     - _ZWrite: 1
     - _emissive_intensity_value: 1
     m_Colors:
+<<<<<<< Updated upstream
     - _Color: {r: 0.36567017, g: 0.929, b: 0.16801062, a: 1}
+=======
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.16820933, g: 0.254717, b: 0.13817196, a: 1}
+>>>>>>> Stashed changes
     - _DetailBlendRemap: {r: 0, g: 0, b: 0, a: 0}
     - _DetailMaskRemap: {r: 0, g: 0, b: 0, a: 0}
     - _DetailMeshRemap: {r: 0, g: 0, b: 0, a: 0}
@@ -295,7 +300,7 @@ Material:
     - _GradientColorOne: {r: 1, g: 1, b: 1, a: 1}
     - _GradientColorTwo: {r: 1, g: 1, b: 1, a: 1}
     - _GradientMaskRemap: {r: 0, g: 0, b: 0, a: 0}
-    - _MainColor: {r: 0.36567017, g: 0.929, b: 0.16801062, a: 1}
+    - _MainColor: {r: 0.16820933, g: 0.254717, b: 0.13817196, a: 1}
     - _MainMaskRemap: {r: 0, g: 0, b: 0, a: 0}
     - _MainUVs: {r: 1, g: 1, b: 0, a: 0}
     - _MaxBoundsInfo: {r: 1, g: 1, b: 1, a: 1}

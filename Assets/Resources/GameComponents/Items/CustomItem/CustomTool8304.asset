@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d47f0d1473a304243bee8b38e72ad979, type: 3}
+  m_Name: CustomTool8304
+  m_EditorClassIdentifier: 
+  Id: 8304
+  itemName: 
+  description: 
+  stackable: 0
+  prefab: {fileID: 5119900299851408283, guid: 16cfafed543c2944d923d2b29b59a4a5, type: 3}
+  icon: {fileID: 21300000, guid: 0ecf975ea3d8c4c49bd228dd08b6f9fb, type: 3}
+  pickaxeStrength: 0
+  axeStrength: 0
+  speed: 0

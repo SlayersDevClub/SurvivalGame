@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b91eb5aab3d9a24fa3ffa4508576b58, type: 3}
+  m_Name: Combat Carbine Stock
+  m_EditorClassIdentifier: 
+  Id: 2089
+  itemName: Combat Carbine Stock
+  description: Designed for maneuverability, this compact stock is perfect for agile
+    combat scenarios and tight spaces.
+  stackable: 0
+  prefab: {fileID: 1739377054666030336, guid: ca800044435b06d4cb9ccc845660752c, type: 3}
+  icon: {fileID: 21300000, guid: eda46bc7663220f4ab8b1fb0922a5e05, type: 3}
+  stability: 2

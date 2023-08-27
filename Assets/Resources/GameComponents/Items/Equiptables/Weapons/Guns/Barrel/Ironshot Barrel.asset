@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b869235fc007ca44a528828f97419cf, type: 3}
+  m_Name: Ironshot Barrel
+  m_EditorClassIdentifier: 
+  Id: 5380
+  itemName: Ironshot Barrel
+  description: This iron barrel ensures consistent bullet trajectory, turning your
+    crafted firearm into a reliable tool.
+  stackable: 0
+  prefab: {fileID: 7923280252917432561, guid: 71bee4cf6df098f42b5bc2edc6a1aacf, type: 3}
+  icon: {fileID: 21300000, guid: 863afcd6f3cd11245bae010cda12d322, type: 3}
+  bulletVelocity: 1

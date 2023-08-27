@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0240f78658d4cfe4299f2e17e0b68132, type: 3}
+  m_Name: Slate Shard
+  m_EditorClassIdentifier: 
+  Id: 8963
+  itemName: Slate Shard
+  description: A sharp-edged fragment of slate, suitable for crafting tools and building
+    robust structures.
+  stackable: 1
+  prefab: {fileID: 477730150180613299, guid: 4be873188d44d3c4ba268a891c50b5a7, type: 3}
+  icon: {fileID: 21300000, guid: 6cea1e5527a6c6148b34a153137e6d0f, type: 3}
+  resourceName: SlateShard
+  pickStrengthRequired: 3
+  axeStrengthRequired: 4

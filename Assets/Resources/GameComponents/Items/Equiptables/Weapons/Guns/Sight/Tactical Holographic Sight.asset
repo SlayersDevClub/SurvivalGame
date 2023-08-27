@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20143aa39252f954ca08a90652c66ede, type: 3}
+  m_Name: Tactical Holographic Sight
+  m_EditorClassIdentifier: 
+  Id: 3448
+  itemName: Tactical Holographic Sight
+  description: An advanced sight with a holographic projection, aiding in fast target
+    acquisition and accurate shooting.
+  stackable: 0
+  prefab: {fileID: 3899413685718308986, guid: 4fbf50fd1c5f35a4998646fdc259a1dc, type: 3}
+  icon: {fileID: 21300000, guid: e3e4fc008bfc8324cb5e5b8949159cf2, type: 3}
+  zoomLevel: 3
