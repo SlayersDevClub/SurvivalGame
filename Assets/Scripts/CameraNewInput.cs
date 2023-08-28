@@ -12,7 +12,7 @@ public class CameraNewInput : CameraInput
 
     float lookInputSpeed = 0.001f;
 
-    void Start()
+    void Awake()
     {
         look = playerInput.actions["Look"];
         CheckForControlChange(playerInput);

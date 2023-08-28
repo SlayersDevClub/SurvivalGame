@@ -9,24 +9,23 @@ public class PickaxeUsable : MonoBehaviour, IUsable
     bool isTimerFinished = true;
     float attackSpeed = 0.2f;
     Animator anim;
-    private void Start()
+    ToolTemplate pick;
+
+    public void Setup()
     {
         anim = GetComponentInParent<Animator>();
+        pick = GetComponent<ItemSetup>().GetBaseItemTemplate() as ToolTemplate;
     }
-    public void HandleInput(InputAction.CallbackContext context) {
+    public void StartHandleInput(InputAction.CallbackContext context) {
 
         //LEFT CLICK
         if (context.action.name == TagManager.USE_ACTION)
         {
-            if (context.started)
-            {
-                if (isTimerFinished)
-                {
-                    SwingTool();
-                    StartCoroutine(AttackSpeed(attackSpeed));
-                }
+            if (isTimerFinished) {
+                InvokeRepeating("SwingTool", 0, attackSpeed);
             }
         }
+        
 
         //RIGHT CLICK
         else if (context.action.name == TagManager.USE2_ACTION) {
@@ -34,17 +33,10 @@ public class PickaxeUsable : MonoBehaviour, IUsable
         }
     }
 
-    private IEnumerator AttackSpeed(float countdownDuration)
-    {
-        float currentTime = countdownDuration;
-        isTimerFinished = false;
-        while (currentTime > 0)
-        {
-            yield return new WaitForSeconds(attackSpeed); // Wait for 1 second
-            currentTime--;
+    public void EndHandleInput(InputAction.CallbackContext context) {
+        if(context.action.name == TagManager.USE_ACTION) {
+            CancelInvoke();
         }
-        // Timer finished
-        isTimerFinished = true;
     }
 
     private void SwingTool()
@@ -55,5 +47,20 @@ public class PickaxeUsable : MonoBehaviour, IUsable
         anim.SetFloat("X", Random.Range(-1f, 1f));
         anim.SetFloat("Y", Random.Range(0f, 1f));
     }
+
+    public void TryToMine() {
+        RaycastHit hit;
+        Physics.Raycast(GameObject.Find("CameraControls").transform.position, GameObject.Find("CameraControls").transform.forward, out hit, 5f);
+        GameObject obj;
+
+        try {
+            obj = hit.transform.gameObject;
+            IMineable mineableObj = obj.GetComponent<IMineable>();
+            mineableObj.TakeDamage(pick.damage, pick.pickaxeStrength, pick.axeStrength);
+            Debug.Log("HITTING");
+        } catch {
+
+        }
+        }
 
 }

@@ -7,4 +7,6 @@ public class ToolTemplate : BaseItemTemplate {
     public int pickaxeStrength;
     public int axeStrength;
     public int speed;
+    public float swingSpeed;
+    public int damage;
 }

@@ -6,7 +6,7 @@ public class HammerUsable : MonoBehaviour, IUsable
 {
     //APPLY THIS SCRIPT TO GUN TO TEST AND SPAWN THAT GUN IN YOUR INVENTORY
 
-    public void HandleInput(InputAction.CallbackContext context) {
+    public void StartHandleInput(InputAction.CallbackContext context) {
 
         Debug.Log(context.action.name);
         //LEFT CLICK
@@ -21,5 +21,9 @@ public class HammerUsable : MonoBehaviour, IUsable
         }
 
     }
+    public void EndHandleInput(InputAction.CallbackContext context) {
+
+    }
+
 
 }

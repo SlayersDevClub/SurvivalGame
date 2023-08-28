@@ -10,7 +10,8 @@ public abstract class SlotBaseState {
 
     public abstract void OnDrop(SlotStateMachine item, PointerEventData pointerEventData, int slotID, GameObject slot);
 
-    public abstract void HandleInput(SlotStateMachine item, InputAction.CallbackContext context);
+    public abstract void StartHandleInput(SlotStateMachine item, InputAction.CallbackContext context);
+    public abstract void EndHandleInput(SlotStateMachine item, InputAction.CallbackContext context);
 
 
     public virtual void HandleDropAndSwap(SlotStateMachine item, PointerEventData pointerEventData, int slotID, GameObject slot) {
@@ -114,9 +115,11 @@ public abstract class SlotBaseState {
         ToolTemplate tool = item.player.equipItem as ToolTemplate;
         StructureTemplate structure = item.player.equipItem as StructureTemplate;
 
+        //RESOURCE
         if (resource != null) {
-            
             GameObject.Instantiate(item.player.equipItem.prefab, item.player.transform.Find("Model/ItemHolder/Resource").transform);
+        
+        //GUN
         } else if (gun != null) {
             Debug.Log("CustomGun" + item.player.equipItem.Id);
             GameObject original = GameObject.Find("CustomItems/CustomGun" + item.player.equipItem.Id);
@@ -129,7 +132,9 @@ public abstract class SlotBaseState {
                 }
             }
 
-            GameObject.Instantiate(original, item.player.transform.Find("Model/ItemHolder/Gun").transform);
+            GameObject equipGun = GameObject.Instantiate(original, item.player.transform.Find("Model/ItemHolder/Gun").transform);
+            equipGun.GetComponent<GunUsable>().Setup();
+        //TOOL
         } else if (tool != null) {
             GameObject original = GameObject.Find("CustomItems/CustomTool" + item.player.equipItem.Id);
             original.layer = LayerMask.NameToLayer("Default");
@@ -140,8 +145,9 @@ public abstract class SlotBaseState {
                     kid.gameObject.layer = LayerMask.NameToLayer("Default");
                 }
             }
-             var toolTranny = GameObject.Instantiate(item.player.equipItem.prefab, item.player.transform.Find("Model/ItemHolder/Tool").transform);
+             var toolTranny = GameObject.Instantiate(original, item.player.transform.Find("Model/ItemHolder/Tool").transform);
             toolTranny.transform.localPosition = new Vector3(0, 0.73f, 0);
+            toolTranny.GetComponent<PickaxeUsable>().Setup();
         } else if (structure != null) {
             GameObject.Instantiate(item.player.equipItem.prefab, item.player.transform.Find("Model/ItemHolder/Structure").transform);
         }

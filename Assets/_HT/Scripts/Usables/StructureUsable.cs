@@ -5,13 +5,17 @@ public class StructureUsable : MonoBehaviour, IUsable {
     private bool allowMovement = true; // Flag to control movement
     bool validSpot = false;
 
-    public void HandleInput(InputAction.CallbackContext context) {
+    public void StartHandleInput(InputAction.CallbackContext context) {
         // LEFT CLICK
         if (context.started) {
             if (context.action.name == TagManager.USE_ACTION) {
                 allowMovement = !allowMovement; // Toggle the movement flag
             }
         }
+
+    }
+
+    public void EndHandleInput(InputAction.CallbackContext context) {
 
     }
 

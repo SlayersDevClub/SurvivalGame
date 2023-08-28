@@ -29,6 +29,7 @@ public class MineableSetup : MonoBehaviour, IMineable
 
     public void OnDestroy() {
         Debug.Log("DESTROYED");
+        Destroy(transform.gameObject);
     }
 
 }

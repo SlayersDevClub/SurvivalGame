@@ -56,6 +56,11 @@ public static class CraftingBrain {
             if(pickHand != null) {
                 handle = pickHand;
                 head = pickHead;
+
+                newToolTemplate.axeStrength = pickHand.axeStrength + pickHead.axeStrength;
+                newToolTemplate.pickaxeStrength = pickHand.pickaxeStrength + pickHead.pickaxeStrength;
+                newToolTemplate.swingSpeed = pickHand.swingSpeed + pickHead.swingSpeed;
+                newToolTemplate.damage = pickHand.damage + pickHead.damage;
             }else if(axeHand != null) {
                 handle = axeHand;
                 head = axeHead;
@@ -66,6 +71,9 @@ public static class CraftingBrain {
 
             GameObject builtTool = ToolAssembler.AssembleTool(handle.prefab, head.prefab);
             builtTool.AddComponent<PickaxeUsable>();
+            builtTool.AddComponent<ItemSetup>();
+
+            builtTool.GetComponent<ItemSetup>().SetBaseItemTemplate(newToolTemplate);
             //Set object to Equipped layer for camera culling
             foreach (Transform child in builtTool.GetComponentsInChildren<Transform>())
             {

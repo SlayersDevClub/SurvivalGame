@@ -19,3 +19,6 @@ MonoBehaviour:
   prefab: {fileID: 7413399097706362320, guid: 5f704554a65ec3b4cacb8564a6ea614c, type: 3}
   icon: {fileID: 21300000, guid: a03e3638978042c46936352d99b010e6, type: 3}
   swingSpeed: 0
+  pickaxeStrength: 2
+  axeStrength: 2
+  damage: 2

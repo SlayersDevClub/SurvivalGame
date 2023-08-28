@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using CMF;
-
+using Photon.Pun;
 public class PlayerInputReader : CharacterInput
 {
     public PlayerInput playerInput;
     private InputAction move;
 
-    Interact interactor;
     bool jumping = false, sprinting = false, paused = false;
     Inventory inventory;
-    void Start()
+    public PhotonView view;
+    void Awake()
     {
-        inventory = GameObject.Find("Inventory").GetComponent<Inventory>();
-        playerInput = GetComponent<PlayerInput>();
+
+        inventory = transform.Find("PlayerUI/Inventory").GetComponent<Inventory>();
         move = playerInput.actions["Move"];
     }
 
@@ -32,12 +32,18 @@ public class PlayerInputReader : CharacterInput
     }
     public override float GetHorizontalMovementInput()
     {
-        return move.ReadValue<Vector2>().x;
+        if (view.IsMine) {
+            return move.ReadValue<Vector2>().x;
+        }
+        return 0;
     }
 
     public override float GetVerticalMovementInput()
     {
-        return move.ReadValue<Vector2>().y;
+        if (view.IsMine) {
+            return move.ReadValue<Vector2>().y;
+        }
+        return 0;
     }
 
     public override bool IsJumpKeyPressed()
@@ -66,18 +72,24 @@ public class PlayerInputReader : CharacterInput
     }
 
     public void UseEquipItem(InputAction.CallbackContext context) {
+        SlotStateMachine slotToUse = inventory.slots[transform.GetComponent<PlayerStateMachine>().equipItemSlot].GetComponent<SlotStateMachine>();
+
         if (context.started) {
+            Debug.Log("MININGGG");
+            slotToUse.StartHandleInput(context);
 
-            SlotStateMachine slotToUse = inventory.slots[transform.GetComponent<PlayerStateMachine>().equipItemSlot].GetComponent<SlotStateMachine>();
-            slotToUse.HandleInput(context);
+        }
 
+        if (context.canceled) {
+            Debug.Log("STOPPED MINING");
+            slotToUse.EndHandleInput(context);
         }
     }
 
     public void DropItem(InputAction.CallbackContext context) {
         if (context.started) {
             SlotStateMachine slotToUse = inventory.slots[transform.GetComponent<PlayerStateMachine>().equipItemSlot].GetComponent<SlotStateMachine>();
-            slotToUse.HandleInput(context);
+            slotToUse.StartHandleInput(context);
         }
     }
 

@@ -29,7 +29,7 @@ public class Inventory : MonoBehaviour
 	public List<GameObject> slots = new List<GameObject>();
 
 	public void Start() {
-		PlayerStateMachine player= GameObject.Find("Player_1").transform.GetComponent<PlayerStateMachine>();
+		PlayerStateMachine player= transform.root.GetComponent<PlayerStateMachine>();
 		ItemDatabase.Initialize(player.data, player.recipes);
 		inventoryPanel = GameObject.Find("InventoryPanel").gameObject;
 		slotPanel = inventoryPanel.transform.Find("SlotPanel").gameObject;

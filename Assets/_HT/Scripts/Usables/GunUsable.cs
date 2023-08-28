@@ -11,17 +11,17 @@ public class GunUsable : MonoBehaviour, IUsable
     int animTime = 1;
     int currentAnimState;
 
-    private void OnEnable()
+    public void Setup()
     {
         gunAnim = GetComponentInParent<Animator>();
         currentAnimState = gunAnim.GetCurrentAnimatorStateInfo(0).shortNameHash;
     }
-    private void OnDisable()
+    /*private void OnDisable()
     {
         ads = false;
         gunAnim.SetBool("ADSBool", false);
-    }
-    public void HandleInput(InputAction.CallbackContext context) {
+    }*/
+    public void StartHandleInput(InputAction.CallbackContext context) {
 
         //LEFT CLICK (FIRE)
         if(context.action.name == TagManager.USE_ACTION) {
@@ -29,8 +29,7 @@ public class GunUsable : MonoBehaviour, IUsable
             {
                 if (isTimerFinished)
                 {
-                    Shoot();
-                    StartCoroutine(ShootSpeed(shootSpeed));
+                    InvokeRepeating("Shoot", 0, shootSpeed);
                 }
             }
            
@@ -43,6 +42,13 @@ public class GunUsable : MonoBehaviour, IUsable
         //R RELOAD
         else if(context.action.name == TagManager.RELOAD_ACTION) {
             Debug.Log("RELOADING");
+        }
+    }
+
+
+    public void EndHandleInput(InputAction.CallbackContext context) {
+        if(context.action.name == TagManager.USE_ACTION) {
+            CancelInvoke();
         }
     }
 

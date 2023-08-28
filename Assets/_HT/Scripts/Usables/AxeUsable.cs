@@ -9,7 +9,7 @@ public class AxeUsable : MonoBehaviour, IUsable
     private void Start() {
         thisItem = transform.GetComponent<ItemSetup>().GetBaseItemTemplate();
     }
-    public void HandleInput(InputAction.CallbackContext context) {
+    public void StartHandleInput(InputAction.CallbackContext context) {
 
         //LEFT CLICK
         if (context.action.name == TagManager.USE_ACTION) {
@@ -25,6 +25,10 @@ public class AxeUsable : MonoBehaviour, IUsable
         else if (context.action.name == TagManager.USE2_ACTION) {
             Debug.Log("RIGHT CLICKING AXE");
         }
+
+    }
+
+    public void EndHandleInput(InputAction.CallbackContext context) {
 
     }
 

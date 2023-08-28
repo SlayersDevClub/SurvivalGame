@@ -4,6 +4,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 public interface IUsable
 {
-    public void HandleInput(InputAction.CallbackContext context);
-
+    public void StartHandleInput(InputAction.CallbackContext context);
+    public void EndHandleInput(InputAction.CallbackContext context);
 }

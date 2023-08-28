@@ -6,4 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewPickaxeHandleTemplate", menuName = "Game/Pickaxe Handle Template")]
 public class PickaxeHandleTemplate : BaseItemTemplate {
     public float swingSpeed;
+    public int pickaxeStrength;
+    public int axeStrength;
+    public int damage;
 }

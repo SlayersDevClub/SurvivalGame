@@ -21,13 +21,17 @@ public class SlotStateMachine : MonoBehaviour {
     public PlayerStateMachine player;
 
     private void Start() {
-        inv = GameObject.Find("PlayerUI/Inventory").GetComponent<Inventory>();
-        player = GameObject.Find("Player_1").GetComponent<PlayerStateMachine>();
+        inv = transform.root.Find("PlayerUI/Inventory").GetComponent<Inventory>();
+        player = transform.root.GetComponent<PlayerStateMachine>();
 
     }
 
-    public void HandleInput(InputAction.CallbackContext context) {
-        currentState.HandleInput(this, context);
+    public void StartHandleInput(InputAction.CallbackContext context) {
+        currentState.StartHandleInput(this, context);
+    }
+    
+    public void EndHandleInput(InputAction.CallbackContext context) {
+        currentState.EndHandleInput(this, context);
     }
 
     public void OnDrop(PointerEventData pointerEventData, int slotID, GameObject slot) {

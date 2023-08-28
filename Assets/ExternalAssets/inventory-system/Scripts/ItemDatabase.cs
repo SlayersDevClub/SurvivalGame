@@ -10,7 +10,6 @@ public static class ItemDatabase {
 
     public static void Initialize(TextAsset data, TextAsset recipes) {
 
-
         JsonDataManager.SetTextAssets(data, recipes);
 
         itemList = JsonDataManager.LoadData();

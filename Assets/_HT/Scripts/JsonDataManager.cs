@@ -32,21 +32,16 @@ public static class JsonDataManager {
     }
 
     public static List<BaseItemTemplate> LoadData() {
-        if (File.Exists(SaveFilePath)) {
-            string jsonToLoad = File.ReadAllText(SaveFilePath);
+            string jsonToLoad = recipeAsset.text;
             ItemTemplateWrapper wrapper = JsonUtility.FromJson<ItemTemplateWrapper>(jsonToLoad);
             return wrapper.items;
-        }
-        return new List<BaseItemTemplate>();
     }
 
     public static List<RecipeTemplate> LoadRecipeData() {
-        if (File.Exists(RecipeSaveFilePath)) {
-            string jsonToLoad = File.ReadAllText(RecipeSaveFilePath);
+
+            string jsonToLoad = dataAsset.text;
             RecipeTemplateWrapper wrapper = JsonUtility.FromJson<RecipeTemplateWrapper>(jsonToLoad);
             return wrapper.recipes;
-        }
-        return new List<RecipeTemplate>();
     }
 
     public static void SaveRecipeData(List<RecipeTemplate> recipes) {

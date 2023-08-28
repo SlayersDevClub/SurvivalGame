@@ -17,19 +17,18 @@ public class SlotEquipState : SlotBaseState {
         
         HandleIfEquipChanges(item);
     }
-    public override void HandleInput(SlotStateMachine item, InputAction.CallbackContext context) {
-        
-        if (context.started) {
-
+    public override void StartHandleInput(SlotStateMachine item, InputAction.CallbackContext context) {
             if(context.action.name == TagManager.DROP_ACTION) {
                 item.SwitchState(item.DropState);
             } else {
                 item.SwitchState(item.UseState);
                 Debug.Log("FIRST REACH");
-                item.HandleInput(context);
+                item.StartHandleInput(context);
             }
 
-        }
+        
+    }
+    public override void EndHandleInput(SlotStateMachine item, InputAction.CallbackContext context) {
         
     }
     public override void OnDrop(SlotStateMachine item, PointerEventData pointerEventData, int slotID, GameObject slot) {
