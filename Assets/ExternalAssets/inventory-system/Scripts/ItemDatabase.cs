@@ -8,15 +8,10 @@ public static class ItemDatabase {
     private static List<Item> database = new List<Item>();
     private static List<BaseItemTemplate> itemList = new List<BaseItemTemplate>();
 
-    public static void Initialize(TextAsset data, TextAsset recipes) {
-
-        JsonDataManager.SetTextAssets(data, recipes);
-
+    public static void Initialize() {
         itemList = JsonDataManager.LoadData();
-
         ConstructItemDatabase();
     }
-
     public static Item FetchItemById(int id) {
 
         for (int i = 0; i < database.Count; i++) {
@@ -43,6 +38,7 @@ public static class ItemDatabase {
     private static void ConstructItemDatabase() {
         for (int i = 0; i < itemList.Count; i++) 
             {
+
             Item newItem = new Item();
             newItem.Id = Int16.Parse(itemList[i].Id);
             newItem.Title = itemList[i].itemName;
@@ -50,6 +46,7 @@ public static class ItemDatabase {
             newItem.Stackable = itemList[i].stackable;
             newItem.Sprite = itemList[i].icon;
 
+            Debug.Log(newItem.Id);
             database.Add(newItem);
         }
     }

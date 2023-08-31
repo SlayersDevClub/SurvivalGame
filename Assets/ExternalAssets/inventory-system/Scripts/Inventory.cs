@@ -28,9 +28,12 @@ public class Inventory : MonoBehaviour
 	public List<Item> items = new List<Item>();
 	public List<GameObject> slots = new List<GameObject>();
 
+	private IEnumerator waitload() {
+		yield return new WaitForSeconds(3f);
+		ItemDatabase.Initialize();
+	}
 	public void Start() {
-		PlayerStateMachine player= transform.root.GetComponent<PlayerStateMachine>();
-		ItemDatabase.Initialize(player.data, player.recipes);
+		StartCoroutine(waitload());
 		inventoryPanel = GameObject.Find("InventoryPanel").gameObject;
 		slotPanel = inventoryPanel.transform.Find("SlotPanel").gameObject;
 
@@ -127,9 +130,11 @@ public class Inventory : MonoBehaviour
 
 	public virtual void AddItem(int id, int slotNum = -1)
 	{
+		Debug.Log(id);
 		int addedToSlotNum = -2;
 
 		Item itemToAdd = ItemDatabase.FetchItemById(id);
+
 		if(slotNum != -1) {
 			items[slotNum] = itemToAdd;
 			GameObject itemObj = Instantiate(inventoryItem);

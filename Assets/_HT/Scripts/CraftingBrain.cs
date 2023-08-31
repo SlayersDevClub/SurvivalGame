@@ -20,6 +20,7 @@ public static class CraftingBrain {
     }
     
     public static BaseItemTemplate AttemptBuildTool(List<BaseItemTemplate> toolParts) {
+        Debug.Log("HERE");
         PickaxeHandleTemplate pickHand = null;
         AxeHandleTemplate axeHand = null;
         HammerHandleTemplate hammerHand = null;
@@ -30,12 +31,14 @@ public static class CraftingBrain {
 
         foreach (BaseItemTemplate part in toolParts) {
             if (part is PickaxeHandleTemplate) {
+                Debug.Log("GERE");
                 pickHand = (PickaxeHandleTemplate)part;
             } else if (part is AxeHandleTemplate) {
                 axeHand = (AxeHandleTemplate)part;
             } else if (part is HammerHandleTemplate) {
                 hammerHand = (HammerHandleTemplate)part;
             } else if (part is PickaxePickTemplate) {
+                Debug.Log("GERE");
                 pickHead = (PickaxePickTemplate)part;
             } else if (part is AxeBladeTemplate) {
                 axeHead = (AxeBladeTemplate)part;
@@ -48,6 +51,7 @@ public static class CraftingBrain {
         (axeHand != null && axeHead != null) ||
         (hammerHand != null && hammerHead != null)) {
 
+            Debug.Log("HERE");
             ToolTemplate newToolTemplate = ScriptableObject.CreateInstance<ToolTemplate>();
             
             BaseItemTemplate handle = null;
@@ -93,7 +97,7 @@ public static class CraftingBrain {
             //Set loaded sprite as icon
             newToolTemplate.icon = newSprite;
 
-
+            Debug.Log("HERE");
             return newToolTemplate;
 
         } else {

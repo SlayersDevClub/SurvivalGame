@@ -28,8 +28,6 @@ public class PlayerStateMachine : MonoBehaviour
 
     public int equipItemSlot;
     public BaseItemTemplate equipItem;
-    public TextAsset data;
-    public TextAsset recipes;
 
     void Start() {
         pir = GetComponent<PlayerInputReader>();

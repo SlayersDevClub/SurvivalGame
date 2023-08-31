@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 using System;
+using Photon.Pun;
 public abstract class SlotBaseState {
 
     public abstract void EnterState(SlotStateMachine item);
@@ -109,6 +110,11 @@ public abstract class SlotBaseState {
         }
     }
 
+    private void MakeMultiplayerViewable(GameObject gameObj) {
+        gameObj.AddComponent<PhotonView>();
+        gameObj.AddComponent<PhotonTransformView>();
+    }
+
     public void Equip(SlotStateMachine item) {
         ResourceTemplate resource = item.player.equipItem as ResourceTemplate;
         GunTemplate gun = item.player.equipItem as GunTemplate;
@@ -117,7 +123,8 @@ public abstract class SlotBaseState {
 
         //RESOURCE
         if (resource != null) {
-            GameObject.Instantiate(item.player.equipItem.prefab, item.player.transform.Find("Model/ItemHolder/Resource").transform);
+            GameObject resourceHeld = GameObject.Instantiate(item.player.equipItem.prefab, item.player.transform.Find("Model/ItemHolder/Resource").transform);
+            MakeMultiplayerViewable(resourceHeld);
         
         //GUN
         } else if (gun != null) {
@@ -134,6 +141,8 @@ public abstract class SlotBaseState {
 
             GameObject equipGun = GameObject.Instantiate(original, item.player.transform.Find("Model/ItemHolder/Gun").transform);
             equipGun.GetComponent<GunUsable>().Setup();
+            MakeMultiplayerViewable(equipGun);
+
         //TOOL
         } else if (tool != null) {
             GameObject original = GameObject.Find("CustomItems/CustomTool" + item.player.equipItem.Id);
@@ -149,7 +158,8 @@ public abstract class SlotBaseState {
             toolTranny.transform.localPosition = new Vector3(0, 0.73f, 0);
             toolTranny.GetComponent<PickaxeUsable>().Setup();
         } else if (structure != null) {
-            GameObject.Instantiate(item.player.equipItem.prefab, item.player.transform.Find("Model/ItemHolder/Structure").transform);
+            GameObject struc = GameObject.Instantiate(item.player.equipItem.prefab, item.player.transform.Find("Model/ItemHolder/Structure").transform);
+            MakeMultiplayerViewable(struc);
         }
     }
 
@@ -181,7 +191,27 @@ public abstract class SlotBaseState {
             Slot slotItem = toolSlot.GetComponent<Slot>();
 
             if (slotItem != null) {
+                Debug.Log("LOOKING FOR");
+
                 toolParts.Add(ItemDatabase.FetchBaseItemTemplateById(item.inv.items[slotItem.GetComponent<Slot>().id].Id));
+
+                
+                try {
+                    Debug.Log(toolParts[0]);
+                    if(toolParts[0] is BaseItemTemplate) {
+                        Debug.Log("ASDF");
+                    }
+                    if(toolParts[0] is PickaxeHandleTemplate) {
+                        Debug.Log("ASDF");
+                    }
+                    if (toolParts[0] as PickaxeHandleTemplate != null) {
+                        Debug.Log("ASDF");
+                    }
+                    Debug.Log(toolParts[0].Id);
+                    Debug.Log(toolParts[1].Id);
+                } catch {
+
+                }
             }
         }
 
@@ -189,9 +219,9 @@ public abstract class SlotBaseState {
         ToolTemplate newTool = maybeNewTool as ToolTemplate;
 
         if (newTool != null) {
-
+            Debug.Log("NOT NUUILL");
             JsonDataManager.AddBaseItemTemplateToJson(newTool);
-            ItemDatabase.Initialize(item.player.data, item.player.recipes);
+            ItemDatabase.Initialize();
             //Add item to inventory by item ID and slot number to add to
             Slot outputSlot = item.inv.toolcraftSlotOutput.GetComponent<Slot>();
 
@@ -215,7 +245,10 @@ public abstract class SlotBaseState {
             Slot slotItem = gunSlot.GetComponent<Slot>();
 
             if (slotItem != null) {
+                
                 gunParts.Add(ItemDatabase.FetchBaseItemTemplateById(item.inv.items[slotItem.GetComponent<Slot>().id].Id));
+
+                
             }
         }
 
@@ -223,8 +256,10 @@ public abstract class SlotBaseState {
         GunTemplate newGun = maybeNewGun as GunTemplate;
 
         if (newGun != null) {
+
+
             JsonDataManager.AddBaseItemTemplateToJson(maybeNewGun);
-            ItemDatabase.Initialize(item.player.data, item.player.recipes);
+            ItemDatabase.Initialize();
             item.inv.AddItem(Int16.Parse(newGun.Id),item.inv.guncraftSlotOutput.GetComponent<Slot>().id);
 
             return true;

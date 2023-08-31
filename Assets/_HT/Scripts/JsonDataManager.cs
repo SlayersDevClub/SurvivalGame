@@ -1,18 +1,13 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
-
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 public static class JsonDataManager {
-    private static string SaveFilePath = Application.persistentDataPath + "/data.json";
-    private static string RecipeSaveFilePath = Application.persistentDataPath + "/recipes.json";
+    private static string SaveFilePath => Application.persistentDataPath + "/data.json";
 
-    public static void SetTextAssets(TextAsset data, TextAsset recipes) {
-        dataAsset = data;
-        recipeAsset = recipes;
-    }
+    private static string RecipeSaveFilePath => Application.persistentDataPath + "/recipes.json";
 
-    private static TextAsset dataAsset;
-    private static TextAsset recipeAsset;
 
     public static void AddBaseItemTemplateToJson(BaseItemTemplate baseItemTemplate) {
         // Load existing data from JSON
@@ -27,19 +22,44 @@ public static class JsonDataManager {
 
     public static void SaveData(List<BaseItemTemplate> data) {
         ItemTemplateWrapper wrapper = new ItemTemplateWrapper(data);
-        string jsonToSave = JsonUtility.ToJson(wrapper);
+        string jsonToSave = JsonConvert.SerializeObject(wrapper, Formatting.Indented,
+            new JsonSerializerSettings {
+                TypeNameHandling = TypeNameHandling.Auto, // Include type information in the JSON
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            });
+
         File.WriteAllText(SaveFilePath, jsonToSave);
     }
 
     public static List<BaseItemTemplate> LoadData() {
-            string jsonToLoad = recipeAsset.text;
-            ItemTemplateWrapper wrapper = JsonUtility.FromJson<ItemTemplateWrapper>(jsonToLoad);
-            return wrapper.items;
+        string jsonToLoad = File.ReadAllText(SaveFilePath);
+        Debug.Log(jsonToLoad);
+
+        ItemTemplateWrapper wrapper = JsonConvert.DeserializeObject<ItemTemplateWrapper>(jsonToLoad,
+            new JsonSerializerSettings {
+                TypeNameHandling = TypeNameHandling.Auto // Allow type information to be used during deserialization
+        });
+
+        foreach (BaseItemTemplate item in wrapper.items) {
+            if (item is PickaxeHandleTemplate) {
+                Debug.Log("HERE");
+            }
+            try {
+                item.prefab = Resources.Load<GameObject>(item.prefabString);
+                item.icon = Resources.Load<Sprite>(item.slug);
+            } catch {
+
+            }
+        }
+
+        return wrapper.items;
     }
+
 
     public static List<RecipeTemplate> LoadRecipeData() {
 
-            string jsonToLoad = dataAsset.text;
+            string jsonToLoad = File.ReadAllText(RecipeSaveFilePath);
+        
             RecipeTemplateWrapper wrapper = JsonUtility.FromJson<RecipeTemplateWrapper>(jsonToLoad);
             return wrapper.recipes;
     }
@@ -55,6 +75,10 @@ public static class JsonDataManager {
 public class ItemTemplateWrapper {
     public List<BaseItemTemplate> items;
 
+    public ItemTemplateWrapper() {
+        items = new List<BaseItemTemplate>();
+    }
+
     public ItemTemplateWrapper(List<BaseItemTemplate> itemList) {
         items = itemList;
     }
@@ -64,7 +88,12 @@ public class ItemTemplateWrapper {
 public class RecipeTemplateWrapper {
     public List<RecipeTemplate> recipes;
 
+    public RecipeTemplateWrapper() {
+        recipes = new List<RecipeTemplate>();
+    }
+
     public RecipeTemplateWrapper(List<RecipeTemplate> recipeList) {
         recipes = recipeList;
     }
 }
+

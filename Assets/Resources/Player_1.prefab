@@ -1331,8 +1331,6 @@ MonoBehaviour:
   ui: {fileID: 610073663}
   equipItemSlot: 0
   equipItem: {fileID: 0}
-  data: {fileID: 4900000, guid: fd5b133ceae237845b185f1a806c7ab7, type: 3}
-  recipes: {fileID: 4900000, guid: 8ee4339203a520b42848363aaeab401c, type: 3}
 --- !u!114 &3565111119625122354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2207,12 +2205,52 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 348072951320134296, guid: ad80eb45d37199c43b34a27bc8acd4ab, type: 3}
   m_PrefabInstance: {fileID: 348072951918575271}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 925699818}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7f3d7d35b7beb664eb6cfe63b8a30973, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &925699818 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 348072951534989389, guid: ad80eb45d37199c43b34a27bc8acd4ab, type: 3}
+  m_PrefabInstance: {fileID: 348072951918575271}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8528940785718448471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 925699818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &9158751398491231438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 925699818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53f7106d3674b7d4794d86a3d60259e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  view: {fileID: 8528940785718448471}
 --- !u!224 &925699822 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 348072951534989385, guid: ad80eb45d37199c43b34a27bc8acd4ab, type: 3}

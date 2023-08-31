@@ -614,6 +614,30 @@ public class ModuleSearchEditorWindow : EditorWindow {
         Selection.activeObject = newObject;
     }
 
+    private static string GetPrefabPath(GameObject prefab) {
+        string prefabPath = AssetDatabase.GetAssetPath(prefab);
+        if (prefabPath.StartsWith("Assets/Resources/")) {
+            prefabPath = prefabPath.Replace("Assets/Resources/", "");
+            prefabPath = Path.ChangeExtension(prefabPath, null);
+            return prefabPath;
+        } else {
+            Debug.Log(prefabPath);
+            return null;
+        }
+    }
+    private static string GetSpritePath(Sprite sprite) {
+        string spritePath = AssetDatabase.GetAssetPath(sprite);
+        if (spritePath.StartsWith("Assets/Resources/")) {
+            spritePath = spritePath.Replace("Assets/Resources/", "");
+            spritePath = Path.ChangeExtension(spritePath, null);
+            return spritePath;
+        } else {
+            Debug.Log(spritePath);
+            //Debug.LogError("Sprite is not in the Resources folder.");
+            return null;
+        }
+    }
+
     private void RenameScriptableObject() {
         //LOADING
         List<BaseItemTemplate> loadListData = new List<BaseItemTemplate>();
@@ -632,6 +656,10 @@ public class ModuleSearchEditorWindow : EditorWindow {
             }
             existingItemSetup.SetItemID(Int16.Parse(selectedObject.Id));
             existingItemSetup.SetBaseItemTemplate(selectedObject);
+
+            selectedObject.prefabString = GetPrefabPath(selectedObject.prefab);
+            selectedObject.slug = GetSpritePath(selectedObject.icon);
+
 
         } else if (selectedMineable != null) {
             MineableSetup mineable = selectedMineable.prefab.GetComponent<MineableSetup>();
@@ -683,6 +711,9 @@ public class ModuleSearchEditorWindow : EditorWindow {
             string itemAssetPath = AssetDatabase.GUIDToAssetPath(itemGuid);
             BaseItemTemplate itemScriptableObject = AssetDatabase.LoadAssetAtPath<BaseItemTemplate>(itemAssetPath);
             if (itemScriptableObject != null) {
+                itemScriptableObject.prefabString = GetPrefabPath(itemScriptableObject.prefab);
+                itemScriptableObject.slug = GetSpritePath(itemScriptableObject.icon);
+
                 itemScriptableObjects.Add(itemScriptableObject);
             }
         }
