@@ -431,7 +431,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &52812708
 Transform:
   m_ObjectHideFlags: 0
@@ -1623,9 +1623,10 @@ MonoBehaviour:
   noiseCat: 1
   noiseTexture3D: {fileID: 1141429}
   noiseTextureTilling: 1
-  fadeCat: 1
-  cameraFadeDistance: 1
+  miscCat: 0
+  proximityDistanceFade: 1
   sizeFadeDistanceBias: 1
+  defaultConformHeight: 0
   styledSpace0: 0
 --- !u!4 &301466924
 Transform:
@@ -9943,34 +9944,31 @@ MonoBehaviour:
   elementsSorting: 0
   elementsEdgeFade: 0.75
   dataCat: 0
+  styledInfoMessage: 1
   renderColors:
     renderMode: 10
-    textureScale: 1
+    renderVolume: {fileID: 0}
     textureWidth: 1024
     textureHeight: 1024
-    followVolume: {x: 100, y: 100, z: 100}
-    followOffset: 1
+    debugData: 
   renderExtras:
     renderMode: 10
-    textureScale: 1
+    renderVolume: {fileID: 0}
     textureWidth: 1024
     textureHeight: 1024
-    followVolume: {x: 100, y: 100, z: 100}
-    followOffset: 1
+    debugData: 
   renderMotion:
     renderMode: 10
-    textureScale: 1
+    renderVolume: {fileID: 0}
     textureWidth: 1024
     textureHeight: 1024
-    followVolume: {x: 100, y: 100, z: 100}
-    followOffset: 1
+    debugData: 
   renderVertex:
     renderMode: 10
-    textureScale: 1
+    renderVolume: {fileID: 0}
     textureWidth: 1024
     textureHeight: 1024
-    followVolume: {x: 100, y: 100, z: 100}
-    followOffset: 1
+    debugData: 
   styledSpace0: 0
 --- !u!4 &1026318718
 Transform:
@@ -15490,7 +15488,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &674432636411997170
 Animator:
   serializedVersion: 4

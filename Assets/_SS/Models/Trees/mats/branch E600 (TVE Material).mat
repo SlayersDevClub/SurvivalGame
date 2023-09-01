@@ -81,8 +81,8 @@ Material:
     m_Ints: []
     m_Floats:
     - _AddPrecomputedVelocity: 1
-    - _AlphaClipValue: 0.614
-    - _AlphaCutoff: 0.614
+    - _AlphaClipValue: 0.518
+    - _AlphaCutoff: 0.518
     - _AlphaCutoffEnable: 0
     - _AlphaDstBlend: 0
     - _AlphaSrcBlend: 1
@@ -111,7 +111,7 @@ Material:
     - _ColorsVariationValue: 0.5
     - _CullMode: 0
     - _CullModeForward: 0
-    - _Cutoff: 0.614
+    - _Cutoff: 0.518
     - _DetailAlphaMode: 1
     - _DetailBlendMaxValue: 0.6
     - _DetailBlendMinValue: 0.4
@@ -261,11 +261,11 @@ Material:
     - _StencilWriteMaskGBuffer: 14
     - _StencilWriteMaskMV: 40
     - _SubsurfaceAmbientValue: 0.2
-    - _SubsurfaceAngleValue: 8
+    - _SubsurfaceAngleValue: 13.11
     - _SubsurfaceDiffusion: 2.7474613
     - _SubsurfaceDirectValue: 1
     - _SubsurfaceNormalValue: 0
-    - _SubsurfaceScatteringValue: 2
+    - _SubsurfaceScatteringValue: 1.73
     - _SubsurfaceShadowValue: 1
     - _SubsurfaceValue: 1
     - _SupportDecals: 1
@@ -273,9 +273,9 @@ Material:
     - _TransAmbient: 0.2
     - _TransDirect: 1
     - _TransNormal: 0
-    - _TransScattering: 8
+    - _TransScattering: 13.11
     - _TransShadow: 1
-    - _TransStrength: 2
+    - _TransStrength: 1.73
     - _TransparentBackfaceEnable: 0
     - _TransparentCullMode: 0
     - _TransparentSortPriority: 0
@@ -298,7 +298,7 @@ Material:
     - _render_src: 1
     - _render_zw: 1
     m_Colors:
-    - _Color: {r: 0.6698113, g: 0.60578567, b: 0.12953897, a: 1}
+    - _Color: {r: 0.3584906, g: 0.3584906, b: 0.3584906, a: 1}
     - _DetailBlendRemap: {r: 0, g: 0, b: 0, a: 0}
     - _DetailMaskRemap: {r: 0, g: 0, b: 0, a: 0}
     - _DetailMeshRemap: {r: 0, g: 0, b: 0, a: 0}
@@ -310,7 +310,7 @@ Material:
     - _GradientColorOne: {r: 1, g: 1, b: 1, a: 1}
     - _GradientColorTwo: {r: 1, g: 1, b: 1, a: 1}
     - _GradientMaskRemap: {r: 0, g: 0, b: 0, a: 0}
-    - _MainColor: {r: 0.6698113, g: 0.60578567, b: 0.12953897, a: 1}
+    - _MainColor: {r: 0.3584906, g: 0.3584906, b: 0.3584906, a: 1}
     - _MainMaskRemap: {r: 0, g: 0, b: 0, a: 0}
     - _MainUVs: {r: 1, g: 1, b: 0, a: 0}
     - _MaxBoundsInfo: {r: 1, g: 1, b: 1, a: 1}
@@ -320,7 +320,7 @@ Material:
     - _SecondColor: {r: 1, g: 1, b: 1, a: 1}
     - _SecondMaskRemap: {r: 0, g: 0, b: 0, a: 0}
     - _SecondUVs: {r: 1, g: 1, b: 0, a: 0}
-    - _SubsurfaceColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SubsurfaceColor: {r: 0.4811321, g: 0.41517493, b: 0.31545925, a: 1}
     - _SubsurfaceDiffusion_Asset: {r: 5.781059e-36, g: -1165.9799, b: -14479688, a: 4.467959e+10}
     - _VertexOcclusionColor: {r: 1, g: 1, b: 1, a: 0.5019608}
     - _VertexOcclusionRemap: {r: 0, g: 0, b: 0, a: 0}

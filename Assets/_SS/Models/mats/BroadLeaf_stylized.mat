@@ -508,7 +508,7 @@ Material:
     m_Colors:
     - _BaseColor: {r: 0.5427719, g: 0.6509434, b: 0.06448024, a: 0.999}
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
-    - _Color: {r: 0.37142873, g: 1, b: 0, a: 1}
+    - _Color: {r: 0.5318933, g: 0.5566038, b: 0.51722145, a: 1}
     - _DetailBlendRemap: {r: 0, g: 0, b: 0, a: 0}
     - _DetailMaskRemap: {r: 0, g: 0, b: 0, a: 0}
     - _DetailMeshRemap: {r: 0, g: 0, b: 0, a: 0}
@@ -524,7 +524,7 @@ Material:
     - _GradientMaskRemap: {r: 0, g: 0, b: 0, a: 0}
     - _InvPrimScale: {r: 1, g: 1, b: 0, a: 0}
     - _IridescenceThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
-    - _MainColor: {r: 0.37142873, g: 1, b: 0, a: 1}
+    - _MainColor: {r: 0.5318933, g: 0.5566038, b: 0.51722145, a: 1}
     - _MainMaskRemap: {r: 0, g: 0, b: 0, a: 0}
     - _MainUVs: {r: 1, g: 1, b: 0, a: 0}
     - _MaxBoundsInfo: {r: 1, g: 1, b: 1, a: 1}

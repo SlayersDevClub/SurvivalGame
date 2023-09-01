@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e884bef9aa450a44fb26e10dd621e043, type: 3}
+  m_Name: Tactical Reload Mag
+  m_EditorClassIdentifier: 
+  Id: 1112
+  itemName: Tactical Reload Clip
+  description: Crafted for efficiency, this magazine allows quick reloads, giving
+    you an edge in fast-paced engagements.
+  stackable: 0
+  prefab: {fileID: 8427352190120011476, guid: 49ad82c0ed3a15e44b5fe8307bbdb057, type: 3}
+  icon: {fileID: 21300000, guid: 935d3dcbf5847ea43aaaddbd8dd80766, type: 3}
+  ammoCount: 30

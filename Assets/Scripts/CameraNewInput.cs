@@ -14,6 +14,7 @@ public class CameraNewInput : CameraInput
 
     void Awake()
     {
+        playerInput = transform.parent.parent.GetComponent<PlayerInput>();
         look = playerInput.actions["Look"];
         CheckForControlChange(playerInput);
     }

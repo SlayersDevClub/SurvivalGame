@@ -42,13 +42,13 @@ namespace CMF
 		//References to transform and camera components;
 		protected Transform tr;
 		protected Camera cam;
-		protected CameraInput cameraInput;
+		protected CameraNewInput cameraInput;
 
 		//Setup references.
 		void Awake () {
 			tr = transform;
 			cam = GetComponent<Camera>();
-			cameraInput = GetComponent<CameraInput>();
+			cameraInput = GetComponent<CameraNewInput>();
 
 			if(cameraInput == null)
 				Debug.LogWarning("No camera input script has been attached to this gameobject", this.gameObject);

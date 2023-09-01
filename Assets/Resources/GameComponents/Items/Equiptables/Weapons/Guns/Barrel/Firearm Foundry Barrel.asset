@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b869235fc007ca44a528828f97419cf, type: 3}
+  m_Name: Firearm Foundry Barrel
+  m_EditorClassIdentifier: 
+  Id: 6106
+  itemName: Firearm Foundry Barrel
+  description: Crafted with care, this gun barrel optimizes muzzle velocity, enhancing
+    the impact of your ranged weapons.
+  stackable: 0
+  prefab: {fileID: 4939492918123690282, guid: ab16adb38aff0684d8d3f5c44d0a4bae, type: 3}
+  icon: {fileID: 21300000, guid: e3f71f839aa208348a53b7fec03654fa, type: 3}
+  bulletVelocity: 3

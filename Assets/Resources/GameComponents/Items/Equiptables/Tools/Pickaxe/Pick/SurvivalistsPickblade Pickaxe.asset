@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38c1e6761509eec42ba54f6cd1a99aa1, type: 3}
+  m_Name: SurvivalistsPickblade Pickaxe
+  m_EditorClassIdentifier: 
+  Id: 7839
+  itemName: Survivalist's Pickblade
+  description: A versatile tool featuring a multi-edged head and ergonomic grip,
+    designed to aid your survival efforts.
+  stackable: 0
+  prefab: {fileID: 2443650139117901433, guid: f38a355a20c5afd488a14a3e5331f4c4, type: 3}
+  icon: {fileID: 21300000, guid: b5326ca268a3e564fa28da017a3fa860, type: 3}
+  damage: 1

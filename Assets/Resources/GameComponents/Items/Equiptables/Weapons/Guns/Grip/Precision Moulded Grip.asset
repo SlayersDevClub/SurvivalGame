@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 236d3f22d8962da4b8b0fea73ca7b921, type: 3}
+  m_Name: Precision Moulded Grip
+  m_EditorClassIdentifier: 
+  Id: 1095
+  itemName: Precision Moulded Grip
+  description: '[CLASSIFIED]'
+  stackable: 0
+  prefab: {fileID: 2645580031986831792, guid: d52e9bd22d261894fbd940fe5c3fe0d4, type: 3}
+  icon: {fileID: 21300000, guid: 42146e3f38c1c824fbca8f8dbcf76394, type: 3}
+  recoilReduction: 2
