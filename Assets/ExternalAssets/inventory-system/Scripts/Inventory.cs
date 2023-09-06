@@ -28,12 +28,8 @@ public class Inventory : MonoBehaviour
 	public List<Item> items = new List<Item>();
 	public List<GameObject> slots = new List<GameObject>();
 
-	private IEnumerator waitload() {
-		yield return new WaitForSeconds(3f);
-		ItemDatabase.Initialize();
-	}
 	public void Start() {
-		StartCoroutine(waitload());
+		ItemDatabase.Initialize();
 		inventoryPanel = GameObject.Find("InventoryPanel").gameObject;
 		slotPanel = inventoryPanel.transform.Find("SlotPanel").gameObject;
 
@@ -112,7 +108,13 @@ public class Inventory : MonoBehaviour
 				if (data.amount > 0) {
 					// Decrease the amount of the item if it's stackable
 					data.amount--;
-					data.transform.GetChild(0).GetComponent<Text>().text = data.amount.ToString();
+					int displayedAmount = data.amount + 1;
+
+					if(displayedAmount == 1) {
+						data.transform.GetChild(0).GetComponent<Text>().text = "";
+                    } else {
+						data.transform.GetChild(0).GetComponent<Text>().text = displayedAmount.ToString();
+					}
 				} else {
 					// Remove the item if there's only one left
 					items[slotNum] = new Item();
@@ -157,7 +159,14 @@ public class Inventory : MonoBehaviour
 				{
 					ItemData data = slots[i].transform.GetChild(0).GetComponent<ItemData>();
 					data.amount++;
-					data.transform.GetChild(0).GetComponent<Text>().text = data.amount.ToString();
+
+					int displayedAmount = data.amount + 1;
+
+					if (displayedAmount == 1) {
+						data.transform.GetChild(0).GetComponent<Text>().text = "";
+					} else {
+						data.transform.GetChild(0).GetComponent<Text>().text = displayedAmount.ToString();
+					}
 					break;
 				}
 			}
