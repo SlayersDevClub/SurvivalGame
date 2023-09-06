@@ -29,6 +29,9 @@ public class PlayerStateMachine : MonoBehaviour
     public int equipItemSlot;
     public BaseItemTemplate equipItem;
 
+    public bool pickedUp = false;
+
+    public bool respawning = false;
     void Start() {
         pir = GetComponent<PlayerInputReader>();
         inventoryPanel = transform.Find("PlayerUI/InventoryPanel").gameObject;
@@ -45,7 +48,6 @@ public class PlayerStateMachine : MonoBehaviour
     }
 
     public void SwitchState(PlayerBaseState state) {
-        Debug.Log(state);
         currentState = state;
         currentState.EnterState(this);
     }

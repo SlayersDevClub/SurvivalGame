@@ -4,8 +4,7 @@ using UnityEngine;
 
 public interface IMineable {
 
-    public abstract void TakeDamage(int damage, int pickaxeStrength, int axeStrength);
+    public void TakeDamage(int damage, int pickaxeStrength, int axeStrength);
 
-    public abstract void OnDestroy();
 
 }

@@ -16,3 +16,7 @@ MonoBehaviour:
   health: 10
   requiredPickaxeStrength: 100
   requiredAxeStrength: 1
+  dropables:
+  - drop: {fileID: 296856249627580752, guid: 70d2acf76518f384b93f84b84992a2ac, type: 3}
+    dropNum: 3
+    dropRate: 1

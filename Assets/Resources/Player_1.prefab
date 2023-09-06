@@ -1331,6 +1331,8 @@ MonoBehaviour:
   ui: {fileID: 610073663}
   equipItemSlot: 0
   equipItem: {fileID: 0}
+  pickedUp: 0
+  respawning: 0
 --- !u!114 &3565111119625122354
 MonoBehaviour:
   m_ObjectHideFlags: 0

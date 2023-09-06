@@ -46,7 +46,6 @@ public static class ItemDatabase {
             newItem.Stackable = itemList[i].stackable;
             newItem.Sprite = itemList[i].icon;
 
-            Debug.Log(newItem.Id);
             database.Add(newItem);
         }
     }

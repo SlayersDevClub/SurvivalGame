@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayerMovingState : PlayerBaseState
 {
+
     public override void EnterState(PlayerStateMachine player) {
         player.pir.playerInput.SwitchCurrentActionMap("Move");
         Cursor.lockState = CursorLockMode.Locked;
@@ -17,7 +18,12 @@ public class PlayerMovingState : PlayerBaseState
             if (context.action.name == TagManager.PAUSE_ACTION) {
                 player.SwitchState(player.PausedState);
             } else if (context.action.name == TagManager.INTERACT_ACTION) {
-                player.SwitchState(player.InteractingState);
+                if (player.pickedUp) {
+                    player.pickedUp = false;
+                } else {
+                    player.SwitchState(player.InteractingState);
+
+                }
             }
         }
         }

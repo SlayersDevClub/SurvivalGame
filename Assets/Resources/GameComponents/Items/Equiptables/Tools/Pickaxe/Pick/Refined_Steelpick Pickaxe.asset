@@ -17,6 +17,11 @@ MonoBehaviour:
   description: This expertly forged pickaxe, with a precision steel head and balanced
     handle, guarantees effective resource extraction.
   stackable: 0
+  prefabString: Prefabs/ToolParts/tool_pickaxe_2
+  slug: GeneratedIcons/tool_pickaxe_2
   prefab: {fileID: 7419064587536487552, guid: c685bfb7dd502c64fa69562bb534f881, type: 3}
   icon: {fileID: 21300000, guid: b5326ca268a3e564fa28da017a3fa860, type: 3}
+  swingSpeed: 0
+  pickaxeStrength: 0
+  axeStrength: 2
   damage: 2

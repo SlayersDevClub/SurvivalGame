@@ -22,7 +22,6 @@ public class SlotEquipState : SlotBaseState {
                 item.SwitchState(item.DropState);
             } else {
                 item.SwitchState(item.UseState);
-                Debug.Log("FIRST REACH");
                 item.StartHandleInput(context);
             }
 

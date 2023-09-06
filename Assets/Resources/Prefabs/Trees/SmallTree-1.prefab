@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 7054373111245899734}
   - component: {fileID: 5044838289097487132}
   - component: {fileID: -4714147473691983310}
+  - component: {fileID: 198075900}
+  - component: {fileID: 2765691173800263064}
   m_Layer: 0
   m_Name: SmallTree-1
   m_TagString: Untagged
@@ -26,7 +28,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6701956311721857737}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.17, y: 0, z: 6.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
@@ -99,6 +101,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thisMineable: {fileID: 11400000, guid: 70f8f98404fa7994f81fb72364e5ae4d, type: 2}
-  health: 10
+  health: 25
   requiredPickaxeStrength: 100
   requiredAxeStrength: 1
+--- !u!65 &198075900
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6701956311721857737}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.46, y: 7.662336, z: 0.64}
+  m_Center: {x: -0.06, y: 3.8222048, z: -0.02}
+--- !u!114 &2765691173800263064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6701956311721857737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d4820e62b66cc544a8cb239735b0bb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -42,7 +42,6 @@ public static class JsonDataManager {
 
         foreach (BaseItemTemplate item in wrapper.items) {
             if (item is PickaxeHandleTemplate) {
-                Debug.Log("HERE");
             }
             try {
                 item.prefab = Resources.Load<GameObject>(item.prefabString);

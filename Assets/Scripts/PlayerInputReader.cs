@@ -75,13 +75,11 @@ public class PlayerInputReader : CharacterInput
         SlotStateMachine slotToUse = inventory.slots[transform.GetComponent<PlayerStateMachine>().equipItemSlot].GetComponent<SlotStateMachine>();
 
         if (context.started) {
-            Debug.Log("MININGGG");
             slotToUse.StartHandleInput(context);
 
         }
 
         if (context.canceled) {
-            Debug.Log("STOPPED MINING");
             slotToUse.EndHandleInput(context);
         }
     }

@@ -8,7 +8,7 @@ public class SlotDropState : SlotBaseState
 {
     public override void EnterState(SlotStateMachine item) {
         if (item.player.equipItem == null) {
-            return;
+            item.SwitchState(item.EquipState);
         }
 
         GameObject droppedItem = null;
@@ -40,10 +40,10 @@ public class SlotDropState : SlotBaseState
         item.SwitchState(item.EquipState);
     }
     public override void StartHandleInput(SlotStateMachine item, InputAction.CallbackContext context) {
-        throw new System.NotImplementedException();
+        
     }
     public override void EndHandleInput(SlotStateMachine item, InputAction.CallbackContext context) {
-        throw new System.NotImplementedException();
+       
     }
     public override void OnDrop(SlotStateMachine item, PointerEventData pointerEventData, int slotID, GameObject slot) {
         

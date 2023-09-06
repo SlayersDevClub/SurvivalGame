@@ -10,7 +10,6 @@ public class PlayerPausedState : PlayerBaseState
         player.ui.ShowPlayerInventory(true);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        Debug.Log("entered pause state");
         if (player.pir.playerInput.currentControlScheme == "Gamepad") {
             player.ui.ShowControllerCursor(true);
         }

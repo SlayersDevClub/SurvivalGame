@@ -22,14 +22,11 @@ public class MineableSetup : MonoBehaviour, IMineable
             health -= damage;
 
             if (health <= 0) {
-                OnDestroy();
+                Debug.Log("DEALINGDMG");
+                transform.GetComponent<IWhenDestroy>().Destroy(thisMineable.dropables);
+                //OnDestroy();
             }
         }
-    }
-
-    public void OnDestroy() {
-        Debug.Log("DESTROYED");
-        Destroy(transform.gameObject);
     }
 
 }
