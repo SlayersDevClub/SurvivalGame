@@ -59,13 +59,20 @@ public static class JsonDataManager {
 
             string jsonToLoad = File.ReadAllText(RecipeSaveFilePath);
         
-            RecipeTemplateWrapper wrapper = JsonUtility.FromJson<RecipeTemplateWrapper>(jsonToLoad);
+            RecipeTemplateWrapper wrapper = JsonConvert.DeserializeObject<RecipeTemplateWrapper>(jsonToLoad, new JsonSerializerSettings {
+                TypeNameHandling = TypeNameHandling.Auto // Allow type information to be used during deserialization
+            });
             return wrapper.recipes;
     }
 
     public static void SaveRecipeData(List<RecipeTemplate> recipes) {
         RecipeTemplateWrapper wrapper = new RecipeTemplateWrapper(recipes);
-        string jsonToSave = JsonUtility.ToJson(wrapper);
+        string jsonToSave = JsonConvert.SerializeObject(wrapper, Formatting.Indented,
+            new JsonSerializerSettings {
+                TypeNameHandling = TypeNameHandling.Auto, // Include type information in the JSON
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            });
+
         File.WriteAllText(RecipeSaveFilePath, jsonToSave);
     }
 }
