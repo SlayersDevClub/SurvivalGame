@@ -8,7 +8,7 @@ namespace CMF
 	//This controller is used as a basis for other controller types ('SidescrollerController');
 	//Custom movement input can be implemented by creating a new script that inherits 'AdvancedWalkerController' and overriding the 'CalculateMovementDirection' function;
 	public class AdvancedWalkerController : Controller {
-
+		public float maxSprintSpeed = 12;
 		//References to attached components;
 		protected Transform tr;
 		protected Mover mover;
@@ -104,7 +104,7 @@ namespace CMF
         void HandleSprintKeyInput()
         {
             if (IsSprintKeyPressed())
-                movementSpeed = 12;
+                movementSpeed = maxSprintSpeed;
             else
                 movementSpeed = 7;
         }

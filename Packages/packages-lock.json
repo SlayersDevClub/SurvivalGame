@@ -38,6 +38,14 @@
         "com.jbooth.microsplat.core": "3.9.0"
       }
     },
+    "com.jbooth.microsplat.procedural-texture": {
+      "version": "file:com.jbooth.microsplat.procedural-texture",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.jbooth.microsplat.core": "3.9.0"
+      }
+    },
     "com.jbooth.microsplat.snow": {
       "version": "file:com.jbooth.microsplat.snow",
       "depth": 0,
@@ -88,6 +96,14 @@
     },
     "com.jbooth.microsplat.urp2019": {
       "version": "file:com.jbooth.microsplat.urp2019",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.jbooth.microsplat.core": "3.9.0"
+      }
+    },
+    "com.jbooth.microsplat.urp2021": {
+      "version": "file:com.jbooth.microsplat.urp2021",
       "depth": 0,
       "source": "embedded",
       "dependencies": {

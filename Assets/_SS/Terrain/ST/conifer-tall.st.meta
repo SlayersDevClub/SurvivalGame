@@ -1,0 +1,79 @@
+fileFormatVersion: 2
+guid: 924bb63af0398ec4b8c68c257a3a19a1
+SpeedTreeImporter:
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: bark2_LOD0
+    second: {fileID: 2100000, guid: 0de489148c16990439227aad5f3699f7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: bark2_LOD1
+    second: {fileID: 2100000, guid: 7771f396515ee7d46a006ddd8154ce91, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: bark2_LOD2
+    second: {fileID: 2100000, guid: 519fa1aaaabd6b640b56617aa8dbc80a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: conifer-tall_LOD0
+    second: {fileID: 2100000, guid: 1ad4ccf2413c520499b798c1485ba2f3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: conifer-tall_LOD1
+    second: {fileID: 2100000, guid: a35219d0078a2854bb5c31ad16e27f5d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: conifer-tall_LOD2
+    second: {fileID: 2100000, guid: 214ef654ad0a55547a75f4c20c426dc2, type: 2}
+  serializedVersion: 6
+  mainColor: {r: 1, g: 1, b: 1, a: 1}
+  hueVariation: {r: 1, g: 0.5, b: 0, a: 0.1}
+  alphaTestRef: 0.33
+  bestWindQuality: 4
+  hasBillboard: 0
+  lODSettings:
+  - height: 0.5
+    castShadows: 1
+    receiveShadows: 1
+    useLightProbes: 1
+    reflectionProbeUsage: 1
+    enableBump: 1
+    enableHue: 1
+    enableSubsurface: 1
+    windQuality: 4
+  - height: 0.25
+    castShadows: 1
+    receiveShadows: 1
+    useLightProbes: 1
+    reflectionProbeUsage: 1
+    enableBump: 1
+    enableHue: 1
+    enableSubsurface: 1
+    windQuality: 4
+  - height: 0.01
+    castShadows: 1
+    receiveShadows: 1
+    useLightProbes: 1
+    reflectionProbeUsage: 1
+    enableBump: 1
+    enableHue: 1
+    enableSubsurface: 1
+    windQuality: 4
+  enableSmoothLODTransition: 1
+  animateCrossFading: 1
+  billboardTransitionCrossFadeWidth: 0.25
+  fadeOutWidth: 0.25
+  scaleFactor: 0.3048
+  materialVersion: 3
+  materialLocation: 1
+  fileIDType: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
