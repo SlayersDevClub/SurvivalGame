@@ -1,0 +1,55 @@
+fileFormatVersion: 2
+guid: e5a891aea12489743927130a36be5b98
+SpeedTreeImporter:
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Bark_LOD0
+    second: {fileID: 2100000, guid: d2bb1f1d2ffc84b4e918974b41a536b4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: dead-tree-1_Billboard_LOD1
+    second: {fileID: 2100000, guid: cdd039f0986916246bc5cd14983232f5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: dead-tree-1_LOD0
+    second: {fileID: 2100000, guid: 8814b2cd000e7ab4aafe4cffc48baaf7, type: 2}
+  serializedVersion: 6
+  mainColor: {r: 1, g: 1, b: 1, a: 1}
+  hueVariation: {r: 1, g: 0.5, b: 0, a: 0.1}
+  alphaTestRef: 0.33
+  bestWindQuality: 0
+  hasBillboard: 1
+  lODSettings:
+  - height: 0.5
+    castShadows: 1
+    receiveShadows: 1
+    useLightProbes: 1
+    reflectionProbeUsage: 1
+    enableBump: 1
+    enableHue: 1
+    enableSubsurface: 1
+    windQuality: 0
+  - height: 0.01
+    castShadows: 1
+    receiveShadows: 1
+    useLightProbes: 0
+    reflectionProbeUsage: 0
+    enableBump: 1
+    enableHue: 1
+    enableSubsurface: 1
+    windQuality: 0
+  enableSmoothLODTransition: 1
+  animateCrossFading: 1
+  billboardTransitionCrossFadeWidth: 0.25
+  fadeOutWidth: 0.25
+  scaleFactor: 0.3048
+  materialVersion: 3
+  materialLocation: 1
+  fileIDType: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

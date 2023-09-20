@@ -9,12 +9,13 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: conifertall_LOD2 2101 (TVE Material)
   m_Shader: {fileID: 4800000, guid: d085bd08ca5fe5a4792e19b6523918c1, type: 3}
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - TVE_FEATURE_CLIP
   m_InvalidKeywords: []
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
+  m_CustomRenderQueue: 2450
   stringTagMap:
     NatureRendererInstancing: true
     RenderType: AlphaTest
@@ -195,7 +196,7 @@ Material:
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _RenderAmbient: 1
-    - _RenderClip: 0
+    - _RenderClip: 1
     - _RenderCoverage: 0
     - _RenderCull: 2
     - _RenderDecals: 0
