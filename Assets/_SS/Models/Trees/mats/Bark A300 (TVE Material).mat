@@ -38,7 +38,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainAlbedoTex:
-        m_Texture: {fileID: 2800000, guid: 70cc9c0930b496b4eaf276071b489a0a, type: 3}
+        m_Texture: {fileID: 2800000, guid: 2f3a65f5f5ef3484abdcbe4d185b5a5a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainMaskTex:
@@ -50,7 +50,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 70cc9c0930b496b4eaf276071b489a0a, type: 3}
+        m_Texture: {fileID: 2800000, guid: 2f3a65f5f5ef3484abdcbe4d185b5a5a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SecondAlbedoTex:
@@ -292,7 +292,7 @@ Material:
     - _render_src: 1
     - _render_zw: 1
     m_Colors:
-    - _Color: {r: 0.33817506, g: 0.38679248, b: 0.29739234, a: 1}
+    - _Color: {r: 0.9509515, g: 0.990566, b: 0.9204788, a: 1}
     - _DetailBlendRemap: {r: 0, g: 0, b: 0, a: 0}
     - _DetailMaskRemap: {r: 0, g: 0, b: 0, a: 0}
     - _DetailMeshRemap: {r: 0, g: 0, b: 0, a: 0}
@@ -304,7 +304,7 @@ Material:
     - _GradientColorOne: {r: 1, g: 1, b: 1, a: 1}
     - _GradientColorTwo: {r: 1, g: 1, b: 1, a: 1}
     - _GradientMaskRemap: {r: 0, g: 0, b: 0, a: 0}
-    - _MainColor: {r: 0.33817506, g: 0.38679248, b: 0.29739234, a: 1}
+    - _MainColor: {r: 0.9509515, g: 0.990566, b: 0.9204788, a: 1}
     - _MainMaskRemap: {r: 0, g: 0, b: 0, a: 0}
     - _MainUVs: {r: 1, g: 1, b: 0, a: 0}
     - _MaxBoundsInfo: {r: 1, g: 1, b: 1, a: 1}

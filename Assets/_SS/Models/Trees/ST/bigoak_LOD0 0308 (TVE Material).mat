@@ -170,17 +170,17 @@ Material:
     - _MessageOcclusion: 0
     - _MessageSecondMask: 0
     - _MessageSubsurface: 0
-    - _MotionAmplitude_10: 0.2
-    - _MotionAmplitude_20: 0.2
-    - _MotionAmplitude_22: 0.2
+    - _MotionAmplitude_10: 0.05
+    - _MotionAmplitude_20: 0
+    - _MotionAmplitude_22: 0
     - _MotionAmplitude_32: 0.2
-    - _MotionFacingValue: 0.5
-    - _MotionPosition_10: 0.5
+    - _MotionFacingValue: 0.201
+    - _MotionPosition_10: 1
     - _MotionScale_10: 1
-    - _MotionScale_20: 3
+    - _MotionScale_20: 6.4
     - _MotionScale_32: 10
     - _MotionSpeed_10: 2
-    - _MotionSpeed_20: 6
+    - _MotionSpeed_20: 1
     - _MotionSpeed_32: 20
     - _MotionValue_20: 1
     - _MotionValue_30: 1
@@ -252,7 +252,7 @@ Material:
     - _render_src: 1
     - _render_zw: 1
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.8490566, g: 0.8490566, b: 0.8490566, a: 1}
     - _DetailBlendRemap: {r: 0, g: 0, b: 0, a: 0}
     - _DetailMaskRemap: {r: 0, g: 0, b: 0, a: 0}
     - _DetailMeshRemap: {r: 0, g: 0, b: 0, a: 0}
@@ -263,7 +263,7 @@ Material:
     - _GradientColorOne: {r: 1, g: 1, b: 1, a: 1}
     - _GradientColorTwo: {r: 1, g: 1, b: 1, a: 1}
     - _GradientMaskRemap: {r: 0, g: 0, b: 0, a: 0}
-    - _MainColor: {r: 1, g: 1, b: 1, a: 1}
+    - _MainColor: {r: 0.8490566, g: 0.8490566, b: 0.8490566, a: 1}
     - _MainMaskRemap: {r: 0, g: 0, b: 0, a: 0}
     - _MainUVs: {r: 1, g: 1, b: 0, a: 0}
     - _MaxBoundsInfo: {r: 1, g: 1, b: 1, a: 1}
