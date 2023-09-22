@@ -3,9 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEditor;
-public static class CraftingBrain {
+public class CraftingBrain : MonoBehaviour {
     // Dictionary to store recipes with BaseItemTemplate.Id as the key
     private static Dictionary<List<string>, BaseItemTemplate> recipeDictionary = new Dictionary<List<string>, BaseItemTemplate>(new ListComparer());
+
+    public static CraftingBrain instance;
+
+    private void Start() {
+        instance = this;
+        GameObject.Instantiate(new GameObject("CustomItems"));
+    }
 
     public static BaseItemTemplate AttemptCraft(List<BaseItemTemplate> ingredients) {
         BaseItemTemplate output = null;
@@ -102,8 +109,8 @@ public static class CraftingBrain {
                 child.gameObject.layer = LayerMask.NameToLayer("Equipped");
             }
 
-            GameObject createdGun = GameObject.Instantiate(builtTool, GameObject.Find("CustomItems").transform);
-            createdGun.name = "CustomTool" + newToolTemplate.Id.ToString();
+            GameObject createdTool = GameObject.Instantiate(builtTool, GameObject.Find("CustomItems").transform);
+            createdTool.name = "CustomTool" + newToolTemplate.Id.ToString();
 
             newToolTemplate.prefab = builtTool;
             //Create the item's texture
