@@ -3,16 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEditor;
-public class CraftingBrain : MonoBehaviour {
+public static class CraftingBrain {
     // Dictionary to store recipes with BaseItemTemplate.Id as the key
     private static Dictionary<List<string>, BaseItemTemplate> recipeDictionary = new Dictionary<List<string>, BaseItemTemplate>(new ListComparer());
-
-    public static CraftingBrain instance;
-
-    private void Start() {
-        instance = this;
-        GameObject.Instantiate(new GameObject("CustomItems"));
-    }
 
     public static BaseItemTemplate AttemptCraft(List<BaseItemTemplate> ingredients) {
         BaseItemTemplate output = null;
@@ -75,10 +68,19 @@ public class CraftingBrain : MonoBehaviour {
             } else if (axeHand != null) {
                 handle = axeHand;
                 head = axeHead;
+
+                newToolTemplate.axeStrength = axeHand.axeStrength + axeHead.axeStrength;
+                newToolTemplate.pickaxeStrength = axeHand.pickaxeStrength + axeHead.pickaxeStrength;
+                newToolTemplate.swingSpeed = axeHand.swingSpeed + axeHead.swingSpeed;
+                newToolTemplate.damage = axeHand.damage + axeHead.damage;
             } else {
                 handle = hammerHand;
                 head = hammerHead;
             }
+
+
+
+
 
             GameObject builtTool = ToolAssembler.AssembleTool(handle.prefab, head.prefab);
 
@@ -100,8 +102,8 @@ public class CraftingBrain : MonoBehaviour {
                 child.gameObject.layer = LayerMask.NameToLayer("Equipped");
             }
 
-            GameObject createdTool = GameObject.Instantiate(builtTool, GameObject.Find("CustomItems").transform);
-            createdTool.name = "CustomTool" + newToolTemplate.Id.ToString();
+            GameObject createdGun = GameObject.Instantiate(builtTool, GameObject.Find("CustomItems").transform);
+            createdGun.name = "CustomTool" + newToolTemplate.Id.ToString();
 
             newToolTemplate.prefab = builtTool;
             //Create the item's texture
