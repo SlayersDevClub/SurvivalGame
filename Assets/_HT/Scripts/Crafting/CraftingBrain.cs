@@ -11,7 +11,10 @@ public class CraftingBrain : MonoBehaviour {
 
     private void Start() {
         instance = this;
-        GameObject.Instantiate(new GameObject("CustomItems"));
+
+        if (GameObject.Find("CustomItems") == null) {
+            GameObject.Instantiate(new GameObject("CustomItems"));
+        }
     }
 
     public static BaseItemTemplate AttemptCraft(List<BaseItemTemplate> ingredients) {
