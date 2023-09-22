@@ -9,10 +9,10 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Default A800 (TVE Material)
   m_Shader: {fileID: 4800000, guid: d085bd08ca5fe5a4792e19b6523918c1, type: 3}
-  m_ValidKeywords:
+  m_ValidKeywords: []
+  m_InvalidKeywords:
   - _DISABLE_DECALS
   - _DISABLE_SSR
-  m_InvalidKeywords: []
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
@@ -143,6 +143,7 @@ Material:
     - _EmissiveTexMinValue: 0
     - _EnableBlendModePreserveSpecularLighting: 1
     - _EnableFogOnTransparent: 1
+    - _EnvironmentReflections: 1
     - _ExtrasPositionMode: 0
     - _FadeCameraValue: 1
     - _FadeConstantValue: 0
@@ -210,6 +211,9 @@ Material:
     - _PerspectiveAngleValue: 1
     - _PerspectiveNoiseValue: 0
     - _PerspectivePushValue: 0
+    - _QueueControl: -1
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
     - _ReceivesSSR: 1
     - _ReceivesSSRTransparent: 0
     - _RenderAmbient: 1
@@ -244,6 +248,7 @@ Material:
     - _SpaceMotionLocals: 0
     - _SpaceRenderFade: 0
     - _SpaceSubsurface: 0
+    - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _StencilRef: 0
     - _StencilRefDepth: 0
@@ -281,6 +286,11 @@ Material:
     - _ZTestTransparent: 4
     - _ZWrite: 1
     - _emissive_intensity_value: 1
+    - _render_coverage: 0
+    - _render_cull: 2
+    - _render_dst: 0
+    - _render_src: 1
+    - _render_zw: 1
     m_Colors:
     - _Color: {r: 0.38679248, g: 0.27274054, b: 0.11129405, a: 1}
     - _DetailBlendRemap: {r: 0, g: 0, b: 0, a: 0}

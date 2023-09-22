@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 179758960662534252}
   - component: {fileID: 1217543914026666700}
-  - component: {fileID: 3635250559035219575}
+  - component: {fileID: 7770374668943123198}
   m_Layer: 0
   m_Name: r_WoodLog
   m_TagString: Untagged
@@ -48,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemID: 6128
   item: {fileID: 11400000, guid: 9c17aa216f270c94d803b1fe9e5346c5, type: 2}
---- !u!65 &3635250559035219575
+--- !u!65 &7770374668943123198
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -59,8 +59,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.71, y: 0.27, z: 0.3}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.6428127, y: 0.15160705, z: 0.2211912}
+  m_Center: {x: -0.019565284, y: 0.026638843, z: 0.020788446}
 --- !u!1001 &870397156881108380
 PrefabInstance:
   m_ObjectHideFlags: 0

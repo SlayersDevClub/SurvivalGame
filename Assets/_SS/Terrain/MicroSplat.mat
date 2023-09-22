@@ -1,0 +1,173 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: MicroSplat
+  m_Shader: {fileID: 4800000, guid: b4073f1763fc2e341b352d6b00f3b0cf, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Control0:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Control1:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Control2:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Control3:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Diffuse:
+        m_Texture: {fileID: 18700000, guid: ddd3b5de0c425b247989d83d8d644df5, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _GlitterWind:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _LavaDiffuse:
+        m_Texture: {fileID: 2800000, guid: a6a8d659d589c4119a3afbd07e10a776, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalSAO:
+        m_Texture: {fileID: 18700000, guid: f0ec6a1bd9748cc4bba988fb84016663, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _PerPixelNormal:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _PerTexProps:
+        m_Texture: {fileID: 1589633292023252322, guid: 344b29d89417d0844a02720dfd683c68, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ProcTexBiomeMask:
+        m_Texture: {fileID: 2800000, guid: 860519c125910df4c85cbe873dadf2e7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ProcTexBiomeMask2:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ProcTexCurves:
+        m_Texture: {fileID: 3768206292442659997, guid: 5ef276b45806a4247b975716a9b07fd7, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ProcTexNoise:
+        m_Texture: {fileID: 2800000, guid: 5de1a47955b6e41778d19651deafa0b6, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ProcTexParams:
+        m_Texture: {fileID: 3048383897387826177, guid: 5ef276b45806a4247b975716a9b07fd7, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _StreamControl:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _StreamNormal:
+        m_Texture: {fileID: 2800000, guid: 04426e150438d48e19ee055632fedf02, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TerrainHeightmapTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TerrainHolesTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TerrainNormalmapTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AutoNormalHeightScale: 1
+    - _Contrast: 0.446
+    - _GlobalPorosity: 1
+    - _HybridHeightBlendDistance: 255
+    - _LavaDislacementScale: 1
+    - _LavaEmissiveMult: 2
+    - _PCLayerCount: 8
+    - _PCShowProceduralIndex: 0
+    - _ProcBiomeCurveWeight: 0.5
+    - _SnowParticulateOcclusionStrength: 1
+    - _SnowParticulateStrength: 1
+    - _SnowParticulateStretch: 0.3
+    - _StreamBlend: 25.2
+    - _StreamMax: 1
+    - _ToonEdgeHardness: 1.12
+    - _WindParticulateOcclusionStrength: 1
+    - _WindParticulateRotation: 0
+    - _WindParticulateStrength: 1
+    - _WindParticulateStretch: 0.3
+    m_Colors:
+    - _LavaColorHighlight: {r: 0.66, g: 0.66, b: 0, a: 1}
+    - _LavaColorLow: {r: 0.83, g: 0, b: 0, a: 1}
+    - _LavaEdgeColor: {r: 0.05, g: 0.015, b: 0, a: 1}
+    - _LavaFades: {r: 0, g: 10, b: 1000, a: 1500}
+    - _LavaParams: {r: 9.4, g: 1, b: 0.5, a: 1}
+    - _LavaParams2: {r: 0.05, g: 0.017, b: 0.15, a: 2}
+    - _LavaUVScale: {r: 70, g: 70, b: 0, a: 0}
+    - _PCPreserveIndexes: {r: -1, g: -1, b: -1, a: -1}
+    - _PuddleParams: {r: 24.1, g: 1, b: 0, a: 0}
+    - _SnowParticulateAngleMask: {r: -1, g: -1, b: 1, a: 1}
+    - _SnowParticulateColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SnowParticulateHeightMask: {r: 0, g: 0, b: 99999, a: 99999}
+    - _SnowParticulateParams: {r: 1, g: 1, b: 1, a: 0.25}
+    - _SnowParticulateShadow: {r: 0.01, g: 1, b: 0, a: 0}
+    - _SnowParticulateShadowColor: {r: 0, g: 0, b: 0, a: 1}
+    - _StreamFades: {r: 0, g: 10, b: 1000, a: 1500}
+    - _StreamFlowParams: {r: 0.4, g: 0.5, b: 0.3, a: 0.436}
+    - _StreamNormalFoam: {r: 1, g: 35, b: 0, a: 0}
+    - _StreamTint: {r: 0.0990566, g: 0.6510193, b: 1, a: 1}
+    - _StreamUVScales: {r: 70, g: 70, b: 0, a: 0}
+    - _ToonTerrainSize: {r: 512, g: 512, b: 0, a: 0}
+    - _TriplanarUVScale: {r: 0.002, g: 0.002, b: 0, a: 0}
+    - _UVScale: {r: 1, g: 1, b: 0, a: 0}
+    - _WetnessParams: {r: 0, g: 1, b: 0, a: 0}
+    - _WindEmissive: {r: 0, g: 0, b: 0, a: 0}
+    - _WindParticulateAngleMask: {r: -1, g: -1, b: 1, a: 1}
+    - _WindParticulateColor: {r: 1, g: 1, b: 1, a: 1}
+    - _WindParticulateHeightMask: {r: 0, g: 0, b: 99999, a: 99999}
+    - _WindParticulateParams: {r: 1, g: 1, b: 1, a: 0.25}
+    - _WindParticulateShadow: {r: 0.01, g: 1, b: 0, a: 0}
+    - _WindParticulateShadowColor: {r: 0, g: 0, b: 0, a: 1}
+    - _WorldHeightRange: {r: 0, g: 500, b: 0, a: 0}
+  m_BuildTextureStacks: []
