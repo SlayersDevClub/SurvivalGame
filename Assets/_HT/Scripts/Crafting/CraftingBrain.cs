@@ -57,7 +57,7 @@ public static class CraftingBrain {
             BaseItemTemplate handle = null;
             BaseItemTemplate head = null;
 
-            if(pickHand != null) {
+            if (pickHand != null) {
                 handle = pickHand;
                 head = pickHead;
 
@@ -65,7 +65,7 @@ public static class CraftingBrain {
                 newToolTemplate.pickaxeStrength = pickHand.pickaxeStrength + pickHead.pickaxeStrength;
                 newToolTemplate.swingSpeed = pickHand.swingSpeed + pickHead.swingSpeed;
                 newToolTemplate.damage = pickHand.damage + pickHead.damage;
-            }else if(axeHand != null) {
+            } else if (axeHand != null) {
                 handle = axeHand;
                 head = axeHead;
             } else {
@@ -74,7 +74,16 @@ public static class CraftingBrain {
             }
 
             GameObject builtTool = ToolAssembler.AssembleTool(handle.prefab, head.prefab);
-            builtTool.AddComponent<PickaxeUsable>();
+
+            // Determine the type of tool and add the corresponding component
+            if (pickHand != null) {
+                builtTool.AddComponent<PickaxeUsable>();
+            } else if (axeHand != null) {
+                builtTool.AddComponent<AxeUsable>();
+            } else {
+                builtTool.AddComponent<HammerUsable>();
+            }
+
             builtTool.AddComponent<ItemSetup>();
 
             builtTool.GetComponent<ItemSetup>().SetBaseItemTemplate(newToolTemplate);
