@@ -12,7 +12,7 @@ public class TryToHarvest : MonoBehaviour
             pickUse.TryToMine();
         }
         else if(axeUse != null) {
-            //axeUse.TryToMine();
+            axeUse.TryToMine();
         }
 
     }
