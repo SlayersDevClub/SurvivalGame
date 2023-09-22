@@ -125,9 +125,9 @@ public abstract class SlotBaseState {
         if (resource != null) {
             GameObject resourceHeld = GameObject.Instantiate(item.player.equipItem.prefab, item.player.transform.Find("Model/ItemHolder/Resource").transform);
             MakeMultiplayerViewable(resourceHeld);
-        
+        }
         //GUN
-        } else if (gun != null) {
+         else if (gun != null) {
             Debug.Log("CustomGun" + item.player.equipItem.Id);
             GameObject original = GameObject.Find("CustomItems/CustomGun" + item.player.equipItem.Id);
             original.layer = LayerMask.NameToLayer("Default");
@@ -143,7 +143,7 @@ public abstract class SlotBaseState {
             equipGun.GetComponent<GunUsable>().Setup();
             MakeMultiplayerViewable(equipGun);
 
-        //TOOL
+            //TOOL
         } else if (tool != null) {
             GameObject original = GameObject.Find("CustomItems/CustomTool" + item.player.equipItem.Id);
             original.layer = LayerMask.NameToLayer("Default");
@@ -154,9 +154,30 @@ public abstract class SlotBaseState {
                     kid.gameObject.layer = LayerMask.NameToLayer("Default");
                 }
             }
-             var toolTranny = GameObject.Instantiate(original, item.player.transform.Find("Model/ItemHolder/Tool").transform);
+            var toolTranny = GameObject.Instantiate(original, item.player.transform.Find("Model/ItemHolder/Tool").transform);
             toolTranny.transform.localPosition = new Vector3(0, 0.73f, 0);
-            toolTranny.GetComponent<PickaxeUsable>().Setup();
+
+            // Check if the toolTranny has the PickaxeUsable component
+            PickaxeUsable pickaxeUsable = toolTranny.GetComponent<PickaxeUsable>();
+            if (pickaxeUsable != null) {
+                pickaxeUsable.Setup();
+            } else {
+                // Check if the toolTranny has the AxeUsable component
+                AxeUsable axeUsable = toolTranny.GetComponent<AxeUsable>();
+                if (axeUsable != null) {
+                    axeUsable.Setup();
+                } else {
+                    // Check if the toolTranny has the HammerUsable component
+                    HammerUsable hammerUsable = toolTranny.GetComponent<HammerUsable>();
+                    if (hammerUsable != null) {
+                        //hammerUsable.Setup();
+                    } else {
+                        // Handle the case where none of the specific usable components are found
+                        Debug.LogWarning("No usable component found on toolTranny.");
+                    }
+                }
+            }
+
         } else if (structure != null) {
             GameObject struc = GameObject.Instantiate(item.player.equipItem.prefab, item.player.transform.Find("Model/ItemHolder/Structure").transform);
             MakeMultiplayerViewable(struc);

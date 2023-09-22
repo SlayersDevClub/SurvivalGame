@@ -18,7 +18,7 @@ public class MineableSetup : MonoBehaviour, IMineable
     }
 
     public void TakeDamage(int damage, int pickaxeStrength, int axeStrength) {
-        if(pickaxeStrength > requiredPickaxeStrength || axeStrength > requiredAxeStrength) {
+        if(pickaxeStrength >= requiredPickaxeStrength || axeStrength >= requiredAxeStrength) {
             health -= damage;
 
             if (health <= 0) {
