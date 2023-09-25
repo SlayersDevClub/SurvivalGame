@@ -17,8 +17,10 @@ MonoBehaviour:
   description: Unrefined and sturdy, cobblestone serves as a versatile material for
     construction and crafting.
   stackable: 1
-  prefab: {fileID: 0}
-  icon: {fileID: 0}
+  prefabString: Prefabs/ResourceParts/r_rock_3
+  slug: GeneratedIcons/RockGroup
+  prefab: {fileID: 477730150180613299, guid: 4be873188d44d3c4ba268a891c50b5a7, type: 3}
+  icon: {fileID: 21300000, guid: 6cea1e5527a6c6148b34a153137e6d0f, type: 3}
   resourceName: Rough Cobblestone
   pickStrengthRequired: 1
   axeStrengthRequired: 2

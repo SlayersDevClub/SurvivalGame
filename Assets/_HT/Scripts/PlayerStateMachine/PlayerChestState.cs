@@ -7,6 +7,7 @@ public class PlayerChestState : PlayerBaseState {
 	public override void EnterState(PlayerStateMachine player) {
         player.ui.ShowChestPanel(true);
         player.ui.ShowPlayerInventory(true);
+        SFXManager.instance.PlayOpenChest();
     }
 
 	public override void HandleInput(PlayerStateMachine player, InputAction.CallbackContext context) {

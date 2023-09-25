@@ -18,7 +18,7 @@ public abstract class SlotBaseState {
     public virtual void HandleDropAndSwap(SlotStateMachine item, PointerEventData pointerEventData, int slotID, GameObject slot) {
         ItemData droppedItem = pointerEventData.pointerDrag.GetComponent<ItemData>(); // Assuming item is the dragged object
         Slot thisSlot = slot.GetComponent<Slot>();
-
+        SFXManager.instance.PlaySlotIn();
         if (droppedItem.slotId == slotID) {
             Debug.Log("Dropped in the same slot");
             return; // Don't proceed with swapping
@@ -62,6 +62,7 @@ public abstract class SlotBaseState {
             droppedItem.transform.SetParent(thisSlot.transform);
             droppedItem.transform.position = thisSlot.transform.position;
 
+
             Debug.Log("SWAPPED");
         }
 
@@ -85,7 +86,8 @@ public abstract class SlotBaseState {
         }
     }
     public void Unequip(SlotStateMachine item) {
-        if (item.player.transform.Find("Model/ItemHolder/Resource").transform.childCount > 0) {
+        if (item.player.transform.Find("Model/ItemHolder/Resource").transform.childCount > 0)
+        {
             GameObject.Destroy(item.player.transform.Find("Model/ItemHolder/Resource").GetChild(0).gameObject);
         } else if (item.player.transform.Find("Model/ItemHolder/Gun").transform.childCount > 0) {
             GameObject.Destroy(item.player.transform.Find("Model/ItemHolder/Gun").GetChild(0).gameObject);
@@ -94,6 +96,7 @@ public abstract class SlotBaseState {
         } else if (item.player.transform.Find("Model/ItemHolder/Structure").transform.childCount > 0) {
             GameObject.Destroy(item.player.transform.Find("Model/ItemHolder/Structure").GetChild(0).gameObject);
         }
+        SFXManager.instance.PlaySlotOut();
     }
 
     public GameObject GetEquipGameObject(SlotStateMachine item) {
@@ -125,6 +128,10 @@ public abstract class SlotBaseState {
         if (resource != null) {
             GameObject resourceHeld = GameObject.Instantiate(item.player.equipItem.prefab, item.player.transform.Find("Model/ItemHolder/Resource").transform);
             MakeMultiplayerViewable(resourceHeld);
+
+            resourceHeld.GetComponent<Rigidbody>().useGravity = false;
+            resourceHeld.GetComponent<Rigidbody>().isKinematic = true;
+            resourceHeld.GetComponent<Collider>().enabled = false;
         }
         //GUN
          else if (gun != null) {
@@ -133,9 +140,9 @@ public abstract class SlotBaseState {
             original.layer = LayerMask.NameToLayer("Default");
 
             foreach (Transform child in original.transform) {
-                child.gameObject.layer = LayerMask.NameToLayer("Default");
+                child.gameObject.layer = LayerMask.NameToLayer("Equipped");
                 foreach (Transform kid in child.transform) {
-                    kid.gameObject.layer = LayerMask.NameToLayer("Default");
+                    kid.gameObject.layer = LayerMask.NameToLayer("Equipped");
                 }
             }
 
@@ -149,9 +156,9 @@ public abstract class SlotBaseState {
             original.layer = LayerMask.NameToLayer("Default");
 
             foreach (Transform child in original.transform) {
-                child.gameObject.layer = LayerMask.NameToLayer("Default");
+                child.gameObject.layer = LayerMask.NameToLayer("Equipped");
                 foreach (Transform kid in child.transform) {
-                    kid.gameObject.layer = LayerMask.NameToLayer("Default");
+                    kid.gameObject.layer = LayerMask.NameToLayer("Equipped");
                 }
             }
             var toolTranny = GameObject.Instantiate(original, item.player.transform.Find("Model/ItemHolder/Tool").transform);
@@ -332,7 +339,6 @@ public abstract class SlotBaseState {
                 if(slotStateMachine.GetCurrentState() as SlotOutputState != null) {
                     item.inv.RemoveItem(slotStateMachine.GetComponent<Slot>().id);
                 }
-                // You can perform additional actions here
             }
         }
 

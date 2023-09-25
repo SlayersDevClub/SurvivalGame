@@ -6,6 +6,7 @@ public class PlayerToolcraftState : PlayerBaseState {
 	public override void EnterState(PlayerStateMachine player) {
         player.ui.ShowToolCraftingPanel(true);
         player.ui.ShowPlayerInventory(true);
+        SFXManager.instance.PlayCraftWood();
     }
 
 	public override void HandleInput(PlayerStateMachine player, InputAction.CallbackContext context) {
@@ -14,7 +15,8 @@ public class PlayerToolcraftState : PlayerBaseState {
                 player.ui.ShowToolCraftingPanel(false);
                 player.ui.ShowPlayerInventory(false);
                 player.SwitchState(player.MovingState);
-			}
+
+            }
 		}
 	}
 }

@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f3e9a5f245bdf5438a2871d27656740, type: 3}
+  m_Name: Stone
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 6701956311721857737, guid: f19ab28532fc91745ac1def353c29b46, type: 3}
+  health: 10
+  requiredPickaxeStrength: 1
+  requiredAxeStrength: 1
+  hitColor:
+    serializedVersion: 2
+    rgba: 4290945659
+  dropables:
+  - drop: {fileID: 5552050126339256241, guid: 60506e076713fa348a3c9fe7711a87d0, type: 3}
+    dropNum: 3
+    dropRate: 1

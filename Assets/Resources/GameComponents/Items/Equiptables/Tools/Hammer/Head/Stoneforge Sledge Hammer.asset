@@ -17,6 +17,8 @@ MonoBehaviour:
   description: Crafted with a stone head, this sledgehammer is your tool for breaking
     through tough materials and mining resources
   stackable: 0
+  prefabString: Prefabs/ToolParts/tool_hammer_1
+  slug: GeneratedIcons/tool_hammer_1
   prefab: {fileID: 2272547328287419326, guid: 9936856c9c81e2142afb4dd08a975e30, type: 3}
   icon: {fileID: 21300000, guid: 664823e44fd412c46bb917549801b238, type: 3}
   damage: 1

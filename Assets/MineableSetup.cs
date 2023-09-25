@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class MineableSetup : MonoBehaviour, IMineable
 {
-    [SerializeField] private MineableTemplate thisMineable;
+    public MineableTemplate thisMineable;
     public int health;
     public int requiredPickaxeStrength;
     public int requiredAxeStrength;
-    // Start is called before the first frame update
+    IWhenDestroy isDestroying;
+
+    private void Start()
+    {
+        isDestroying = GetComponent<IWhenDestroy>();
+    }
 
     public void SetMineableTemplate(MineableTemplate mineable) {
         thisMineable = mineable;
@@ -21,12 +26,12 @@ public class MineableSetup : MonoBehaviour, IMineable
         if(pickaxeStrength >= requiredPickaxeStrength || axeStrength >= requiredAxeStrength) {
             health -= damage;
 
+            isDestroying.ShakeObject();
+
             if (health <= 0) {
-                Debug.Log("DEALINGDMG");
                 transform.GetComponent<IWhenDestroy>().Destroy(thisMineable.dropables);
                 //OnDestroy();
             }
         }
     }
-
 }

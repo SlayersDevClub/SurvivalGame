@@ -17,8 +17,10 @@ MonoBehaviour:
   description: A vibrant green crystal ore that shimmers with natural energy, ideal
     for imbuing items with life-affirming magic.
   stackable: 1
-  prefab: {fileID: 0}
-  icon: {fileID: 0}
-  resourceName: 
+  prefabString: Prefabs/ResourceParts/r_rock_2
+  slug: GeneratedIcons/RockGroup
+  prefab: {fileID: 2439795908881130991, guid: e9924d276437e3d459eb5afd0d56e191, type: 3}
+  icon: {fileID: 21300000, guid: 6cea1e5527a6c6148b34a153137e6d0f, type: 3}
+  resourceName: Rocky
   pickStrengthRequired: 3
   axeStrengthRequired: 4

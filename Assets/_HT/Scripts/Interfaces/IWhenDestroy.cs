@@ -5,4 +5,5 @@ using UnityEngine;
 public interface IWhenDestroy 
 {
     public void Destroy(List<Drop> drops);
+    public void ShakeObject();
 }
