@@ -8,6 +8,7 @@ public class PlayerCrafterState : PlayerBaseState
 	public override void EnterState(PlayerStateMachine player) {
         player.ui.ShowGeneralCraftingPanel(true);
         player.ui.ShowPlayerInventory(true);
+        SFXManager.instance.PlayCraftElectronic();
     }
 
 	public override void HandleInput(PlayerStateMachine player, InputAction.CallbackContext context) {

@@ -17,6 +17,11 @@ MonoBehaviour:
   description: Embrace the wilderness with this versatile axe, capable of both tree
     felling and shaping natural materials.
   stackable: 0
+  prefabString: Prefabs/ToolParts/tool_axe_2
+  slug: GeneratedIcons/tool_axe_2
   prefab: {fileID: 5973431489404968197, guid: f8da730351d67cc4fab4905dc9667410, type: 3}
   icon: {fileID: 21300000, guid: 21b1a530beba4a24eb5423df9fd1f0e7, type: 3}
+  swingSpeed: 1
+  pickaxeStrength: 1
+  axeStrength: 2
   damage: 2

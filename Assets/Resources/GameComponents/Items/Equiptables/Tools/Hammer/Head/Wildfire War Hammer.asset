@@ -17,6 +17,8 @@ MonoBehaviour:
   description: A rugged hammer with a stone head, designed to crush through materials
     and extract essential resources.
   stackable: 0
+  prefabString: Prefabs/ToolParts/tool_hammer_3
+  slug: GeneratedIcons/tool_hammer_3
   prefab: {fileID: 315475370189919148, guid: 8e892c6c5c8b6754ea7c8a49a6f1bc23, type: 3}
   icon: {fileID: 21300000, guid: ecdefb1a386010345863cff95a9310e2, type: 3}
-  damage: 3
+  damage: 1

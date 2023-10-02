@@ -8,6 +8,7 @@ public class MineableTemplate : ScriptableObject {
     public int health;
     public int requiredPickaxeStrength;
     public int requiredAxeStrength;
+    public Color32 hitColor;
 
     [SerializeField]
     public List<Drop> dropables;

@@ -11,20 +11,23 @@ public class SlotDropState : SlotBaseState
             item.SwitchState(item.EquipState);
         }
 
-        GameObject droppedItem = null;
+        GameObject droppedItem = GetEquipGameObject(item);
 
-        if (item.player.equipItem is ResourceTemplate) {
-            droppedItem = GameObject.Find("Resource").transform.GetChild(0).gameObject;
-        } else if (item.player.equipItem is ToolTemplate) {
-            droppedItem = GameObject.Find("Tool").transform.GetChild(0).gameObject;
-        } else if (item.player.equipItem is GunTemplate) {
-            droppedItem = GameObject.Find("Gun").transform.GetChild(0).gameObject;
-        }
+        //if (item.player.equipItem is ResourceTemplate) {
+        //    droppedItem = GameObject.Find("Resource").transform.GetChild(0).gameObject;
+        //} else if (item.player.equipItem is ToolTemplate) {
+        //    droppedItem = GameObject.Find("Tool").transform.GetChild(0).gameObject;
+        //} else if (item.player.equipItem is GunTemplate) {
+        //    droppedItem = GameObject.Find("Gun").transform.GetChild(0).gameObject;
+        //}
 
         if (droppedItem != null) {
             droppedItem.transform.parent = null;
 
             Rigidbody rb = droppedItem.GetComponent<Rigidbody>();
+            rb.useGravity = true;
+            rb.isKinematic = false;
+            droppedItem.GetComponent<Collider>().enabled = true;
             if (rb == null) {
                 rb = droppedItem.AddComponent<Rigidbody>();
                 droppedItem.AddComponent<BoxCollider>();

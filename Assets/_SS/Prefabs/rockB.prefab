@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 4919634313378370302}
   - component: {fileID: -6544671523636286928}
   - component: {fileID: 5937071815207729253}
+  - component: {fileID: 543450652351891266}
+  - component: {fileID: 543450652351891267}
   m_Layer: 0
   m_Name: rockB
   m_TagString: Untagged
@@ -27,11 +29,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6865439834179253035}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 150.89, y: 111.59651, z: 678.25}
   m_LocalScale: {x: 1.9368, y: 1.9368, z: 1.9368}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1852238054190328737}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -118,3 +121,63 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 6662151629911691555, guid: 6f799a3ba0c59cb4590fbbfb147bd1a2, type: 3}
+--- !u!114 &543450652351891266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6865439834179253035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4fe33cc3349c5a45b66ad21bb9e2c95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dropItemLocation: {fileID: 1852238054190328737}
+--- !u!114 &543450652351891267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6865439834179253035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67b9e8e45553cd2409d5e1685a6daa38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thisMineable: {fileID: 11400000, guid: 9cd5f3d556010dd4392696c10d2afad3, type: 2}
+  health: 10
+  requiredPickaxeStrength: 1
+  requiredAxeStrength: 1
+--- !u!1 &7604227195097001450
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1852238054190328737}
+  m_Layer: 0
+  m_Name: dropItemLoc
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1852238054190328737
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7604227195097001450}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.227, y: 2.761, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6056533955130321297}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated using SpeedTree tools -->
+<Materials Count="2" Packer="Unity">
+	<Material ID="1" Name="endwood_Mat" TwoSided="0" UserData="" VertexOpacity="1" FlipNormalsOnBackside="1">
+		<Map Index="0" File="endwood_Color.png" />
+		<Map Index="1" File="endwood_Normal.png" />
+		<Map Index="2" File="endwood_Extra.png" />
+		<Map Index="3" File="endwood_Subsurface.png" />
+	</Material>
+	<Material ID="5" Name="bark2_Mat" TwoSided="0" UserData="" VertexOpacity="1" FlipNormalsOnBackside="1">
+		<Map Index="0" File="bark2_Color.png" />
+		<Map Index="1" File="bark2_Normal.png" />
+		<Map Index="2" File="bark2_Extra.png" />
+		<Map Index="3" File="bark2_Subsurface.png" />
+	</Material>
+</Materials>

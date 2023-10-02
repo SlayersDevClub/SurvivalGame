@@ -98,7 +98,7 @@ MonoBehaviour:
   allTextureChannelSmoothness: 1
   allTextureChannelAO: 1
   sourceTextures:
-  - terrainLayer: {fileID: 8574412962073106934, guid: d1258210c7bc7304abc8ecb239424739, type: 2}
+  - terrainLayer: {fileID: 0}
     diffuse: {fileID: 2800000, guid: a7b05dec520c8cf4c8e08dfef1f84db4, type: 3}
     height: {fileID: 0}
     heightChannel: 2
@@ -156,8 +156,8 @@ MonoBehaviour:
     traxAO: {fileID: 0}
     traxAOChannel: 1
     splat: {fileID: 0}
-  - terrainLayer: {fileID: 8574412962073106934, guid: 4f578fafc038b3e47889d8591aeabb7a, type: 2}
-    diffuse: {fileID: 2800000, guid: 4b13c3aa7713124418fd1f17e83a5be7, type: 3}
+  - terrainLayer: {fileID: 0}
+    diffuse: {fileID: 2800000, guid: 3d7e23f397bd4e347bc2a33df00d0897, type: 3}
     height: {fileID: 0}
     heightChannel: 2
     normal: {fileID: 0}
@@ -185,8 +185,8 @@ MonoBehaviour:
     traxAO: {fileID: 0}
     traxAOChannel: 1
     splat: {fileID: 0}
-  - terrainLayer: {fileID: 8574412962073106934, guid: e788cd2c1fd684744ba303b8cb656bf3, type: 2}
-    diffuse: {fileID: 2800000, guid: 8cd3f7acfe19d4a4cb849c2b2ab2172a, type: 3}
+  - terrainLayer: {fileID: 0}
+    diffuse: {fileID: 2800000, guid: 6e3abed3edda0ae4b876a53ee95f7d37, type: 3}
     height: {fileID: 0}
     heightChannel: 2
     normal: {fileID: 0}

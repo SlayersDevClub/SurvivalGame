@@ -14,8 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 6701956311721857737, guid: f19ab28532fc91745ac1def353c29b46, type: 3}
   health: 10
-  requiredPickaxeStrength: 100
+  requiredPickaxeStrength: 1
   requiredAxeStrength: 1
+  hitColor:
+    serializedVersion: 2
+    rgba: 4280697979
   dropables:
   - drop: {fileID: 296856249627580752, guid: 70d2acf76518f384b93f84b84992a2ac, type: 3}
     dropNum: 3

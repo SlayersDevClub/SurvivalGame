@@ -140,7 +140,7 @@ Material:
     - _HasEmissive: 1
     - _HasGradient: 0
     - _HasOcclusion: 1
-    - _InteractionAmplitude: 1
+    - _InteractionAmplitude: 0.98
     - _InteractionMaskValue: 0
     - _IsBarkShader: 1
     - _IsCollected: 0
@@ -174,17 +174,17 @@ Material:
     - _MotionAmplitude_22: 0.2
     - _MotionAmplitude_32: 0.2
     - _MotionFacingValue: 0.5
-    - _MotionPosition_10: 0.5
+    - _MotionPosition_10: 0.384
     - _MotionScale_10: 1
-    - _MotionScale_20: 3
+    - _MotionScale_20: 1
     - _MotionScale_32: 10
     - _MotionSpeed_10: 2
     - _MotionSpeed_20: 6
     - _MotionSpeed_32: 20
-    - _MotionValue_20: 1
+    - _MotionValue_20: 0
     - _MotionValue_30: 1
     - _MotionVariation_10: 0
-    - _MotionVariation_20: 10
+    - _MotionVariation_20: 12.3
     - _MotionVariation_32: 0
     - _OverlayProjectionValue: 0.5
     - _OverlayVariationValue: 0.5

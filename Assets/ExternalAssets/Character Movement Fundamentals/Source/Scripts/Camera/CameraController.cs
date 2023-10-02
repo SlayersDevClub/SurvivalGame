@@ -7,7 +7,7 @@ namespace CMF
 	//This script rotates a gameobject based on user input.
 	//Rotation around the x-axis (vertical) can be clamped/limited by setting 'upperVerticalLimit' and 'lowerVerticalLimit'.
 	public class CameraController : MonoBehaviour {
-
+        public GameObject skyboxCam;
 		//Current rotation values (in degrees);
 		float currentXAngle = 0f;
 		float currentYAngle = 0f;
@@ -46,6 +46,7 @@ namespace CMF
 
 		//Setup references.
 		void Awake () {
+            skyboxCam.transform.parent = null;
 			tr = transform;
 			cam = GetComponent<Camera>();
 			cameraInput = GetComponent<CameraNewInput>();

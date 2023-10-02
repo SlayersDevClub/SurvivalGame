@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated using SpeedTree tools -->
+<Materials Count="2" Packer="Unity">
+	<Material ID="5" Name="leaf_2_branch_Mat" TwoSided="1" UserData="" VertexOpacity="1" FlipNormalsOnBackside="1">
+		<Map Index="0" File="leaf_2_branch_Color.png" />
+		<Map Index="1" File="leaf_2_branch_Normal.png" />
+		<Map Index="2" File="leaf_2_branch_Extra.png" />
+		<Map Index="3" File="leaf_2_branch_Subsurface.png" />
+	</Material>
+	<Material ID="6" Name="bark_Mat" TwoSided="0" UserData="" VertexOpacity="1" FlipNormalsOnBackside="1">
+		<Map Index="0" File="bark_Color.png" />
+		<Map Index="1" File="bark_Normal.png" />
+		<Map Index="2" File="bark_Extra.png" />
+		<Map Index="3" File="bark_Subsurface.png" />
+	</Material>
+</Materials>
