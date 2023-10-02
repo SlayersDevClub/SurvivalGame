@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using CMF;
@@ -12,7 +10,7 @@ public class PlayerInputReader : CharacterInput {
     public PlayerInput playerInput;
     private InputAction move;
 
-    bool jumping = false, sprinting = false, paused = false;
+    bool jumping = false, sprinting = false;
     Inventory inventory;
     public PhotonView view;
 
@@ -70,18 +68,6 @@ public class PlayerInputReader : CharacterInput {
         if (context.started) {
             SlotStateMachine slotToUse = inventory.slots[transform.GetComponent<PlayerStateMachine>().equipItemSlot].GetComponent<SlotStateMachine>();
             slotToUse.StartHandleInput(context);
-        }
-    }
-
-    public void GamePaused(InputAction.CallbackContext context) {
-        if (context.started) {
-            if (!paused) {
-                GetComponent<PlayerStateManager>().ChangePlayerState(PlayerControlState.Paused);
-                paused = true;
-            } else {
-                GetComponent<PlayerStateManager>().ChangePlayerState(PlayerControlState.Moving);
-                paused = false;
-            }
         }
     }
 
