@@ -4,6 +4,10 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using CMF;
 using Photon.Pun;
+
+/*
+ * Listener for player input events.
+ */
 public class PlayerInputReader : CharacterInput
 {
     public PlayerInput playerInput;
@@ -12,50 +16,26 @@ public class PlayerInputReader : CharacterInput
     bool jumping = false, sprinting = false, paused = false;
     Inventory inventory;
     public PhotonView view;
-    void Awake()
-    {
 
+    void Awake() {
         inventory = transform.Find("PlayerUI/Inventory").GetComponent<Inventory>();
         move = playerInput.actions["Move"];
     }
 
-    public void Jumping(InputAction.CallbackContext context)
-    {
+    public void Jumping(InputAction.CallbackContext context) {
         if (context.started) jumping = true;
         if (context.canceled) jumping = false;
     }
 
-    public void Sprinting(InputAction.CallbackContext context)
-    {
+    public void Sprinting(InputAction.CallbackContext context) {
         if (context.started) sprinting = true;
         if (context.canceled) sprinting = false;
     }
-    public override float GetHorizontalMovementInput()
-    {
-        if (view.IsMine) {
-            return move.ReadValue<Vector2>().x;
-        }
-        return 0;
-    }
 
-    public override float GetVerticalMovementInput()
-    {
-        if (view.IsMine) {
-            return move.ReadValue<Vector2>().y;
-        }
-        return 0;
-    }
-
-    public override bool IsJumpKeyPressed()
-    {
-        return jumping;
-    }
-
-    public override bool IsSprintingPressed()
-    {
-        return sprinting;
-    }
-
+    /*
+     * Called on event for hot bar navigation (i.e. pressing 1,2,3,...).
+     * Swaps the currently equiped slot to the HotbarState and the newly equiped slot to the EquipState.
+     */
     public void HotBarNav(InputAction.CallbackContext context) {
         if (context.started) {
             string slotName = context.action.name;
@@ -71,6 +51,9 @@ public class PlayerInputReader : CharacterInput
         }
     }
 
+    /*
+     * Called on event for left click or right click.
+     */
     public void UseEquipItem(InputAction.CallbackContext context) {
         SlotStateMachine slotToUse = inventory.slots[transform.GetComponent<PlayerStateMachine>().equipItemSlot].GetComponent<SlotStateMachine>();
 
@@ -91,22 +74,37 @@ public class PlayerInputReader : CharacterInput
         }
     }
 
-    public void GamePaused(InputAction.CallbackContext context)
-    {
-        if (context.started)
-        {
-            if (!paused)
-            {
+    public void GamePaused(InputAction.CallbackContext context) {
+        if (context.started) {
+            if (!paused) {
                 GetComponent<PlayerStateManager>().ChangePlayerState(PlayerControlState.Paused);
                 paused = true;
-            }
-            else
-            {
+            } else {
                 GetComponent<PlayerStateManager>().ChangePlayerState(PlayerControlState.Moving);
                 paused = false;
             }
         }
     }
 
+    public override float GetHorizontalMovementInput() {
+        if (view.IsMine) {
+            return move.ReadValue<Vector2>().x;
+        }
+        return 0;
+    }
 
+    public override float GetVerticalMovementInput() {
+        if (view.IsMine) {
+            return move.ReadValue<Vector2>().y;
+        }
+        return 0;
+    }
+
+    public override bool IsJumpKeyPressed() {
+        return jumping;
+    }
+
+    public override bool IsSprintingPressed() {
+        return sprinting;
+    }
 }

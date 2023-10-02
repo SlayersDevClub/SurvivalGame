@@ -17,19 +17,20 @@ public class SlotEquipState : SlotBaseState {
         
         HandleIfEquipChanges(item);
     }
-    public override void StartHandleInput(SlotStateMachine item, InputAction.CallbackContext context) {
-            if(context.action.name == TagManager.DROP_ACTION) {
-                item.SwitchState(item.DropState);
-            } else {
-                item.SwitchState(item.UseState);
-                item.StartHandleInput(context);
-            }
 
-        
+    public override void StartHandleInput(SlotStateMachine item, InputAction.CallbackContext context) {
+        if (context.action.name == TagManager.DROP_ACTION) {
+            item.SwitchState(item.DropState);
+        } else {
+            item.SwitchState(item.UseState);
+            item.StartHandleInput(context);
+        }
     }
+
     public override void EndHandleInput(SlotStateMachine item, InputAction.CallbackContext context) {
         
     }
+
     public override void OnDrop(SlotStateMachine item, PointerEventData pointerEventData, int slotID, GameObject slot) {
         ItemData droppedSlot = pointerEventData.pointerDrag.GetComponent<ItemData>(); // Assuming item is the dragged object
         int cameFromSlotNum = droppedSlot.slotId;

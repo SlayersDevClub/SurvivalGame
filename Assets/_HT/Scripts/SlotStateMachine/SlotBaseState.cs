@@ -68,9 +68,7 @@ public abstract class SlotBaseState {
         HandleIfEquipChanges(item);
     }
 
-
     public virtual void HandleIfEquipChanges(SlotStateMachine item) {
-        
         BaseItemTemplate equipItem = ItemDatabase.FetchBaseItemTemplateById(item.inv.items[item.player.equipItemSlot].Id);
 
         if (equipItem != item.player.equipItem){
@@ -84,6 +82,7 @@ public abstract class SlotBaseState {
             Equip(item);
         }
     }
+
     public void Unequip(SlotStateMachine item) {
         if (item.player.transform.Find("Model/ItemHolder/Resource").transform.childCount > 0) {
             GameObject.Destroy(item.player.transform.Find("Model/ItemHolder/Resource").GetChild(0).gameObject);
