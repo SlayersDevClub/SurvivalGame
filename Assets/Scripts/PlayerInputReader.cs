@@ -8,8 +8,7 @@ using Photon.Pun;
 /*
  * Listener for player input events.
  */
-public class PlayerInputReader : CharacterInput
-{
+public class PlayerInputReader : CharacterInput {
     public PlayerInput playerInput;
     private InputAction move;
 

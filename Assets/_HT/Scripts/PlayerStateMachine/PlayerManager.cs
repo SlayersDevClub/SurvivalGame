@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public static class PlayerManager 
-{
+public static class PlayerManager {
 
     public static int equipSlot = 0;
     public static BaseItemTemplate equipItem = null;

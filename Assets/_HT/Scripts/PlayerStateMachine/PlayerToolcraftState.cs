@@ -1,8 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.InputSystem;
+
+/*
+ * Player state when they open a tool crafter.
+ */
 public class PlayerToolcraftState : PlayerBaseState {
+
 	public override void EnterState(PlayerStateMachine player) {
         player.ui.ShowToolCraftingPanel(true);
         player.ui.ShowPlayerInventory(true);
@@ -15,7 +17,6 @@ public class PlayerToolcraftState : PlayerBaseState {
                 player.ui.ShowToolCraftingPanel(false);
                 player.ui.ShowPlayerInventory(false);
                 player.SwitchState(player.MovingState);
-
             }
 		}
 	}

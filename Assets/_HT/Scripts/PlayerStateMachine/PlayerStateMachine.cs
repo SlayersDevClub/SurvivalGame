@@ -1,10 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerStateMachine : MonoBehaviour
-{
+public class PlayerStateMachine : MonoBehaviour {
 
     PlayerBaseState currentState;
     public PlayerPausedState PausedState = new PlayerPausedState();
@@ -20,9 +17,9 @@ public class PlayerStateMachine : MonoBehaviour
     public Transform playerTransform;
 
     public Inventory inv;
-    public GameObject inventoryPanel;
-    public GameObject slotPanel;
-    public GameObject inventorySlot;
+    public GameObject inventoryPanel;   // GameObject that holds the different elements of the player's inventory
+    public GameObject slotPanel;        // GameObject which stores different types of inventory slots
+    public GameObject inventorySlot;    // Stores the Slot prefab
 
     public UIManager ui;
 
@@ -32,23 +29,31 @@ public class PlayerStateMachine : MonoBehaviour
     public bool pickedUp = false;
 
     public bool respawning = false;
+
     void Start() {
         pir = GetComponent<PlayerInputReader>();
         inventoryPanel = transform.Find("PlayerUI/InventoryPanel").gameObject;
         slotPanel = inventoryPanel.transform.Find("SlotPanel").gameObject;
 
+        // MovingState is default state
         currentState = MovingState;
         currentState.EnterState(this);
     }
 
+    /*
+     * Change the current state the player is in.
+     */
+    public void SwitchState(PlayerBaseState state) {
+        currentState = state;
+        currentState.EnterState(this);
+    }
+
+    /*
+     * Recieve player inputs. Inputs can differ in functionality depending on the current state.
+     */
     public void HandleInput(InputAction.CallbackContext context) {
         if (context.started) {
             currentState.HandleInput(this, context);
         }
-    }
-
-    public void SwitchState(PlayerBaseState state) {
-        currentState = state;
-        currentState.EnterState(this);
     }
 }

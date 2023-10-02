@@ -1,57 +1,55 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine;
-public class PlayerInteractingState : PlayerBaseState
-{
+
+/*
+ * Player state when the player interacts with anything that opens a ui menu (crafters, chests, etc).
+ * Delegates which state the player needs to be in based on what they interacted with.
+ */
+public class PlayerInteractingState : PlayerBaseState {
+
     public override void EnterState(PlayerStateMachine player) {
+        float interactDistance = 5f;
 
-            float interactDistance = 5f;
+        RaycastHit hit;
+        Physics.Raycast(GameObject.Find("CameraControls").transform.position, GameObject.Find("CameraControls").transform.forward, out hit, interactDistance);
+        GameObject objInteractedWith;
 
-            RaycastHit hit;
-            Physics.Raycast(GameObject.Find("CameraControls").transform.position, GameObject.Find("CameraControls").transform.forward, out hit, interactDistance);
-            GameObject obj;
+        try {
+            objInteractedWith = hit.transform.gameObject;
 
-            try {
-                obj = hit.transform.gameObject;
-
-            // Perform interaction with 'obj'
-            if (obj.name == "Chest") {
+            // Perform interaction with 'objInteractedWith'
+            if (objInteractedWith.name == "Chest") {
                 SwitchToUIActionMap(player);
                 player.SwitchState(player.ChestState);
-            } else if (obj.name == "WeaponCrafter") {
+            } else if (objInteractedWith.name == "WeaponCrafter") {
                 SwitchToUIActionMap(player);
                 player.SwitchState(player.GunCraftState);
-            } else if (obj.name == "GeneralCrafter") {
+            } else if (objInteractedWith.name == "GeneralCrafter") {
                 SwitchToUIActionMap(player);
                 player.SwitchState(player.CrafterState);
-            } else if (obj.name == "ToolCrafter") {
+            } else if (objInteractedWith.name == "ToolCrafter") {
                 SwitchToUIActionMap(player);
                 player.SwitchState(player.ToolCraftState);
-            } else if (obj.GetComponent<ItemSetup>() != null) {
-                GameObject.Find("Inventory").GetComponent<Inventory>().AddItem(obj.GetComponent<ItemSetup>().GetItemID());
-                GameObject.Destroy(obj);
+            } else if (objInteractedWith.GetComponent<ItemSetup>() != null) {
+                GameObject.Find("Inventory").GetComponent<Inventory>().AddItem(objInteractedWith.GetComponent<ItemSetup>().GetItemID());
+                GameObject.Destroy(objInteractedWith);
                 player.pickedUp = true;
                 player.SwitchState(player.MovingState);
             } else {
                 player.SwitchState(player.MovingState);
             }
-            
-            } catch {
+        } catch {
             player.SwitchState(player.MovingState);
             //player.SwitchState(player.InventoryState);
         }
 
-
         if (player.pir.playerInput.currentControlScheme == "Gamepad") {
             player.ui.ShowControllerCursor(true);
         }
-
-
-
     }
 
     public override void HandleInput(PlayerStateMachine player, InputAction.CallbackContext context) {
+        // Not needed for this state.
     }
 
     private void SwitchToUIActionMap(PlayerStateMachine player) {
