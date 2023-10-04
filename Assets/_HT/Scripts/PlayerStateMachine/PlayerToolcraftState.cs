@@ -12,7 +12,7 @@ public class PlayerToolcraftState : PlayerBaseState {
     }
 
 	public override void HandleInput(PlayerStateMachine player, InputAction.CallbackContext context) {
-		if (context.started) {
+        if (context.started) {
 			if (context.action.name == TagManager.INTERACT_ACTION) {
                 player.ui.ShowToolCraftingPanel(false);
                 player.ui.ShowPlayerInventory(false);

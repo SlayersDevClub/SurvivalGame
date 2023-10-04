@@ -7,6 +7,9 @@ using System.IO;
 using UnityEditor;
 #endif
 
+/*
+ * Dynamically creates icons for items based on their combination of components.
+ */
 public class SnapShotMaker : MonoBehaviour {
     public int resWidth = 256;
     public int resHeight = 256;
