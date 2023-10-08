@@ -1,18 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class GamePrefs : MonoBehaviour
-{
+public class GamePrefs : MonoBehaviour {
     public PlayerInputReader pir;
     public CameraNewInput cni;
 
     private float _mouseLookSensitivity;
-    public float MouseLookSensitivity
-    {
+    public float MouseLookSensitivity {
         get { return PlayerPrefs.GetFloat("MouseLookSensitivity"); }
-        set
-        {
+        set {
             _mouseLookSensitivity = value;
             PlayerPrefs.SetFloat("MouseLookSensitivity", _mouseLookSensitivity);
             cni.UpdateSettings();
@@ -20,11 +15,9 @@ public class GamePrefs : MonoBehaviour
     }
 
     private float _gamepadLookSensitivity;
-    public float GamepadLookSensitivity
-    {
+    public float GamepadLookSensitivity {
         get { return PlayerPrefs.GetFloat("GamepadLookSensitivity"); }
-        set
-        {
+        set {
             _gamepadLookSensitivity = value;
             PlayerPrefs.SetFloat("GamepadLookSensitivity", _gamepadLookSensitivity);
             cni.UpdateSettings();
@@ -32,11 +25,9 @@ public class GamePrefs : MonoBehaviour
     }
 
     private int _invertHorizontalLook;
-    public int InvertHorizontalLook
-    {
+    public int InvertHorizontalLook {
         get { return PlayerPrefs.GetInt("InvertHorizontalLook"); }
-        set
-        {
+        set {
             _invertHorizontalLook = value;
             PlayerPrefs.SetInt("InvertHorizontalLook", _invertHorizontalLook);
             cni.UpdateSettings();
@@ -44,19 +35,16 @@ public class GamePrefs : MonoBehaviour
     }
 
     private int _invertVerticalLook;
-    public int InvertVerticalLook
-    {
+    public int InvertVerticalLook {
         get { return PlayerPrefs.GetInt("InvertVerticalLook"); }
-        set
-        {
+        set {
             _invertHorizontalLook = value;
             PlayerPrefs.SetInt("InvertVerticalLook", _invertVerticalLook);
             cni.UpdateSettings();
         }
     }
 
-    void Awake()
-    {
+    void Awake() {
         //pir = GameObject.Find("Player_1").GetComponent<PlayerInputReader>();
         //cni = GameObject.Find("CameraControls").GetComponent<CameraNewInput>();
     }

@@ -1,10 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerCrafterState : PlayerBaseState
-{
+/*
+ * Player state when they open a general crafter.
+ */
+public class PlayerCrafterState : PlayerBaseState {
+
 	public override void EnterState(PlayerStateMachine player) {
         player.ui.ShowGeneralCraftingPanel(true);
         player.ui.ShowPlayerInventory(true);
