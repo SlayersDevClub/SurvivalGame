@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 public class ItemSetup : MonoBehaviour
 {
+    float despawnTimer = 300f;
     [SerializeField] private int itemID;
     [SerializeField] private BaseItemTemplate item;
     //private void Awake() {
@@ -22,5 +23,10 @@ public class ItemSetup : MonoBehaviour
     }
     public void SetBaseItemTemplate(BaseItemTemplate itemToAssign) {
         item = itemToAssign;
+    }
+
+    public IEnumerator StartCountdownDespawnItem() {
+        yield return new WaitForSeconds(despawnTimer);
+        Destroy(gameObject);
     }
 }

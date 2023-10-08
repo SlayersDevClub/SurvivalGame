@@ -19,13 +19,15 @@ public class SlotUseState : SlotBaseState {
 
     }
     public override void EndHandleInput(SlotStateMachine item, InputAction.CallbackContext context) {
-        IUsable itemWithUse = GetEquipGameObject(item).GetComponent<IUsable>();
-        itemWithUse.EndHandleInput(context);
+        GameObject equipGameObject = GetEquipGameObject(item);
+        IUsable itemWithUse = equipGameObject?.GetComponent<IUsable>();
+
+        if (itemWithUse != null) {
+            itemWithUse.EndHandleInput(context);
+        }
 
         item.SwitchState(item.EquipState);
     }
-    public override void OnDrop(SlotStateMachine item, PointerEventData pointerEventData, int slotID, GameObject slot) {
-        HandleDropAndSwap(item, pointerEventData, slotID, slot);
-    }
+
 }
 

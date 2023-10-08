@@ -32,7 +32,7 @@ namespace Gamekit3D {
 
         void OnEnable() {
             m_NavMeshAgent = GetComponent<NavMeshAgent>();
-            m_Animator = GetComponent<Animator>();
+            m_Animator = GetComponentInChildren<Animator>();
             m_Animator.updateMode = AnimatorUpdateMode.AnimatePhysics;
 
             m_NavMeshAgent.updatePosition = false;
@@ -136,6 +136,7 @@ namespace Gamekit3D {
         }
 
         public bool SetTarget(Vector3 position) {
+            Debug.Log("GOING TO: " + position);
             return m_NavMeshAgent.SetDestination(position);
         }
     }

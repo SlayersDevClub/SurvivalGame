@@ -48,7 +48,5 @@ public class SlotDropState : SlotBaseState
     public override void EndHandleInput(SlotStateMachine item, InputAction.CallbackContext context) {
        
     }
-    public override void OnDrop(SlotStateMachine item, PointerEventData pointerEventData, int slotID, GameObject slot) {
-        
-    }
+
 }

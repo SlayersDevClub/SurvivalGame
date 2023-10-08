@@ -4,5 +4,6 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewBodyTemplate", menuName = "Game/Body Template")]
 public class BodyTemplate : BaseItemTemplate {
-    public float weight;
+    public int damage;
+    public bool allowButtonHold;
 }

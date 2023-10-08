@@ -29,8 +29,7 @@ public class CraftingBrain : MonoBehaviour {
         }
     }
     
-    public static BaseItemTemplate AttemptBuildTool(List<BaseItemTemplate> toolParts) {
-        Debug.Log("HERE");
+    public static BaseItemTemplate AttemptBuildTool(List<BaseItemTemplate> toolParts, string id = null) {
         PickaxeHandleTemplate pickHand = null;
         AxeHandleTemplate axeHand = null;
         HammerHandleTemplate hammerHand = null;
@@ -41,14 +40,12 @@ public class CraftingBrain : MonoBehaviour {
 
         foreach (BaseItemTemplate part in toolParts) {
             if (part is PickaxeHandleTemplate) {
-                Debug.Log("GERE");
                 pickHand = (PickaxeHandleTemplate)part;
             } else if (part is AxeHandleTemplate) {
                 axeHand = (AxeHandleTemplate)part;
             } else if (part is HammerHandleTemplate) {
                 hammerHand = (HammerHandleTemplate)part;
             } else if (part is PickaxePickTemplate) {
-                Debug.Log("GERE");
                 pickHead = (PickaxePickTemplate)part;
             } else if (part is AxeBladeTemplate) {
                 axeHead = (AxeBladeTemplate)part;
@@ -61,9 +58,11 @@ public class CraftingBrain : MonoBehaviour {
         (axeHand != null && axeHead != null) ||
         (hammerHand != null && hammerHead != null)) {
 
-            Debug.Log("HERE");
             ToolTemplate newToolTemplate = ScriptableObject.CreateInstance<ToolTemplate>();
-            
+            if(id != null) {
+                newToolTemplate.Id = id;
+            }
+
             BaseItemTemplate handle = null;
             BaseItemTemplate head = null;
 
@@ -75,6 +74,7 @@ public class CraftingBrain : MonoBehaviour {
                 newToolTemplate.pickaxeStrength = pickHand.pickaxeStrength + pickHead.pickaxeStrength;
                 newToolTemplate.swingSpeed = pickHand.swingSpeed + pickHead.swingSpeed;
                 newToolTemplate.damage = pickHand.damage + pickHead.damage;
+                newToolTemplate.partPrefabPaths = new BaseItemTemplate[]{pickHand, pickHead};
             } else if (axeHand != null) {
                 handle = axeHand;
                 head = axeHead;
@@ -83,14 +83,13 @@ public class CraftingBrain : MonoBehaviour {
                 newToolTemplate.pickaxeStrength = axeHand.pickaxeStrength + axeHead.pickaxeStrength;
                 newToolTemplate.swingSpeed = axeHand.swingSpeed + axeHead.swingSpeed;
                 newToolTemplate.damage = axeHand.damage + axeHead.damage;
+                newToolTemplate.partPrefabPaths = new BaseItemTemplate[] { axeHand, axeHead };
             } else {
                 handle = hammerHand;
                 head = hammerHead;
+
+                newToolTemplate.partPrefabPaths = new BaseItemTemplate[] { hammerHand, hammerHead };
             }
-
-
-
-
 
             GameObject builtTool = ToolAssembler.AssembleTool(handle.prefab, head.prefab);
 
@@ -116,6 +115,8 @@ public class CraftingBrain : MonoBehaviour {
             createdTool.name = "CustomTool" + newToolTemplate.Id.ToString();
 
             newToolTemplate.prefab = builtTool;
+            newToolTemplate.itemName = "CustomTool" + newToolTemplate.Id.ToString();
+            newToolTemplate.name = "CustomTool" + newToolTemplate.Id.ToString();
             //Create the item's texture
             Texture2D screenshotTexture = SnapShotMaker.instance.TakeScreenShot(builtTool);
             //Create sprite from texture
@@ -125,7 +126,6 @@ public class CraftingBrain : MonoBehaviour {
             //Set loaded sprite as icon
             newToolTemplate.icon = newSprite;
 
-            Debug.Log("HERE");
             return newToolTemplate;
 
         } else {
@@ -135,7 +135,7 @@ public class CraftingBrain : MonoBehaviour {
     }
 
 
-public static BaseItemTemplate AttemptBuildGun(List<BaseItemTemplate> gunParts) {
+public static BaseItemTemplate AttemptBuildGun(List<BaseItemTemplate> gunParts, string id = null) {
         MagTemplate mag = null;
         StockTemplate stock = null;
         BodyTemplate body = null;
@@ -160,12 +160,25 @@ public static BaseItemTemplate AttemptBuildGun(List<BaseItemTemplate> gunParts) 
         }
 
         if (mag == null || stock == null || body == null || grip == null || sight == null || barrel == null) {
+            Debug.Log("REACHED");
             return null;
         }
 
         GunTemplate newGunTemplate = ScriptableObject.CreateInstance<GunTemplate>();
+        if (id != null) {
+            newGunTemplate.Id = id;
+        }
+
+        newGunTemplate.Init(barrel.shootForce, barrel.upwardForce, grip.timeBetweenShooting, sight.spread, mag.reloadTime, grip.timeBetweenShots, mag.magazineSize, grip.bulletsPerTap, stock.recoilForce, body.damage, body.allowButtonHold);
+        newGunTemplate.partPrefabPaths = new BaseItemTemplate[] { body, mag, sight, barrel, stock, grip };
+
+
         GameObject builtGun = GunAssembler.AssembleGun(body.prefab, mag.prefab, sight.prefab, barrel.prefab, stock.prefab, grip.prefab);
         builtGun.AddComponent<GunUsable>();
+        builtGun.AddComponent<ItemSetup>();
+
+        builtGun.GetComponent<ItemSetup>().SetBaseItemTemplate(newGunTemplate);
+
         //Set object to Equipped layer for camera culling
         foreach (Transform child in builtGun.GetComponentsInChildren<Transform>())
         {
@@ -183,8 +196,10 @@ public static BaseItemTemplate AttemptBuildGun(List<BaseItemTemplate> gunParts) 
 
         GameObject createdGun = GameObject.Instantiate(builtGun, GameObject.Find("CustomItems").transform);
         createdGun.name = "CustomGun" + newGunTemplate.Id.ToString();
-
+        
         newGunTemplate.prefab = builtGun;
+        newGunTemplate.itemName = "CustomGun" + newGunTemplate.Id.ToString();
+        newGunTemplate.name = "CustomGun" + newGunTemplate.Id.ToString();
 
         return newGunTemplate;
     }

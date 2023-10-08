@@ -9,65 +9,85 @@ public abstract class SlotBaseState {
 
     public abstract void EnterState(SlotStateMachine item);
 
-    public abstract void OnDrop(SlotStateMachine item, PointerEventData pointerEventData, int slotID, GameObject slot);
+    public virtual void OnDrop(SlotStateMachine item, PointerEventData pointerEventData, int slotID, GameObject slot) {
+        ItemData droppedSlot = item.player.invItemDragging;
+        int cameFromSlotNum = droppedSlot.slotId;
+
+        HandleDropAndSwap(item, pointerEventData, slotID, slot);
+
+        if (item.inv.slots[cameFromSlotNum].TryGetComponent<SlotStateMachine>(out SlotStateMachine droppedSlotStateMachine)) {
+            if (droppedSlotStateMachine.GetCurrentState() as SlotOutputState != null) {
+                ClearCraftersSlots(item);
+            }
+        }
+
+        TryCraftTool(item);
+        TryCraftGun(item);
+        TryGeneralCraft(item);
+    }
 
     public abstract void StartHandleInput(SlotStateMachine item, InputAction.CallbackContext context);
     public abstract void EndHandleInput(SlotStateMachine item, InputAction.CallbackContext context);
 
 
     public virtual void HandleDropAndSwap(SlotStateMachine item, PointerEventData pointerEventData, int slotID, GameObject slot) {
-        ItemData droppedItem = pointerEventData.pointerDrag.GetComponent<ItemData>(); // Assuming item is the dragged object
+        ItemData droppedItem = item.player.invItemDragging;
+
         Slot thisSlot = slot.GetComponent<Slot>();
         SFXManager.instance.PlaySlotIn();
+
+        //Dropping into same slot
         if (droppedItem.slotId == slotID) {
-            Debug.Log("Dropped in the same slot");
-            return; // Don't proceed with swapping
+            
         }
 
-        if (item.inv.items[slotID].Id == -1) {
+        //Dropping into empty slot
+        else if (item.inv.items[slotID].Id == -1) {
             item.inv.items[droppedItem.slotId] = new Item();
             item.inv.items[slotID] = droppedItem.item;
             droppedItem.slotId = thisSlot.id;
+        } 
+        //Dropping into occupied slot
+        else {
 
-            Debug.Log("EMPTY SLOT");
-        } else {
             Transform itemTransform = thisSlot.transform.GetChild(0);
+            ItemData slotItemData = itemTransform.GetComponent<ItemData>();
+            if (slotItemData.item.Id == droppedItem.item.Id && slotItemData.item.Stackable) {
+                droppedItem.amount += slotItemData.amount + 1;
+                item.inv.RemoveItem(slotID, true);
 
-            if (itemTransform != null) {
-                ItemData slotItemData = itemTransform.GetComponent<ItemData>();
+
+                item.inv.items[droppedItem.slotId] = new Item();
+                item.inv.items[slotID] = droppedItem.item;
+                droppedItem.slotId = thisSlot.id;
+
+                droppedItem.transform.SetParent(thisSlot.transform);
+                droppedItem.transform.position = thisSlot.transform.position;
+
+                ItemData.UpdateItemNumberDisplay(droppedItem);
+                
+            }
+            else if (itemTransform != null) {
                 slotItemData.slotId = droppedItem.slotId;
-
-                // Create a new item to swap and copy properties
                 Item newItem = new Item();
                 newItem.Id = slotItemData.item.Id != -1 ? slotItemData.item.Id : -1;
-                // Copy other properties similarly
-
                 item.inv.items[droppedItem.slotId] = newItem;
 
-                // Swap the items
-                newItem = new Item();
-                newItem.Id = droppedItem.item.Id != -1 ? droppedItem.item.Id : -1;
-                // Copy other properties similarly
-
-                item.inv.items[slotID] = newItem;
-
-                // Update positions and parent transforms
-                itemTransform.SetParent(item.inv.slots[droppedItem.slotId].transform);
-                itemTransform.position = item.inv.slots[droppedItem.slotId].transform.position;
+                droppedItem.slotId = slotID;
+                droppedItem.transform.SetParent(thisSlot.transform);
+                droppedItem.transform.position = thisSlot.transform.position;
             } else {
                 Debug.LogWarning("No child transform found in the slot");
             }
 
-            droppedItem.slotId = slotID;
-            droppedItem.transform.SetParent(thisSlot.transform);
-            droppedItem.transform.position = thisSlot.transform.position;
-
-
-            Debug.Log("SWAPPED");
+            
         }
 
+        droppedItem.StopItemMouseLock();
+        item.player.invItemDragging = null;
         HandleIfEquipChanges(item);
     }
+
 
 
     public virtual void HandleIfEquipChanges(SlotStateMachine item) {
@@ -187,6 +207,9 @@ public abstract class SlotBaseState {
 
         } else if (structure != null) {
             GameObject struc = GameObject.Instantiate(item.player.equipItem.prefab, item.player.transform.Find("Model/ItemHolder/Structure").transform);
+
+            int placingLayer = LayerMask.NameToLayer(TagManager.PLACEABLE_LAYER);
+            struc.layer = placingLayer;
             MakeMultiplayerViewable(struc);
         }
     }
@@ -248,8 +271,13 @@ public abstract class SlotBaseState {
 
         if (newTool != null) {
             Debug.Log("NOT NUUILL");
+            //TO DO TODO 
+            /*JsonDataManager.AddBaseItemTemplateToJson(newTool);
+            ItemDatabase.Initialize();*/
+            ItemDatabase.AddBaseItemTemplate(newTool);
             JsonDataManager.AddBaseItemTemplateToJson(newTool);
-            ItemDatabase.Initialize();
+
+
             //Add item to inventory by item ID and slot number to add to
             Slot outputSlot = item.inv.toolcraftSlotOutput.GetComponent<Slot>();
 
@@ -284,11 +312,13 @@ public abstract class SlotBaseState {
         GunTemplate newGun = maybeNewGun as GunTemplate;
 
         if (newGun != null) {
+            ItemDatabase.AddBaseItemTemplate(newGun);
+            JsonDataManager.AddBaseItemTemplateToJson(newGun);
 
-
-            JsonDataManager.AddBaseItemTemplateToJson(maybeNewGun);
-            ItemDatabase.Initialize();
-            item.inv.AddItem(Int16.Parse(newGun.Id),item.inv.guncraftSlotOutput.GetComponent<Slot>().id);
+            Slot outputSlot = item.inv.guncraftSlotOutput.GetComponent<Slot>();
+            if (outputSlot != null) {
+                item.inv.AddItem(Int16.Parse(newGun.Id), outputSlot.GetComponent<Slot>().id);
+            }
 
             return true;
         } else {

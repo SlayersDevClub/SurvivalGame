@@ -4,5 +4,5 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewBarrelTemplate", menuName = "Game/Barrel Template")]
 public class BarrelTemplate : BaseItemTemplate {
-    public float bulletVelocity;
+    public float shootForce, upwardForce;
 }

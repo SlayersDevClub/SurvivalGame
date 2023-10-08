@@ -5,7 +5,6 @@ using UnityEngine.InputSystem;
 
 public class PlayerStateMachine : MonoBehaviour
 {
-
     PlayerBaseState currentState;
     public PlayerPausedState PausedState = new PlayerPausedState();
     public PlayerMovingState MovingState = new PlayerMovingState();
@@ -28,6 +27,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     public int equipItemSlot;
     public BaseItemTemplate equipItem;
+    public ItemData invItemDragging;
 
     public bool pickedUp = false;
 

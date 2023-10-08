@@ -11,5 +11,11 @@ public static class TagManager
     public const string DROP_ACTION = "DropItem";
     public const string USE2_ACTION = "Use2";
     public const string RELOAD_ACTION = "Reload";
+    public const string ROTATE_ACTION = "Rotate";
+    public const string PLACEABLE_LAYER = "Placeable";
+    public const string NOTPLACEABLE_LAYER = "NotPlaceable";
+    public const string STRUCTURE_LAYER = "Structure";
+    public const string GROUND_LAYER = "Terrain";
+    public const string DONOTRENDER = "DoNotRender";
 
 }

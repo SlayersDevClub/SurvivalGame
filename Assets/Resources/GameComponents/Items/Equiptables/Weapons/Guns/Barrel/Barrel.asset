@@ -16,6 +16,9 @@ MonoBehaviour:
   itemName: Barrel
   description: Long ranged huh
   stackable: 0
-  icon: {fileID: 21300000, guid: e3f71f839aa208348a53b7fec03654fa, type: 3}
-  bulletVelocity: 0
+  prefabString: Prefabs/GunParts/barrel_3
+  slug: GeneratedIcons/barrel_3
   prefab: {fileID: 4939492918123690282, guid: ab16adb38aff0684d8d3f5c44d0a4bae, type: 3}
+  icon: {fileID: 21300000, guid: e3f71f839aa208348a53b7fec03654fa, type: 3}
+  shootForce: 50
+  upwardForce: 0

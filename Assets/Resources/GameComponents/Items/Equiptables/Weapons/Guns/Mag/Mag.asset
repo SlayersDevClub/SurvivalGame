@@ -16,6 +16,9 @@ MonoBehaviour:
   itemName: Drum Mag
   description: Lots of bullets!
   stackable: 0
-  icon: {fileID: 21300000, guid: a9ce5e461de690741903e4d5fe53c3d4, type: 3}
-  ammoCount: 0
+  prefabString: Prefabs/GunParts/drummag_1
+  slug: GeneratedIcons/drummag_1
   prefab: {fileID: 5168724653345546021, guid: 496b960d0e5518b4f9f981f6bd3984c1, type: 3}
+  icon: {fileID: 21300000, guid: a9ce5e461de690741903e4d5fe53c3d4, type: 3}
+  reloadTime: 3
+  magazineSize: 100

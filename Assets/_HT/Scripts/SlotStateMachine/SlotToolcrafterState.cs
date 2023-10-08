@@ -15,10 +15,13 @@ public class SlotToolcrafterState : SlotBaseState {
     public override void EndHandleInput(SlotStateMachine item, InputAction.CallbackContext context) {
         throw new System.NotImplementedException();
     }
+
     public override void OnDrop(SlotStateMachine item, PointerEventData pointerEventData, int slotID, GameObject slot) {
         HandleDropAndSwap(item, pointerEventData, slotID, slot);
         HandleIfEquipChanges(item);
         TryCraftTool(item);
+
     }
+
 }
 

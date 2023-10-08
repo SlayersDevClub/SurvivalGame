@@ -18,14 +18,14 @@ public class ModMenu : EditorWindow {
 
     private void OnEnable() {
         // Load all BaseItemTemplates from the specified path
-        allItems = Resources.LoadAll<BaseItemTemplate>("GameComponents/Items");
+        allItems = JsonDataManager.LoadData().ToArray();
     }
 
     private void OnGUI() {
         GUILayout.Label("Mod Menu", EditorStyles.boldLabel);
 
         // Search bar
-        searchQuery = EditorGUILayout.TextField("Search", searchQuery);
+        searchQuery = EditorGUILayout.TextField("Search", searchQuery).ToLower();
 
         // Display all items that match the search query
         DisplayFilteredItems();
@@ -36,7 +36,7 @@ public class ModMenu : EditorWindow {
         scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition, GUILayout.ExpandHeight(true));
 
         foreach (var item in allItems) {
-            if (string.IsNullOrEmpty(searchQuery) || item.name.Contains(searchQuery)) {
+            if (string.IsNullOrEmpty(searchQuery) || item.name.ToLower().Contains(searchQuery)) {
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField(item.name);
 

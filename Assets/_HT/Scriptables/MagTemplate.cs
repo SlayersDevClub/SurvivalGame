@@ -4,5 +4,6 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewMagTemplate", menuName = "Game/Mag Template")]
 public class MagTemplate : BaseItemTemplate {
-    public int ammoCount;
+    public float reloadTime;
+    public int magazineSize;
 }

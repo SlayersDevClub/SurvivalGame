@@ -99,22 +99,21 @@ public class Inventory : MonoBehaviour
 		}
 	}
 
-	public void RemoveItem(int slotNum) {
+	public void RemoveItem(int slotNum, bool removeStack = false) {
 		// Check if the slot index is within the valid range
 		if (slotNum >= 0 && slotNum < items.Count) {
 			// Check if there's an item in the slot
 			if (items[slotNum].Id != -1) {
 				ItemData data = slots[slotNum].transform.GetChild(0).GetComponent<ItemData>();
 				if (data.amount > 0) {
-					// Decrease the amount of the item if it's stackable
-					data.amount--;
-					int displayedAmount = data.amount + 1;
-
-					if(displayedAmount == 1) {
-						data.transform.GetChild(0).GetComponent<Text>().text = "";
+                    if (removeStack) {
+						Destroy(slots[slotNum].transform.GetChild(0).gameObject);
                     } else {
-						data.transform.GetChild(0).GetComponent<Text>().text = displayedAmount.ToString();
+						// Decrease the amount of the item if it's stackable
+						data.amount--;
 					}
+					
+					ItemData.UpdateItemNumberDisplay(data);
 				} else {
 					// Remove the item if there's only one left
 					items[slotNum] = new Item();
@@ -160,13 +159,8 @@ public class Inventory : MonoBehaviour
 					ItemData data = slots[i].transform.GetChild(0).GetComponent<ItemData>();
 					data.amount++;
 
-					int displayedAmount = data.amount + 1;
+					ItemData.UpdateItemNumberDisplay(data);
 
-					if (displayedAmount == 1) {
-						data.transform.GetChild(0).GetComponent<Text>().text = "";
-					} else {
-						data.transform.GetChild(0).GetComponent<Text>().text = displayedAmount.ToString();
-					}
 					break;
 				}
 			}

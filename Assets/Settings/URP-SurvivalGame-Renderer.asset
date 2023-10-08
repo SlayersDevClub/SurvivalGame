@@ -38,7 +38,7 @@ MonoBehaviour:
   m_AssetVersion: 2
   m_OpaqueLayerMask:
     serializedVersion: 2
-    m_Bits: 3221753847
+    m_Bits: 3221790711
   m_TransparentLayerMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -67,17 +67,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b3d386ba5cd94485973aee1479b272e, type: 3}
-  m_Name: PlacingObjects
+  m_Name: Placeable
   m_EditorClassIdentifier: 
   m_Active: 1
   settings:
-    passTag: PlacingObjects
+    passTag: Placeable
     Event: 450
     filterSettings:
       RenderQueueType: 0
       LayerMask:
         serializedVersion: 2
-        m_Bits: 4096
+        m_Bits: 8192
       PassNames: []
     overrideMaterial: {fileID: 2100000, guid: fe90f097642a3034cb3d110315c337fe, type: 2}
     overrideMaterialPassIndex: 0
@@ -106,17 +106,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b3d386ba5cd94485973aee1479b272e, type: 3}
-  m_Name: NotPlacableObjects
+  m_Name: NotPlaceable
   m_EditorClassIdentifier: 
   m_Active: 1
   settings:
-    passTag: NotPlacableObjects
+    passTag: NotPlaceable
     Event: 300
     filterSettings:
       RenderQueueType: 0
       LayerMask:
         serializedVersion: 2
-        m_Bits: 8192
+        m_Bits: 16384
       PassNames: []
     overrideMaterial: {fileID: 2100000, guid: 98b3ea261807aa64fad33c8dc153c10b, type: 2}
     overrideMaterialPassIndex: 0

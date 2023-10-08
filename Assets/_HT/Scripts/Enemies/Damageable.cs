@@ -4,13 +4,17 @@ using UnityEngine;
 using UnityEngine.Events;
 using Gamekit3D.Message;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 namespace Gamekit3D {
     public partial class Damageable : MonoBehaviour {
 
+        public Slider healthBar;
         public int maxHitPoints;
         [Tooltip("Time that this gameObject is invulnerable for, after receiving damage.")]
         public float invulnerabiltyTime;
+        [Tooltip("Time it takes to hide health bar after enemy takes damage.")]
+        private float healthBarTurnOffDelay = 5f;
 
 
         [Tooltip("The angle from the which that damageable is hitable. Always in the world XZ plane, with the forward being rotate by hitForwardRoation")]
@@ -38,6 +42,13 @@ namespace Gamekit3D {
         void Start() {
             ResetDamage();
             m_Collider = GetComponent<Collider>();
+
+            if (healthBar != null) {
+                healthBar.maxValue = maxHitPoints;
+                healthBar.value = maxHitPoints;
+                //Turn off health bar to show only when damaged and then a bit after being damaged
+                healthBar.gameObject.SetActive(false);
+            }
         }
 
         void Update() {
@@ -63,40 +74,68 @@ namespace Gamekit3D {
         }
 
         public void ApplyDamage(DamageMessage data) {
-            if (currentHitPoints <= 0) {//ignore damage if already dead. TODO : may have to change that if we want to detect hit on death...
+            StopAllCoroutines();
+
+            if (currentHitPoints <= 0) {
+                // Ignore damage if already dead. TODO: may have to change that if we want to detect hit on death...
+                Debug.Log("Already dead, ignoring damage.");
                 return;
             }
 
             if (isInvulnerable) {
                 OnHitWhileInvulnerable.Invoke();
+                Debug.Log("Hit while invulnerable.");
                 return;
             }
 
             Vector3 forward = transform.forward;
             forward = Quaternion.AngleAxis(hitForwardRotation, transform.up) * forward;
 
-            //we project the direction to damager to the plane formed by the direction of damage
+            // We project the direction to damager to the plane formed by the direction of damage
             Vector3 positionToDamager = data.damageSource - transform.position;
             positionToDamager -= transform.up * Vector3.Dot(transform.up, positionToDamager);
 
-            if (Vector3.Angle(forward, positionToDamager) > hitAngle * 0.5f)
+            if (Vector3.Angle(forward, positionToDamager) > hitAngle * 0.5f) {
+                Debug.Log("Angle check failed, not taking damage.");
                 return;
+            }
 
             isInvulnerable = true;
             currentHitPoints -= data.amount;
+            Debug.Log(currentHitPoints + gameObject.name);
+            if(healthBar != null) {
+                healthBar.value = currentHitPoints;
 
-            if (currentHitPoints <= 0)
-                schedule += OnDeath.Invoke; //This avoid race condition when objects kill each other.
-            else
+                StartCoroutine(ShowHealthBar());
+            }
+           
+
+            Debug.Log(currentHitPoints);
+
+            if (currentHitPoints <= 0) {
+                schedule += OnDeath.Invoke; // This avoids race condition when objects kill each other.
+                
+                Debug.Log("Enemy killed.");
+            } else {
                 OnReceiveDamage.Invoke();
+                Debug.Log("Enemy damaged.");
+            }
 
             var messageType = currentHitPoints <= 0 ? MessageType.DEAD : MessageType.DAMAGED;
 
             for (var i = 0; i < onDamageMessageReceivers.Count; ++i) {
+                Debug.Log("PERFECT");
                 var receiver = onDamageMessageReceivers[i] as IMessageReceiver;
                 receiver.OnReceiveMessage(messageType, this, data);
             }
         }
+
+        private IEnumerator ShowHealthBar() {
+            healthBar.gameObject.SetActive(true);
+            yield return new WaitForSeconds(healthBarTurnOffDelay);
+            healthBar.gameObject.SetActive(false);
+        }
+
 
         void LateUpdate() {
             if (schedule != null) {

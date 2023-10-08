@@ -17,11 +17,5 @@ public class SlotGeneralcrafterState : SlotBaseState {
         throw new System.NotImplementedException();
     }
 
-    public override void OnDrop(SlotStateMachine item, PointerEventData pointerEventData, int slotID, GameObject slot) {
-        HandleDropAndSwap(item, pointerEventData, slotID, slot);
-        HandleIfEquipChanges(item);
-        TryGeneralCraft(item);
-
-    }
 
 }

@@ -3,11 +3,17 @@ using System.Collections;
 public class SnapGridCenter : MonoBehaviour {
     public GameObject obj;
     public Grid grid;
-
+    int groundLayer, structureLayer, doNotRenderLayer, notPlaceableLayer, placeableLayer;
 
     public static SnapGridCenter instance;
     private void Start() {
         instance = this;
+
+        placeableLayer = LayerMask.NameToLayer(TagManager.PLACEABLE_LAYER);
+        groundLayer = LayerMask.NameToLayer(TagManager.GROUND_LAYER);
+        structureLayer = LayerMask.NameToLayer(TagManager.STRUCTURE_LAYER);
+        doNotRenderLayer = LayerMask.NameToLayer(TagManager.DONOTRENDER);
+        notPlaceableLayer = LayerMask.NameToLayer(TagManager.NOTPLACEABLE_LAYER);
     }
     public GameObject Placer(GameObject structure) {
         RaycastHit hit;
@@ -28,23 +34,76 @@ public class SnapGridCenter : MonoBehaviour {
     }
 
     public bool Mover(GameObject structure) {
-        RaycastHit hit;
-        Physics.Raycast(GameObject.Find("CameraControls").transform.position, GameObject.Find("CameraControls").transform.forward, out hit, 5f);
+        // Check if on top of another structure
+        RaycastHit hitFromStructure;
+        bool structureHit = Physics.Raycast(structure.transform.position, Vector3.up, out hitFromStructure, 50f);
 
-        try {
+        RaycastHit hitFromGround;
+        bool groundHit = Physics.Raycast(GameObject.Find("CameraControls").transform.position, GameObject.Find("CameraControls").transform.forward, out hitFromGround, 15f);
+
+
+        // Check if both raycasts are successful
+        if (groundHit) {
+            Debug.Log(hitFromGround.collider.gameObject.name);
+            // Check if the hit collider is not part of the structure
+            if ((structureHit && hitFromStructure.collider.gameObject.layer != structureLayer) || !structureHit) {
+                // Check if the ground hit is on the GROUND_LAYER
+                RaycastHit[] hitsFromGround = Physics.RaycastAll(GameObject.Find("CameraControls").transform.position, GameObject.Find("CameraControls").transform.forward, 25f);
+
+                foreach (var hit in hitsFromGround) {
+                    if (hit.collider.gameObject.layer == groundLayer) {
+                        try {
+                            Vector3Int cellPosition = grid.LocalToCell(hit.point);
+                            Quaternion newRotation = Quaternion.Euler(0f, 30f, 0f);
+                            structure.transform.rotation = newRotation;
+                            structure.transform.position = grid.CellToLocalInterpolated(cellPosition);
+
+                            Debug.Log("PLACEABLE");
+                            SetLayerRecursively(structure.transform, placeableLayer);
+                            
+                            return true;
+                        } catch {
+                            // Change the layer of the structure and its children to Do Not Render before returning false
+                            Debug.Log("NOT HITTING NOTHING");
+                            
+                        }
+                    }
+                }
+            } else {
+                Debug.Log("NOT PLACEABLE");
+                SetLayerRecursively(structure.transform, notPlaceableLayer);
+                return false;
+            }
+        } else {
+            Debug.Log("NO RENDER");
+            SetLayerRecursively(structure.transform, doNotRenderLayer);
             
-            Vector3Int cellPosition = grid.LocalToCell(hit.point);
+        }
 
-            Quaternion newRotation = Quaternion.Euler(0f, 30f, 0f);
-            structure.transform.rotation = newRotation;
+        return false;
+    }
 
-            //structure.transform.rotation = Quaternion.identity;
-            structure.transform.position = grid.CellToLocalInterpolated(cellPosition);
-            return true;
-        } catch {
-            return false;
+    // Function to recursively set the layer of an object and its children
+    private void SetLayerRecursively(Transform obj, int newLayer) {
+        obj.gameObject.layer = newLayer;
+        foreach (Transform child in obj) {
+            SetLayerRecursively(child, newLayer);
         }
     }
+
+
+
+    public void Rotater(GameObject structure, float rotateDirection) {
+        Debug.Log(rotateDirection);
+        if (rotateDirection < 0) {
+            // Rotate 30 degrees to the left (counterclockwise)
+            structure.transform.Rotate(Vector3.up, -30f);
+        } else if (rotateDirection > 0) {
+            // Rotate 30 degrees to the right (clockwise)
+            structure.transform.Rotate(Vector3.up, 30f);
+        }
+    }
+
 
 
 }

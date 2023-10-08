@@ -1,11 +1,16 @@
 using Gamekit3D.Message;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace Gamekit3D {
     [DefaultExecutionOrder(100)]
     public class BaseEnemy : MonoBehaviour, IMessageReceiver {
         public static readonly int hashInPursuit = Animator.StringToHash("InPursuit");
         public static readonly int hashAttack = Animator.StringToHash("Attack");
+        public static readonly int hashDodge = Animator.StringToHash("Dodge");
+        public static readonly int hashTaunt = Animator.StringToHash("Taunt");
+        public static readonly int hashDeath = Animator.StringToHash("Death");
+
         public static readonly int hashHit = Animator.StringToHash("Hit");
         public static readonly int hashVerticalDot = Animator.StringToHash("VerticalHitDot");
         public static readonly int hashHorizontalDot = Animator.StringToHash("HorizontalHitDot");
@@ -26,7 +31,7 @@ namespace Gamekit3D {
         [System.NonSerialized]
         public float attackDistance = 3;
 
-        //public MeleeWeapon meleeWeapon;
+        public MeleeWeapon meleeWeapon;
         public TargetScanner playerScanner;
         [Tooltip("Time in seconde before the Chomper stop pursuing the player when the player is out of sight")]
         public float timeToStopPursuit;
@@ -38,15 +43,16 @@ namespace Gamekit3D {
         protected TargetDistributor.TargetFollower m_FollowerInstance = null;
 
         protected void OnEnable() {
+
             m_Controller = GetComponentInChildren<EnemyController>();
 
             originalPosition = transform.position;
 
-            //meleeWeapon.SetOwner(gameObject);
+            meleeWeapon.SetOwner(gameObject);
 
             //m_Controller.animator.Play(hashIdleState, 0, Random.value);
 
-            //SceneLinkedSMB<BaseEnemy>.Initialise(m_Controller.animator, this);
+            SceneLinkedSMB<BaseEnemy>.Initialise(m_Controller.animator, this);
         }
 
         /// <summary>
@@ -89,7 +95,7 @@ namespace Gamekit3D {
 
         public void FindTarget() {
             //we ignore height difference if the target was already seen
-            PlayerStateMachine target = playerScanner.Detect(transform, m_Target, m_Target == null);
+            PlayerStateMachine target = playerScanner.Detect(transform, GameObject.Find("Player_1").GetComponent<PlayerStateMachine>(), m_Target == null);
 
             if (m_Target == null) {
                 //we just saw the player for the first time, pick an empty spot to target around them
@@ -97,13 +103,16 @@ namespace Gamekit3D {
                     m_Controller.animator.SetTrigger(hashSpotted);
                     m_Target = target;
                     TargetDistributor distributor = target.GetComponentInChildren<TargetDistributor>();
-                    if (distributor != null)
+                    if (distributor != null) {
                         m_FollowerInstance = distributor.RegisterNewFollower();
+                    }
+                        
                 }
             } else {
                 //we lost the target. But chomper have a special behaviour : they only loose the player scent if they move past their detection range
                 //and they didn't see the player for a given time. Not if they move out of their detectionAngle. So we check that this is the case before removing the target
                 if (target == null) {
+
                     m_TimerSinceLostTarget += Time.deltaTime;
 
                     if (m_TimerSinceLostTarget >= timeToStopPursuit) {
@@ -118,6 +127,7 @@ namespace Gamekit3D {
                         }
                     }
                 } else {
+
                     if (target != m_Target) {
                         if (m_FollowerInstance != null)
                             m_FollowerInstance.distributor.UnregisterFollower(m_FollowerInstance);
@@ -135,6 +145,7 @@ namespace Gamekit3D {
         }
 
         public void StartPursuit() {
+            Debug.Log("FOUND");
             if (m_FollowerInstance != null) {
                 m_FollowerInstance.requireSlot = true;
                 RequestTargetPosition();
@@ -144,6 +155,7 @@ namespace Gamekit3D {
         }
 
         public void StopPursuit() {
+            Debug.Log("LOST");
             if (m_FollowerInstance != null) {
                 m_FollowerInstance.requireSlot = false;
             }
@@ -152,11 +164,22 @@ namespace Gamekit3D {
         }
 
         public void RequestTargetPosition() {
+            if (m_Target == null) {
+                Debug.LogError("m_Target is null in RequestTargetPosition!");
+                return;
+            }
+
+            if (m_FollowerInstance == null) {
+                Debug.LogError("m_FollowerInstance is null in RequestTargetPosition!");
+                return;
+            }
+
             Vector3 fromTarget = transform.position - m_Target.transform.position;
             fromTarget.y = 0;
 
             m_FollowerInstance.requiredPoint = m_Target.transform.position + fromTarget.normalized * attackDistance * 0.9f;
         }
+
 
         public void WalkBackToBase() {
             if (m_FollowerInstance != null)
@@ -172,16 +195,26 @@ namespace Gamekit3D {
         }
 
         public void AttackBegin() {
-            //meleeWeapon.BeginAttack(false);
+            meleeWeapon.BeginAttack(false);
+        }
+
+        public void TriggerDodge() {
+            m_Controller.animator.SetTrigger(hashDodge);
+        }
+
+        public void TriggerTaunt() {
+            m_Controller.animator.SetTrigger(hashTaunt);
         }
 
         public void AttackEnd() {
-            //meleeWeapon.EndAttack();
+            meleeWeapon.EndAttack();
         }
 
         public void OnReceiveMessage(Message.MessageType type, object sender, object msg) {
+
             switch (type) {
                 case Message.MessageType.DEAD:
+                    Debug.Log("DYINGH");
                     Death((Damageable.DamageMessage)msg);
                     break;
                 case Message.MessageType.DAMAGED:
@@ -193,7 +226,12 @@ namespace Gamekit3D {
         }
 
         public void Death(Damageable.DamageMessage msg) {
-            Vector3 pushForce = transform.position - msg.damageSource;
+            Debug.Log("DEATH");
+
+            ReplaceWithRagdoll replacer = GetComponent<ReplaceWithRagdoll>();
+            replacer.Replace();
+            //controller.animator.SetTrigger(hashDeath);
+            /*Vector3 pushForce = transform.position - msg.damageSource;
 
             pushForce.y = 0;
 
@@ -201,12 +239,18 @@ namespace Gamekit3D {
             controller.AddForce(pushForce.normalized * 7.0f - Physics.gravity * 0.6f);
 
             controller.animator.SetTrigger(hashHit);
-            controller.animator.SetTrigger(hashThrown);
+            controller.animator.SetTrigger(hashThrown);*/
+
+            //controller.animator.SetTrigger(hashDeath);
 
             //We unparent the hit source, as it would destroy it with the gameobject when it get replaced by the ragdol otherwise
             /* deathAudio.transform.SetParent(null, true);
              deathAudio.PlayRandomClip();
              GameObject.Destroy(deathAudio, deathAudio.clip == null ? 0.0f : deathAudio.clip.length + 0.5f);*/
+        }
+
+        public void Destroy(List<Drop> droppables) {
+            
         }
 
         public void ApplyDamage(Damageable.DamageMessage msg) {
@@ -215,6 +259,7 @@ namespace Gamekit3D {
             /*if (msg.damager.name == "Staff")
                CameraShake.Shake(0.06f, 0.1f);*/
 
+            /*
             float verticalDot = Vector3.Dot(Vector3.up, msg.direction);
             float horizontalDot = Vector3.Dot(transform.right, msg.direction);
 
@@ -228,7 +273,7 @@ namespace Gamekit3D {
             controller.animator.SetFloat(hashVerticalDot, verticalDot);
             controller.animator.SetFloat(hashHorizontalDot, horizontalDot);
 
-            controller.animator.SetTrigger(hashHit);
+            controller.animator.SetTrigger(hashHit);*/
 
             //hitAudio.PlayRandomClip();
         }

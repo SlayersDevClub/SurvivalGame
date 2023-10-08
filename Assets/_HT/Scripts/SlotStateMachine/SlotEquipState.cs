@@ -30,21 +30,6 @@ public class SlotEquipState : SlotBaseState {
     public override void EndHandleInput(SlotStateMachine item, InputAction.CallbackContext context) {
         
     }
-    public override void OnDrop(SlotStateMachine item, PointerEventData pointerEventData, int slotID, GameObject slot) {
-        ItemData droppedSlot = pointerEventData.pointerDrag.GetComponent<ItemData>(); // Assuming item is the dragged object
-        int cameFromSlotNum = droppedSlot.slotId;
 
-        HandleDropAndSwap(item, pointerEventData, slotID, slot);
-
-        if (item.inv.slots[cameFromSlotNum].TryGetComponent<SlotStateMachine>(out SlotStateMachine droppedSlotStateMachine)) {
-            if (droppedSlotStateMachine.GetCurrentState() as SlotOutputState != null) {
-                ClearCraftersSlots(item);
-            }
-        }
-
-        TryCraftTool(item);
-        TryCraftGun(item);
-        TryGeneralCraft(item);
-    }
 
 }
