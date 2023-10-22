@@ -19,6 +19,6 @@ MonoBehaviour:
   stackable: 0
   prefabString: Prefabs/ToolParts/tool_hammer_2
   slug: GeneratedIcons/tool_hammer_2
-  prefab: {fileID: 5325226857820752085, guid: 0761dc9ab4e660846a5b517fbaa1061d, type: 3}
+  prefab: {fileID: 2262198571518327239, guid: 0761dc9ab4e660846a5b517fbaa1061d, type: 3}
   icon: {fileID: 21300000, guid: 7b929b666c027bf409c012b56191e6d2, type: 3}
   damage: 1

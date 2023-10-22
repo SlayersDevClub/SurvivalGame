@@ -66,8 +66,8 @@ Material:
     - _AtmosphereThickness: 1.09
     - _Exposure: 1
     - _FogBottom: 0
-    - _FogEnd: 0.204
-    - _FogIntens: 0.178
+    - _FogEnd: 0.247
+    - _FogIntens: 1
     - _FogStart: 0
     - _MieIntens: 0.463
     - _MieSize: 0.8
@@ -80,9 +80,9 @@ Material:
     - _SunSizeConvergence: 5
     m_Colors:
     - _Color: {r: 0, g: 0, b: 0, a: 0}
-    - _FogCol: {r: 1, g: 1, b: 1, a: 1}
+    - _FogCol: {r: 0.4014329, g: 0.7349876, b: 0.8773585, a: 1}
     - _GroundColor: {r: 0.369, g: 0.349, b: 0.341, a: 1}
     - _MieTint: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
     - _SkyTint: {r: 1, g: 1, b: 1, a: 1}
-    - _Tint: {r: 0.2216981, g: 0.67963344, b: 1, a: 1}
+    - _Tint: {r: 0.6320754, g: 0.6320754, b: 0.6320754, a: 1}
   m_BuildTextureStacks: []

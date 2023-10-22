@@ -144,7 +144,15 @@ public abstract class SlotBaseState {
         ToolTemplate tool = item.player.equipItem as ToolTemplate;
         StructureTemplate structure = item.player.equipItem as StructureTemplate;
 
-        //RESOURCE
+        /*
+         * 
+         * 
+         * 
+         * RESOURCE
+         * 
+         * 
+         * 
+         */
         if (resource != null) {
             GameObject resourceHeld = GameObject.Instantiate(item.player.equipItem.prefab, item.player.transform.Find("Model/ItemHolder/Resource").transform);
             MakeMultiplayerViewable(resourceHeld);
@@ -153,7 +161,18 @@ public abstract class SlotBaseState {
             resourceHeld.GetComponent<Rigidbody>().isKinematic = true;
             resourceHeld.GetComponent<Collider>().enabled = false;
         }
-        //GUN
+        /*
+         * 
+         * 
+         * 
+         * 
+         * GUN
+         * 
+         * 
+         * 
+         * 
+         */
+
          else if (gun != null) {
             Debug.Log("CustomGun" + item.player.equipItem.Id);
             GameObject original = GameObject.Find("CustomItems/CustomGun" + item.player.equipItem.Id);
@@ -170,7 +189,16 @@ public abstract class SlotBaseState {
             equipGun.GetComponent<GunUsable>().Setup();
             MakeMultiplayerViewable(equipGun);
 
-            //TOOL
+        /*
+        * 
+        * 
+        * 
+        * TOOL
+        * 
+        * 
+        * 
+        * 
+        */
         } else if (tool != null) {
             GameObject original = GameObject.Find("CustomItems/CustomTool" + item.player.equipItem.Id);
             original.layer = LayerMask.NameToLayer("Default");
@@ -182,7 +210,7 @@ public abstract class SlotBaseState {
                 }
             }
             var toolTranny = GameObject.Instantiate(original, item.player.transform.Find("Model/ItemHolder/Tool").transform);
-            toolTranny.transform.localPosition = new Vector3(0, 0.73f, 0);
+            toolTranny.transform.localPosition = new Vector3(0, 0.25f, 0);
 
             // Check if the toolTranny has the PickaxeUsable component
             PickaxeUsable pickaxeUsable = toolTranny.GetComponent<PickaxeUsable>();
@@ -204,7 +232,17 @@ public abstract class SlotBaseState {
                     }
                 }
             }
-
+        /*
+        * 
+        * 
+        * 
+        * 
+        * STRUCTURE
+        * 
+        * 
+        * 
+        * 
+             */
         } else if (structure != null) {
             GameObject struc = GameObject.Instantiate(item.player.equipItem.prefab, item.player.transform.Find("Model/ItemHolder/Structure").transform);
 

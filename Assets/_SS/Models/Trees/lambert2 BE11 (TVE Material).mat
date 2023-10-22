@@ -171,14 +171,14 @@ Material:
     - _MotionAmplitude_10: 0.2
     - _MotionAmplitude_20: 0.2
     - _MotionAmplitude_22: 0.2
-    - _MotionAmplitude_32: 0.2
-    - _MotionFacingValue: 0.5
-    - _MotionPosition_10: 0.5
-    - _MotionScale_10: 1
+    - _MotionAmplitude_32: 0.028
+    - _MotionFacingValue: 0.561
+    - _MotionPosition_10: 1
+    - _MotionScale_10: 1.68
     - _MotionScale_20: 20
     - _MotionScale_32: 10
-    - _MotionSpeed_10: 2
-    - _MotionSpeed_20: 6
+    - _MotionSpeed_10: 1
+    - _MotionSpeed_20: 7
     - _MotionSpeed_32: 20
     - _MotionValue_20: 1
     - _MotionValue_30: 1

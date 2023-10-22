@@ -7,11 +7,12 @@ using DG.Tweening;
 public class AxeUsable : MonoBehaviour, IUsable {
     private GameObject particlePrefab;
 
-    bool isSwinging = false;
     float attackSpeed = 0.2f;
     Animator anim;
     ToolTemplate axe;
     public void Setup() {
+        transform.parent.GetComponent<HandRigConnector>().handTarget = transform.GetChild(0).GetChild(0).Find("HandTarget");
+        transform.parent.GetComponent<HandRigConnector>().SetIKHandPosition();
         particlePrefab = Resources.Load<GameObject>("Prefabs/VFX/" + "ToolHitFX-Wood-Prefab");
         anim = GetComponentInParent<Animator>();
         axe = GetComponent<ItemSetup>().GetBaseItemTemplate() as ToolTemplate;
@@ -19,24 +20,21 @@ public class AxeUsable : MonoBehaviour, IUsable {
     }
 
     public void StartHandleInput(InputAction.CallbackContext context) {
-        if (context.action.name == TagManager.USE_ACTION) {
-            if (!isSwinging) {
-                isSwinging = true;
-                InvokeRepeating("SwingTool", 0, attackSpeed * 3f);
-            }
-        } else if (context.action.name == TagManager.USE2_ACTION) {
-            Debug.Log("RIGHT CLICKING PICKAXE");
+        if (context.action.name == TagManager.USE_ACTION)
+        {
+            anim.speed = attackSpeed * 3; //attack speed factor
+            SwingTool();
         }
     }
 
     public void EndHandleInput(InputAction.CallbackContext context) {
         if (context.action.name == TagManager.USE_ACTION) {
-            isSwinging = false;
-            CancelInvoke();
+            anim.SetBool("IsSwinging", false);
         }
     }
 
     private void SwingTool() {
+        anim.SetBool("IsSwinging", true);
         anim.SetTrigger("SwingAxe");
     }
 
@@ -62,14 +60,16 @@ public class AxeUsable : MonoBehaviour, IUsable {
                         vfx.GetComponent<ParticleSystem>().startColor = thisSetup.thisMineable.hitColor;
                 }
 
-
-                    SFXManager.instance.PlayWoodHit();
+                SFXManager.instance.PlayStoneHit();
             }
             else
             {
                 SFXManager.instance.PlaySwingTool();
             }
-
+        }
+        else
+        {
+            SFXManager.instance.PlaySwingTool();
         }
     }
 }

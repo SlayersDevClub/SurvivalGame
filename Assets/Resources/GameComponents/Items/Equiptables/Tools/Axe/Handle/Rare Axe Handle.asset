@@ -17,6 +17,11 @@ MonoBehaviour:
   description: This flexible wooden handle, made from willow, offers comfort and
     resilience in various tool constructions.
   stackable: 0
-  prefab: {fileID: 4763473498839617537, guid: 2517bf38cdb77b548af748b86013fe45, type: 3}
+  prefabString: Prefabs/ToolParts/tool_axeHandle_2
+  slug: GeneratedIcons/tool_handle_2
+  prefab: {fileID: 337340228168571458, guid: 35d8c9eef877f204ca8c5184d31409c2, type: 3}
   icon: {fileID: 21300000, guid: cc53d0a0c450a9b4a8c5f1066eaf2b25, type: 3}
   swingSpeed: 2
+  pickaxeStrength: 0
+  axeStrength: 0
+  damage: 0

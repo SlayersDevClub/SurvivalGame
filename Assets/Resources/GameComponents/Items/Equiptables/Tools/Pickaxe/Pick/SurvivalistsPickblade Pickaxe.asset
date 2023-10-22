@@ -18,9 +18,9 @@ MonoBehaviour:
     designed to aid your survival efforts.
   stackable: 0
   prefabString: Prefabs/ToolParts/tool_pickaxe_1
-  slug: GeneratedIcons/tool_pickaxe_2
-  prefab: {fileID: 2443650139117901433, guid: f38a355a20c5afd488a14a3e5331f4c4, type: 3}
-  icon: {fileID: 21300000, guid: b5326ca268a3e564fa28da017a3fa860, type: 3}
+  slug: GeneratedIcons/tool_pickaxe_1
+  prefab: {fileID: 3987312926211012688, guid: f38a355a20c5afd488a14a3e5331f4c4, type: 3}
+  icon: {fileID: 21300000, guid: c9bd2f091ee6c7a429bf982c109bfa1c, type: 3}
   swingSpeed: 1
   pickaxeStrength: 1
   axeStrength: 1

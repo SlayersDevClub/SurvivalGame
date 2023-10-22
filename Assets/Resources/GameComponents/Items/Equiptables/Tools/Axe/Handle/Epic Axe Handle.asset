@@ -17,6 +17,11 @@ MonoBehaviour:
   description: This weathered elm handle, steeped in tradition, lends a touch of
     history and reliability to your crafted tools.
   stackable: 0
-  prefab: {fileID: 3042121181078360047, guid: 0554ed03d8a8cde468ac0afa7b87d79b, type: 3}
+  prefabString: Prefabs/ToolParts/tool_axeHandle_3
+  slug: GeneratedIcons/tool_handle_3
+  prefab: {fileID: 5505782636490227424, guid: c205e9e1d2e2d2343b94f4b8b20fa3a4, type: 3}
   icon: {fileID: 21300000, guid: 68d3529fe947ca044a17bda90c57ddda, type: 3}
   swingSpeed: 3
+  pickaxeStrength: 0
+  axeStrength: 0
+  damage: 0

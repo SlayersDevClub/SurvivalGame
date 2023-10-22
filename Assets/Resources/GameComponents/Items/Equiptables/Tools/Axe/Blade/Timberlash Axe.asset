@@ -19,7 +19,7 @@ MonoBehaviour:
   stackable: 0
   prefabString: Prefabs/ToolParts/tool_axe_1
   slug: GeneratedIcons/tool_axe_1
-  prefab: {fileID: 4046814244163548511, guid: 7c3d57e4302143e45aec288100d92d5a, type: 3}
+  prefab: {fileID: 2218155920398128542, guid: 7c3d57e4302143e45aec288100d92d5a, type: 3}
   icon: {fileID: 21300000, guid: a4b656ce3798d5342b95342531641744, type: 3}
   swingSpeed: 1
   pickaxeStrength: 1

@@ -17,7 +17,8 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap:
     ElementType: MotionElement
-  disabledShaderPasses: []
+  disabledShaderPasses:
+  - VolumePass
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -112,6 +113,7 @@ Material:
     - _RaycastLayerMask: 1
     - _RaycastMessage: 0
     - _RenderCat: 1
+    - _SpaceTexture: 0
     - _render_colormask: 15
     m_Colors:
     - _Autumn: {r: 0.7205882, g: 0.40253514, b: 0, a: 1}
@@ -122,6 +124,7 @@ Material:
     - _MainColor: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
     - _MainTexAlphaRemap: {r: 0, g: 0, b: 0, a: 0}
     - _MainTexColorRemap: {r: 0, g: 0, b: 0, a: 0}
+    - _MainTexFallofRemap: {r: 0, g: 0, b: 0, a: 0}
     - _MainTexRemap: {r: 0, g: 0, b: 0, a: 0}
     - _MainUVs: {r: 1, g: 1, b: 0, a: 0}
     - _NoiseRemap: {r: 0, g: 1, b: 0, a: 0}

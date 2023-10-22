@@ -17,6 +17,8 @@ MonoBehaviour:
   description: Crafted from mahogany, this handle exudes richness and strength, making
     it a perfect choice for crafting high-quality tools.
   stackable: 0
-  prefab: {fileID: 3042121181078360047, guid: 0554ed03d8a8cde468ac0afa7b87d79b, type: 3}
+  prefabString: Prefabs/ToolParts/tool_hammerHandle_3
+  slug: GeneratedIcons/tool_handle_3
+  prefab: {fileID: 2488058211765824813, guid: dcaca1d5885fdb74fb4dc679490fb410, type: 3}
   icon: {fileID: 21300000, guid: 68d3529fe947ca044a17bda90c57ddda, type: 3}
   swingSpeed: 3

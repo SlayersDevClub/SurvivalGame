@@ -17,6 +17,8 @@ MonoBehaviour:
   description: Carved from juniper wood, this handle carries a hint of natural aroma
     while providing a solid grip for crafting.
   stackable: 0
-  prefab: {fileID: 4763473498839617537, guid: 2517bf38cdb77b548af748b86013fe45, type: 3}
+  prefabString: Prefabs/ToolParts/tool_hammerHandle_2
+  slug: GeneratedIcons/tool_handle_2
+  prefab: {fileID: 5729423858930153718, guid: 7cfbd04d0f949174788600f8dd6d654d, type: 3}
   icon: {fileID: 21300000, guid: cc53d0a0c450a9b4a8c5f1066eaf2b25, type: 3}
   swingSpeed: 2

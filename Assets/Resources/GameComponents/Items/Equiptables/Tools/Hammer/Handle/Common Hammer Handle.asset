@@ -17,6 +17,8 @@ MonoBehaviour:
   description: Crafted from the heartwood of a pine tree, this handle adds durability
     and strength to your tools.
   stackable: 0
-  prefab: {fileID: 7413399097706362320, guid: 5f704554a65ec3b4cacb8564a6ea614c, type: 3}
+  prefabString: Prefabs/ToolParts/tool_hammerHandle_1
+  slug: GeneratedIcons/tool_handle_1
+  prefab: {fileID: 4236445896716120477, guid: 7b4604a4d570cfe47ab7d55a351b5f7c, type: 3}
   icon: {fileID: 21300000, guid: a03e3638978042c46936352d99b010e6, type: 3}
   swingSpeed: 1

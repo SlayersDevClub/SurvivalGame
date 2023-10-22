@@ -17,6 +17,11 @@ MonoBehaviour:
   description: Crafted from rare ebony wood, this handle lends an air of sophistication
     to your tools, as well as exceptional durability.
   stackable: 0
-  prefab: {fileID: 4763473498839617537, guid: 2517bf38cdb77b548af748b86013fe45, type: 3}
+  prefabString: Prefabs/ToolParts/tool_pickaxeHandle_2
+  slug: GeneratedIcons/tool_handle_2
+  prefab: {fileID: 3992923765471378006, guid: ddcc029eea7fdfa48a91977b8e99d8be, type: 3}
   icon: {fileID: 21300000, guid: cc53d0a0c450a9b4a8c5f1066eaf2b25, type: 3}
   swingSpeed: 2
+  pickaxeStrength: 0
+  axeStrength: 0
+  damage: 0
