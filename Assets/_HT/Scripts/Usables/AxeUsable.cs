@@ -11,8 +11,11 @@ public class AxeUsable : MonoBehaviour, IUsable {
     Animator anim;
     ToolTemplate axe;
     public void Setup() {
-        transform.parent.GetComponent<HandRigConnector>().handTarget = transform.GetChild(0).GetChild(0).Find("HandTarget");
-        transform.parent.GetComponent<HandRigConnector>().SetIKHandPosition();
+        if (transform.parent.GetComponent<HandRigConnector>())
+        {
+            transform.parent.GetComponent<HandRigConnector>().handTarget = transform.GetChild(0).GetChild(0).Find("HandTarget");
+            transform.parent.GetComponent<HandRigConnector>().SetIKHandPosition();
+        }
         particlePrefab = Resources.Load<GameObject>("Prefabs/VFX/" + "ToolHitFX-Wood-Prefab");
         anim = GetComponentInParent<Animator>();
         axe = GetComponent<ItemSetup>().GetBaseItemTemplate() as ToolTemplate;

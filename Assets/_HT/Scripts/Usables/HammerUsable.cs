@@ -10,8 +10,11 @@ public class HammerUsable : MonoBehaviour, IUsable
     public float attackSpeed = 0.2f;
     private void Start()
     {
-        transform.parent.GetComponent<HandRigConnector>().handTarget = transform.GetChild(0).GetChild(0).Find("HandTarget");
-        transform.parent.GetComponent<HandRigConnector>().SetIKHandPosition();
+        if (transform.parent.GetComponent<HandRigConnector>())
+        {
+            transform.parent.GetComponent<HandRigConnector>().handTarget = transform.GetChild(0).GetChild(0).Find("HandTarget");
+            transform.parent.GetComponent<HandRigConnector>().SetIKHandPosition();
+        }
         anim = GetComponentInParent<Animator>();
     }
     public void StartHandleInput(InputAction.CallbackContext context) {

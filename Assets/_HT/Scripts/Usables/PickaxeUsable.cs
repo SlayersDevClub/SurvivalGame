@@ -13,8 +13,11 @@ public class PickaxeUsable : MonoBehaviour, IUsable {
 
     public void Setup() 
     {
-        transform.parent.GetComponent<HandRigConnector>().handTarget = transform.GetChild(0).GetChild(0).Find("HandTarget");
-        transform.parent.GetComponent<HandRigConnector>().SetIKHandPosition();
+        if (transform.parent.GetComponent<HandRigConnector>())
+        {
+            transform.parent.GetComponent<HandRigConnector>().handTarget = transform.GetChild(0).GetChild(0).Find("HandTarget");
+            transform.parent.GetComponent<HandRigConnector>().SetIKHandPosition();
+        }
         particlePrefab = Resources.Load<GameObject>("Prefabs/VFX/" + "ToolHitFX-Stone-Prefab");
         anim = GetComponentInParent<Animator>();
         pick = GetComponent<ItemSetup>().GetBaseItemTemplate() as ToolTemplate;
