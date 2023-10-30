@@ -8,12 +8,12 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: metal
-    second: {fileID: 2100000, guid: 6bd1e93ac5d91d140894587b85fba4ea, type: 2}
+    second: {fileID: 2100000, guid: 626d9931a9145d94897edf55ef390fb5, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: wood
-    second: {fileID: 2100000, guid: 6599726bd475e4f47ae8030cbf509491, type: 2}
+    second: {fileID: 2100000, guid: d876a59dd92504b4fb6c3488c6202cca, type: 2}
   materials:
     materialImportMode: 2
     materialName: 1

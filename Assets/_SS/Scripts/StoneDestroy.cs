@@ -9,8 +9,16 @@ public class StoneDestroy : MonoBehaviour, IWhenDestroy
 
     public void ShakeObject()
     {
-        transform.GetChild(0).GetComponent<DOTweenAnimation>().DORewind();
-        transform.GetChild(0).GetComponent<DOTweenAnimation>().DOPlayForward();
+        if (!GetComponent<DOTweenAnimation>())
+        {
+            transform.GetChild(0).GetComponent<DOTweenAnimation>().DORewind();
+            transform.GetChild(0).GetComponent<DOTweenAnimation>().DOPlayForward();
+        } else
+        {
+            GetComponent<DOTweenAnimation>().DORewind();
+            GetComponent<DOTweenAnimation>().DOPlayForward();
+        }
+
     }
     public void Destroy(List<Drop> drops)
     {
