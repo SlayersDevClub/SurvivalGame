@@ -80,7 +80,7 @@ Material:
     - _SunSizeConvergence: 5
     m_Colors:
     - _Color: {r: 0, g: 0, b: 0, a: 0}
-    - _FogCol: {r: 0.4014329, g: 0.7349876, b: 0.8773585, a: 1}
+    - _FogCol: {r: 0.43529415, g: 0.72156864, b: 0.6627451, a: 1}
     - _GroundColor: {r: 0.369, g: 0.349, b: 0.341, a: 1}
     - _MieTint: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
     - _SkyTint: {r: 1, g: 1, b: 1, a: 1}

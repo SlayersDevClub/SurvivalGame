@@ -23,6 +23,7 @@ namespace CMF
 
 		//Movement speed;
 		public float movementSpeed = 7f;
+        float startingMovementSpeed;
 
 		//How fast the controller can change direction while in the air;
 		//Higher values result in more air control;
@@ -79,6 +80,7 @@ namespace CMF
 		
 		//Get references to all necessary components;
 		void Awake () {
+            startingMovementSpeed = movementSpeed;
 			mover = GetComponent<Mover>();
 			tr = transform;
 			characterInput = GetComponent<CharacterInput>();
@@ -106,7 +108,7 @@ namespace CMF
             if (IsSprintKeyPressed())
                 movementSpeed = maxSprintSpeed;
             else
-                movementSpeed = 7;
+                movementSpeed = startingMovementSpeed;
         }
 
         //Handle jump booleans for later use in FixedUpdate;

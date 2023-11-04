@@ -9,10 +9,10 @@ using Photon.Pun;
 public class PlayerInputReader : CharacterInput {
     public PlayerInput playerInput;
     private InputAction move;
-
-    bool jumping = false, sprinting = false;
+    bool jumping = false;
     Inventory inventory;
     public PhotonView view;
+    public bool sprinting = false;
 
     void Awake() {
         inventory = transform.Find("PlayerUI/Inventory").GetComponent<Inventory>();
@@ -24,7 +24,8 @@ public class PlayerInputReader : CharacterInput {
         if (context.canceled) jumping = false;
     }
 
-    public void Sprinting(InputAction.CallbackContext context) {
+    public void Sprinting(InputAction.CallbackContext context)
+    {
         if (context.started) sprinting = true;
         if (context.canceled) sprinting = false;
     }

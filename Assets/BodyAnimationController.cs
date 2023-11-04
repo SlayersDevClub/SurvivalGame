@@ -7,6 +7,7 @@ public class BodyAnimationController : MonoBehaviour
 {
     public float animTransitionSpeed = 0.5f;
     PlayerInputReader pir;
+    CMF.Mover playerMover;
     public Animator anim;
     float moveX, moveY;
 
@@ -14,6 +15,7 @@ public class BodyAnimationController : MonoBehaviour
     void Start()
     {
         pir = GetComponent<PlayerInputReader>();
+        playerMover = GetComponent<CMF.Mover>();
     }
 
     // Update is called once per frame
@@ -25,7 +27,7 @@ public class BodyAnimationController : MonoBehaviour
         anim.SetFloat("YInput", moveY);
         if (pir.IsJumpKeyPressed()) anim.SetTrigger("Jump");
         else anim.ResetTrigger("Jump");
-        if (pir.IsSprintingPressed()) anim.SetBool("Sprint", true);
+        if (pir.IsSprintingPressed() && moveY > 0 && playerMover.IsGrounded()) anim.SetBool("Sprint", true);
         else anim.SetBool("Sprint", false);
 
     }

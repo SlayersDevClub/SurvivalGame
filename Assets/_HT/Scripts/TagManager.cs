@@ -17,5 +17,4 @@ public static class TagManager
     public const string STRUCTURE_LAYER = "Structure";
     public const string GROUND_LAYER = "Terrain";
     public const string DONOTRENDER = "DoNotRender";
-
 }

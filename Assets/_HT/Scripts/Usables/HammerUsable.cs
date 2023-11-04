@@ -12,11 +12,12 @@ public class HammerUsable : MonoBehaviour, IUsable
     {
         if (transform.parent.GetComponent<HandRigConnector>())
         {
-            transform.parent.GetComponent<HandRigConnector>().handTarget = transform.GetChild(0).GetChild(0).Find("HandTarget");
+            transform.parent.GetComponent<HandRigConnector>().rightHandTarget = transform.GetChild(0).GetChild(0).Find("HandTarget");
             transform.parent.GetComponent<HandRigConnector>().SetIKHandPosition();
         }
         anim = GetComponentInParent<Animator>();
     }
+
     public void StartHandleInput(InputAction.CallbackContext context) {
         //LEFT CLICK
         if (context.action.name == TagManager.USE_ACTION) {

@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Bullet
   - Enemy
+  - LeftHandTarget
+  - RightHandTarget
+  - PlayerCam
   layers:
   - Default
   - TransparentFX

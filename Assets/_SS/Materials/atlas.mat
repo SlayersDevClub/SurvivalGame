@@ -107,7 +107,7 @@ Material:
     - _ApplyNormal: 0
     - _ApplyNormalDepthNormal: 1
     - _Blend: 0
-    - _Border: 4
+    - _Border: 2
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0

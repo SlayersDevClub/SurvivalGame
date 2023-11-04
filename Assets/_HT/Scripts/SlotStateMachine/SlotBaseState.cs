@@ -108,12 +108,22 @@ public abstract class SlotBaseState {
     public void Unequip(SlotStateMachine item) {
         if (item.player.transform.Find("Model/ItemHolder/Resource").transform.childCount > 0)
         {
+            item.player.transform.Find("Model/ItemHolder/Resource").GetComponent<HandRigConnector>().ResetHands();
             GameObject.Destroy(item.player.transform.Find("Model/ItemHolder/Resource").GetChild(0).gameObject);
-        } else if (item.player.transform.Find("Model/ItemHolder/Gun").transform.childCount > 0) {
+        }
+        else if (item.player.transform.Find("Model/ItemHolder/Gun").transform.childCount > 0)
+        {
+            item.player.transform.Find("Model/ItemHolder/Gun").GetComponent<HandRigConnector>().ResetHands();
             GameObject.Destroy(item.player.transform.Find("Model/ItemHolder/Gun").GetChild(0).gameObject);
-        } else if (item.player.transform.Find("Model/ItemHolder/Tool").transform.childCount > 0) {
+        }
+        else if (item.player.transform.Find("Model/ItemHolder/Tool").transform.childCount > 0)
+        {
+            item.player.transform.Find("Model/ItemHolder/Tool").GetComponent<HandRigConnector>().ResetHands();
             GameObject.Destroy(item.player.transform.Find("Model/ItemHolder/Tool").GetChild(0).gameObject);
-        } else if (item.player.transform.Find("Model/ItemHolder/Structure").transform.childCount > 0) {
+        }
+        else if (item.player.transform.Find("Model/ItemHolder/Structure").transform.childCount > 0)
+        {
+            item.player.transform.Find("Model/ItemHolder/Structure").GetComponent<HandRigConnector>().ResetHands();
             GameObject.Destroy(item.player.transform.Find("Model/ItemHolder/Structure").GetChild(0).gameObject);
         }
         SFXManager.instance.PlaySlotOut();
@@ -160,6 +170,12 @@ public abstract class SlotBaseState {
             resourceHeld.GetComponent<Rigidbody>().useGravity = false;
             resourceHeld.GetComponent<Rigidbody>().isKinematic = true;
             resourceHeld.GetComponent<Collider>().enabled = false;
+
+
+            foreach (Transform child in resourceHeld.GetComponentInChildren<Transform>())
+            {
+                child.gameObject.layer = LayerMask.NameToLayer("Equipped");
+            }
         }
         /*
          * 

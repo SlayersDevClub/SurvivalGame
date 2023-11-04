@@ -22,20 +22,28 @@ public class SlotDropState : SlotBaseState
         //}
 
         if (droppedItem != null) {
+            droppedItem.GetComponentInParent<HandRigConnector>().ResetHands();
             droppedItem.transform.parent = null;
 
-            Rigidbody rb = droppedItem.GetComponent<Rigidbody>();
-            rb.useGravity = true;
-            rb.isKinematic = false;
-            droppedItem.GetComponent<Collider>().enabled = true;
-            if (rb == null) {
+            Rigidbody rb;
+            if (droppedItem.GetComponent<Rigidbody>())
+                rb = droppedItem.GetComponent<Rigidbody>();
+            else
+            {
                 rb = droppedItem.AddComponent<Rigidbody>();
                 droppedItem.AddComponent<BoxCollider>();
             }
 
+            rb.useGravity = true;
+            rb.isKinematic = false;
+            droppedItem.GetComponent<Collider>().enabled = true;
+
             Vector3 forceDirection = item.player.playerTransform.forward; // Adjust the force direction as needed
             float forceMagnitude = 5.0f; // Adjust the force magnitude as needed
             rb.AddForce(forceDirection.normalized * forceMagnitude, ForceMode.Impulse);
+
+            foreach(Transform child in droppedItem.GetComponentsInChildren<Transform>())
+                child.gameObject.layer = LayerMask.NameToLayer("Default");
         }
 
         item.player.inv.RemoveItem(item.player.equipItemSlot);
