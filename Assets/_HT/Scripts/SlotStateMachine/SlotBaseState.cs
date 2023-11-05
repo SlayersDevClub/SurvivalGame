@@ -203,6 +203,7 @@ public abstract class SlotBaseState {
 
             GameObject equipGun = GameObject.Instantiate(original, item.player.transform.Find("Model/ItemHolder/Gun").transform);
             equipGun.GetComponent<GunUsable>().Setup();
+            equipGun.GetComponent<GunUsable>().enabled = true;
             MakeMultiplayerViewable(equipGun);
 
         /*

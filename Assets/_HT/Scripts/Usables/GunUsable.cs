@@ -17,8 +17,14 @@ public class GunUsable : MonoBehaviour, IUsable
     public float shootForce, upwardForce;
 
     //Gun stats
-    public float timeBetweenShooting, spread, reloadTime, timeBetweenShots;
-    public int magazineSize, bulletsPerTap;
+    public float 
+        timeBetweenShooting, 
+        spread, 
+        reloadTime = 1, 
+        timeBetweenShots;
+    public int 
+        magazineSize = 30, 
+        bulletsPerTap;
     public bool allowButtonHold;
 
     int bulletsLeft, bulletsShot;
@@ -28,12 +34,25 @@ public class GunUsable : MonoBehaviour, IUsable
     public float recoilForce;
 
     //bools
-    bool shooting, readyToShoot, reloading, autoFire;
+    bool 
+        shooting, 
+        readyToShoot, 
+        reloading, 
+        autoFire, 
+        sprinting;
+
+    //Poolers
+    GunVFXPool gunFXPool;
 
     //Reference
     PlayerInputReader pir;
-    Camera playerCam, fpsCam, skyboxCam;
-    public Transform attackPoint, muzzleTarget;
+    Camera 
+        playerCam, 
+        fpsCam, 
+        skyboxCam;
+    public Transform 
+        attackPoint, 
+        muzzleTarget;
     public float 
         startingFOV = 50, 
         startingEquippedFOV = 30, 
@@ -41,27 +60,31 @@ public class GunUsable : MonoBehaviour, IUsable
         zoomFOV = 35;
 
     //Graphics
-    public GameObject muzzleFlash, impactFX;
     public TextMeshProUGUI ammunitionDisplay;
 
     //bug fixing :D
     public bool allowInvoke = true;
 
-
-
     bool isTimerFinished = true, ads = false;
-    public float shootSpeed = 0.25f;
+    public float shootSpeed = 0.15f;
     int animTime = 1;
     int currentAnimState;
 
 
-    Tween fireTween, adsTween, subtleRockTween;
-    float randomSubtleRockAmount = 5f;
-
-    GameObject muzzleFlashFX;
+    Tween 
+        fireTween, 
+        adsTween, 
+        subtleRockTween,
+        walkBounceTween,
+        sprintTween;
+    float randomSubtleRockAmount = 5f, nextFire;
 
     public void Setup()
     {
+        //Ref for gun fx and setting up muzzleflashpool
+        gunFXPool = GetComponentInParent<GunVFXPool>();
+        gunFXPool.SetupMuzzleFlashPool();
+
         //Prepare gun and variable values
         thisGun = GetComponent<ItemSetup>().GetBaseItemTemplate() as GunTemplate;
         AssignGunStats();
@@ -73,7 +96,7 @@ public class GunUsable : MonoBehaviour, IUsable
         //Cameras
         fpsCam = GameObject.Find("CameraControls/WorldCam").GetComponent<Camera>();
         playerCam = fpsCam.transform.parent.GetChild(1).GetComponent<Camera>();
-        skyboxCam = Camera.main;
+        skyboxCam = transform.root.Find("SkyboxCam").GetComponent<Camera>();
         startingFOV = fpsCam.fieldOfView;
         startingEquippedFOV = playerCam.fieldOfView;
 
@@ -89,11 +112,15 @@ public class GunUsable : MonoBehaviour, IUsable
                 break;
             }
         }
-        var muzzleFlashLoad = Resources.Load<GameObject>("Prefabs/VFX/" + "SS-MuzzleFlash-1");
-        muzzleFlashFX = Instantiate(muzzleFlashLoad, muzzleTarget);
-        muzzleFlashFX.transform.localPosition = Vector3.zero;
 
-        impactFX = Resources.Load<GameObject>("Prefabs/VFX/" + "ToolHitFX-Wood-Prefab");
+        //Ammo Canvas
+        foreach(Transform child in GetComponentsInChildren<Transform>())
+        {
+            if(child.name == "AmmoCounter")
+            {
+                ammunitionDisplay = child.GetComponent<TextMeshProUGUI>();
+            }
+        }
 
         //Hands poser setup
         if (transform.parent.GetComponent<HandRigConnector>())
@@ -118,7 +145,7 @@ public class GunUsable : MonoBehaviour, IUsable
         fireTween = transform.parent.DOLocalMoveY(0.2f, shootSpeed/2).OnPlay(SetupFire);
         fireTween.SetLoops(2, LoopType.Yoyo);
         //fireTween.SetEase(Ease.InCirc);
-        fireTween.SetAutoKill(false);
+        fireTween.SetAutoKill(false);    
         fireTween.OnComplete(RestartFireTween);
         fireTween.SetRelative(true);
         fireTween.Pause();
@@ -134,16 +161,29 @@ public class GunUsable : MonoBehaviour, IUsable
         subtleRockTween.SetAutoKill(false);
         subtleRockTween.SetRelative(true);
         subtleRockTween.Pause();
+
+        walkBounceTween.SetLoops(2, LoopType.Yoyo);
+        walkBounceTween.OnPlay(SetupwalkBounceTween);
+        walkBounceTween.SetAutoKill(false);
+        walkBounceTween.SetRelative(true);
+        walkBounceTween.Pause();
+
+        sprintTween = transform.parent.DOLocalRotate(new Vector3(50, -20, 90), 0.3f);
+        sprintTween.SetAutoKill(false);
+        sprintTween.Pause();
+    }
+    void SetupwalkBounceTween()
+    {
+        walkBounceTween = transform.parent.DOLocalMoveX(0.1f, 0.3f).SetEase(Ease.InCirc);
     }
     void SetupFire()
     {
         subtleRockTween = transform.DOLocalRotate
-            (new Vector3(Random.Range(-randomSubtleRockAmount, randomSubtleRockAmount), 0, 0), shootSpeed /2);
+            (new Vector3(Random.Range(-randomSubtleRockAmount, randomSubtleRockAmount), 0, 0), shootSpeed /2, RotateMode.Fast);
         subtleRockTween.SetLoops(2, LoopType.Yoyo);
         subtleRockTween.Rewind();
         subtleRockTween.PlayForward();
     }
-
     void RandomizeSubtleRockTween()
     {
         subtleRockTween.Rewind();
@@ -160,11 +200,16 @@ public class GunUsable : MonoBehaviour, IUsable
         upwardForce = thisGun.upwardForce;
         timeBetweenShooting = thisGun.timeBetweenShooting;
         spread = thisGun.spread;
-        reloadTime = thisGun.reloadTime;
-        timeBetweenShots = thisGun.timeBetweenShots;
-        magazineSize = thisGun.magazineSize;
+
+        //Need to fix this
+        //reloadTime = thisGun.reloadTime;
+
+        //Need to fix this
+        //magazineSize = thisGun.magazineSize;
+
         bulletsPerTap = thisGun.bulletsPerTap;
         recoilForce = thisGun.recoilForce;
+        timeBetweenShots = thisGun.timeBetweenShots;
 
         attackPoint = transform.Find("body(Clone)");
         bullet = Resources.Load<GameObject>("Prefabs/Bullets/StandardBullet");
@@ -176,66 +221,65 @@ public class GunUsable : MonoBehaviour, IUsable
         readyToShoot = true;
     }
 
-    public void StartHandleInput(InputAction.CallbackContext context) {
 
+    public void StartHandleInput(InputAction.CallbackContext context) {
         //LEFT CLICK (FIRE)
         if(context.action.name == TagManager.USE_ACTION) {
             if (context.started)
             {
-                Shoot();
                 autoFire = true;
-                //InvokeRepeating("Shoot", 0, shootSpeed);
             }
         }
-
         //RIGHT CLICK (ADS)
         else if(context.action.name == TagManager.USE2_ACTION) 
         {
-            ADS();
+            if(!sprinting)
+                ADS();
         }
         //R RELOAD
         else if(context.action.name == TagManager.RELOAD_ACTION) {
-            Debug.Log("RELOADING");
+            Reload();
         }
     }
-
-
-
     public void EndHandleInput(InputAction.CallbackContext context) {
         
         if(context.action.name == TagManager.USE_ACTION) {
             autoFire = false;
-        }
-        
+        }      
     }
 
-    float shotTime;
+
     void Update()
     {
-        if (autoFire)
+        //Autofire
+        if(autoFire && Time.time > nextFire && !sprinting)
         {
-            if (shotTime < shootSpeed)
-            {
-                shotTime += Time.deltaTime;
-            }
-            else
-            {
-                Shoot();
-                shotTime = 0;
-            }
-
+            Shoot();
+            nextFire = Time.time + shootSpeed;
         }
 
         //Set ammo display, if it exists :D
         if (ammunitionDisplay != null)
-            ammunitionDisplay.SetText(bulletsLeft / bulletsPerTap + " / " + magazineSize / bulletsPerTap);
+            ammunitionDisplay.SetText(bulletsLeft + " / " + magazineSize);
 
-        if (pir.IsSprintingPressed())
+        if(pir.GetHorizontalMovementInput() > 0 || pir.GetVerticalMovementInput() > 0)
         {
-            if (ads)
-                ADS();
+            walkBounceTween.Play();
         }
 
+        //Sprinting
+        if (pir.IsSprintingPressed())
+        {
+            sprintTween.PlayForward();
+            sprinting = true;
+
+            if (ads) ADS();
+
+        } else if (sprintTween.IsComplete() || sprintTween.IsPlaying())
+        {
+            sprintTween.PlayBackwards();
+            sprinting = false;
+        }
     }
 
     private IEnumerator ShootSpeed(float countdownDuration)
@@ -253,50 +297,65 @@ public class GunUsable : MonoBehaviour, IUsable
 
     private void Shoot()
     {
-        shotTime = 0;
-        Instantiate(muzzleFlashFX, muzzleTarget);
-        fireTween.PlayForward();
-
-        //Find the exact hit position using a raycast
-        Ray ray = fpsCam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-        RaycastHit hit;
-        Vector3 targetPoint;
-        if (Physics.Raycast(ray, out hit))
-            targetPoint = hit.point;
+        if (bulletsLeft <= 0) return;
         else
-            targetPoint = ray.GetPoint(75); //Just a point far away from the player
+        {
+            bulletsLeft--;
 
-        //Calculate direction from attackPoint to targetPoint
-        Vector3 directionWithoutSpread = targetPoint - attackPoint.position;
+            //fireTween.Rewind();
+            fireTween.PlayForward();
 
+            GameObject muzzleFlash = gunFXPool.GetMuzzleFlash();
+            muzzleFlash.transform.position = muzzleTarget.position;
+            muzzleFlash.transform.rotation = muzzleTarget.rotation;
+            muzzleFlash.transform.parent = muzzleTarget;
+            muzzleFlash.SetActive(true);
 
-        //Calculate spread
-        float x = Random.Range(-spread, spread);
-        float y = Random.Range(-spread, spread);
+            //Find the exact hit position using a raycast
+            Ray ray = fpsCam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+            RaycastHit hit;
+            Vector3 targetPoint;
+            if (Physics.Raycast(ray, out hit))
+                targetPoint = hit.point;
+            else
+                targetPoint = ray.GetPoint(75); //Just a point far away from the player
 
-        //Calculate new direction with spread
-        Vector3 directionWithSpread = directionWithoutSpread + new Vector3(x, y, 0); //Just add spread to last direction
+            //Calculate direction from attackPoint to targetPoint
+            Vector3 directionWithoutSpread = targetPoint - attackPoint.position;
+            Debug.DrawRay(muzzleTarget.position, directionWithoutSpread, Color.red);
 
-        Debug.DrawRay(muzzleFlashFX.transform.position, directionWithoutSpread, Color.red);
+            //Calculate spread
+            float x = Random.Range(-spread, spread);
+            float y = Random.Range(-spread, spread);
 
-        //Instantiate bullet/projectile
-        GameObject currentBullet = Instantiate(bullet, attackPoint.position, Quaternion.identity); //store instantiated bullet in currentBullet
-        //Rotate bullet to shoot direction
-        currentBullet.transform.forward = directionWithSpread.normalized;
+            //Calculate new direction with spread
+            Vector3 directionWithSpread = directionWithoutSpread + new Vector3(x, y, 0); //Just add spread to last direction
 
-        //Add forces to bullet
-        currentBullet.GetComponent<Rigidbody>().AddForce(directionWithSpread.normalized * shootForce, ForceMode.Impulse);
-        currentBullet.GetComponent<Rigidbody>().AddForce(fpsCam.transform.up * upwardForce, ForceMode.Impulse);
+            //Instantiate bullet/projectile
+            GameObject currentBullet = gunFXPool.GetBullet();
+            currentBullet.transform.position = attackPoint.position;
+            currentBullet.transform.rotation = attackPoint.rotation;
+            currentBullet.transform.forward = directionWithSpread.normalized;
+            currentBullet.SetActive(true);
 
-        var _impactFX = GameObject.Instantiate(impactFX);
-        _impactFX.transform.position = targetPoint;
+            //Add forces to bullet
+            currentBullet.GetComponent<Rigidbody>().AddForce(directionWithSpread.normalized * shootForce, ForceMode.Impulse);
+            currentBullet.GetComponent<Rigidbody>().AddForce(fpsCam.transform.up * upwardForce, ForceMode.Impulse);
 
-        print("////===|| Shooting ||===o . . . . . . . . . ==>");
+            GameObject gunShotAudio = gunFXPool.GetShotSound();
+            gunShotAudio.transform.position = muzzleTarget.position;
+            gunShotAudio.SetActive(true);
+
+            GameObject impactFX = gunFXPool.GetImpact();
+            impactFX.transform.position = targetPoint;
+            impactFX.SetActive(true);
+
+            print("////===|| Shooting ||===o . . . . . . . . . ==>");
+        }
     }
 
     void ADS()
     {
-        //if (pir.IsSprintingPressed()) return;
         if (!ads)
         {
             ads = true;

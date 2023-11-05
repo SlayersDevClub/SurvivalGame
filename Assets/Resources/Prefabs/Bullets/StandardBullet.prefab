@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1263701276365323023}
   - component: {fileID: 8696929523297058871}
   - component: {fileID: 5465120230679563552}
-  - component: {fileID: -767740195020218285}
+  - component: {fileID: 4201991915401231741}
   m_Layer: 0
   m_Name: StandardBullet
   m_TagString: Untagged
@@ -116,7 +116,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &-767740195020218285
+--- !u!114 &4201991915401231741
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -125,6 +125,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8111342684801167134}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2519f81eab2e7fd4ba985fcbf8472646, type: 3}
+  m_Script: {fileID: 11500000, guid: 2ad78313de9629a41980ad4749b1c25f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeToDisable: 2

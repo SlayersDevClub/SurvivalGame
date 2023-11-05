@@ -46,7 +46,7 @@ namespace CMF
 
 		//Setup references.
 		void Awake () {
-            skyboxCam.transform.parent = null;
+            //skyboxCam.transform.parent = null;
 			tr = transform;
 			cam = GetComponent<Camera>();
 			cameraInput = GetComponent<CameraNewInput>();
