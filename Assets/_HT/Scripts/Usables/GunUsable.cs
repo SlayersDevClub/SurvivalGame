@@ -20,7 +20,7 @@ public class GunUsable : MonoBehaviour, IUsable
     public float 
         timeBetweenShooting, 
         spread, 
-        reloadTime = 1, 
+        reloadTime = .4f, 
         timeBetweenShots;
     public int 
         magazineSize = 30, 
@@ -53,7 +53,7 @@ public class GunUsable : MonoBehaviour, IUsable
     public Transform 
         attackPoint, 
         muzzleTarget;
-    public float 
+    private float 
         startingFOV = 50, 
         startingEquippedFOV = 30, 
         equippedZoomFOV = 20, 
@@ -76,8 +76,12 @@ public class GunUsable : MonoBehaviour, IUsable
         adsTween, 
         subtleRockTween,
         walkBounceTween,
-        sprintTween;
+        sprintTween,
+        magTween;
     float randomSubtleRockAmount = 5f, nextFire;
+
+    Transform magHand;
+    HandRigConnector handRig;
 
     public void Setup()
     {
@@ -103,6 +107,8 @@ public class GunUsable : MonoBehaviour, IUsable
         bulletsLeft = magazineSize;
         readyToShoot = true;
 
+        handRig = GetComponentInParent<HandRigConnector>() ?? null;
+
         //Muzzle Flash Position found as child of barrel
         foreach(Transform child in GetComponentsInChildren<Transform>())
         {
@@ -123,28 +129,32 @@ public class GunUsable : MonoBehaviour, IUsable
         }
 
         //Hands poser setup
-        if (transform.parent.GetComponent<HandRigConnector>())
+        if (handRig)
         {
             foreach (Transform child in GetComponentsInChildren<Transform>())
             {
+                if (child.name.Contains("mag"))
+                {
+                    magHand = child.GetChild(0);
+                }
                 if (child.CompareTag("LeftHandTarget"))
                 {
                     print("found left hand");
-                    transform.parent.GetComponent<HandRigConnector>().leftHandTarget = child.GetChild(0);
+                    handRig.leftHandTarget = child.GetChild(0);
                 }
 
                 if (child.CompareTag("RightHandTarget"))
                 {
-                    transform.parent.GetComponent<HandRigConnector>().rightHandTarget = child.GetChild(0);
+                    handRig.rightHandTarget = child.GetChild(0);
                 }
             }
-            transform.parent.GetComponent<HandRigConnector>().SetIKHandPosition();
+            handRig.SetIKHandPosition();
         }
 
         //Tweener setup
         fireTween = transform.parent.DOLocalMoveY(0.2f, shootSpeed/2).OnPlay(SetupFire);
         fireTween.SetLoops(2, LoopType.Yoyo);
-        //fireTween.SetEase(Ease.InCirc);
+        fireTween.SetEase(Ease.InCirc);
         fireTween.SetAutoKill(false);    
         fireTween.OnComplete(RestartFireTween);
         fireTween.SetRelative(true);
@@ -171,6 +181,13 @@ public class GunUsable : MonoBehaviour, IUsable
         sprintTween = transform.parent.DOLocalRotate(new Vector3(50, -20, 90), 0.3f);
         sprintTween.SetAutoKill(false);
         sprintTween.Pause();
+
+        magTween = magHand.parent.DOLocalMoveY(-0.2f, reloadTime);
+        magTween.SetAutoKill(false);
+        magTween.SetRelative(true);
+        magTween.SetDelay(reloadTime);
+        magTween.SetLoops(2, LoopType.Yoyo);
+;       magTween.Pause();
     }
     void SetupwalkBounceTween()
     {
@@ -452,14 +469,29 @@ public class GunUsable : MonoBehaviour, IUsable
     //    readyToShoot = true;
     //    allowInvoke = true;
     //}
-
+    Transform defaultHand;
     private void Reload() {
+        this.transform.parent.GetComponent<AudioSource>().Stop();
+        this.transform.parent.GetComponent<AudioSource>().Play();
         reloading = true;
-        Invoke("ReloadFinished", reloadTime); //Invoke ReloadFinished function with your reloadTime as delay
+        defaultHand = handRig.leftHandTarget;
+        DOTween.To(() => handRig.posIK.solver.leftHandEffector.positionWeight, x => handRig.posIK.solver.leftHandEffector.positionWeight = x, .85f, reloadTime * .25f);
+        DOTween.To(() => handRig.posIK.solver.leftHandEffector.rotationWeight, x => handRig.posIK.solver.leftHandEffector.rotationWeight = x, .85f, reloadTime * .25f);
+        handRig.leftHandPoser.poseRoot = magHand;
+        handRig.leftHandPoser.weight = 0;
+        handRig.leftHandTarget = magHand;
+        handRig.SetIKHandPosition();
+        DOTween.To(() => handRig.leftHandPoser.weight, x => handRig.leftHandPoser.weight = x, 1, reloadTime * .75f);
+        magTween.Rewind();
+        magTween.PlayForward();
+
+        Invoke("ReloadFinished", reloadTime *3); //Invoke ReloadFinished function with your reloadTime as delay
     }
     private void ReloadFinished() {
-        //Fill magazine
         bulletsLeft = magazineSize;
         reloading = false;
+        handRig.leftHandTarget = defaultHand;
+        handRig.leftHandPoser.poseRoot = defaultHand;
+        handRig.SetIKHandPosition();
     }
 }

@@ -1,31 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using RootMotion.FinalIK;
+using DG.Tweening;
 
 public class HandRigConnector : MonoBehaviour
 {
-    FullBodyBipedIK posIK;
-    public Transform rightHandTarget, leftHandTarget, rightElbowTarget;
+    public FullBodyBipedIK posIK;
+    public Transform 
+        rightHandTarget, 
+        leftHandTarget, 
+        rightElbowTarget;
+    public HandPoser
+        rightHandPoser,
+        leftHandPoser;
 
     // Start is called before the first frame update
     void Start()
     {
         posIK = transform.root.GetComponentInChildren<FullBodyBipedIK>();
+        rightHandPoser = posIK.GetComponent<HandHolder>().rightHand.GetComponent<HandPoser>();
+        leftHandPoser = posIK.GetComponent<HandHolder>().leftHand.GetComponent<HandPoser>();
     }
 
     public void SetIKHandPosition()
     {
         if(rightHandTarget != null)
         {
-            posIK.GetComponent<HandHolder>().rightHand.GetComponent<HandPoser>().poseRoot = rightHandTarget;
+            rightHandPoser.poseRoot = rightHandTarget;
             posIK.solver.rightHandEffector.target = rightHandTarget;
             posIK.solver.rightHandEffector.position = rightHandTarget.position;
             posIK.solver.rightHandEffector.rotation = rightHandTarget.rotation;
-            posIK.solver.rightHandEffector.positionWeight = 1f;
-            posIK.solver.rightHandEffector.rotationWeight = 1f;
-            posIK.solver.rightArmChain.bendConstraint.weight = 0.5f;
+            DOTween.To(() => posIK.solver.rightHandEffector.positionWeight, x => posIK.solver.rightHandEffector.positionWeight = x, 1, 1);
+            DOTween.To(() => posIK.solver.rightHandEffector.rotationWeight, x => posIK.solver.rightHandEffector.rotationWeight = x, 1, 1);
 
+            posIK.solver.rightArmChain.bendConstraint.weight = 0.5f;
         }
         else
         {
@@ -35,12 +42,12 @@ public class HandRigConnector : MonoBehaviour
 
         if (leftHandTarget != null)
         {
-            posIK.GetComponent<HandHolder>().leftHand.GetComponent<HandPoser>().poseRoot = leftHandTarget;
+            leftHandPoser.poseRoot = leftHandTarget;
             posIK.solver.leftHandEffector.target = leftHandTarget;
             posIK.solver.leftHandEffector.position = leftHandTarget.position;
             posIK.solver.leftHandEffector.rotation = leftHandTarget.rotation;
-            posIK.solver.leftHandEffector.positionWeight = 1f;
-            posIK.solver.leftHandEffector.rotationWeight = 1f;
+            DOTween.To(() => posIK.solver.leftHandEffector.positionWeight, x => posIK.solver.leftHandEffector.positionWeight = x, 1, 1);
+            DOTween.To(() => posIK.solver.leftHandEffector.rotationWeight, x => posIK.solver.leftHandEffector.rotationWeight = x, 1, 1);
 
         } else
         {
