@@ -14,7 +14,7 @@ public class GunUsable : MonoBehaviour, IUsable
     public GameObject bullet;
 
     //bullet force
-    public float shootForce, upwardForce;
+    public float shootForce = 1, upwardForce;
 
     //Gun stats
     public float 
@@ -71,17 +71,19 @@ public class GunUsable : MonoBehaviour, IUsable
     int currentAnimState;
 
 
-    Tween 
-        fireTween, 
-        adsTween, 
+    Tween
+        fireTween,
+        adsTween,
         subtleRockTween,
         walkBounceTween,
         sprintTween,
-        magTween;
+        magTween,
+        pullOutTween;
     float randomSubtleRockAmount = 5f, nextFire;
 
     Transform magHand;
     HandRigConnector handRig;
+    GameObject bulletCasingVFX;
 
     public void Setup()
     {
@@ -98,11 +100,13 @@ public class GunUsable : MonoBehaviour, IUsable
         pir = playerRb.GetComponent<PlayerInputReader>();
 
         //Cameras
-        fpsCam = GameObject.Find("CameraControls/WorldCam").GetComponent<Camera>();
-        playerCam = fpsCam.transform.parent.GetChild(1).GetComponent<Camera>();
-        skyboxCam = transform.root.Find("SkyboxCam").GetComponent<Camera>();
-        startingFOV = fpsCam.fieldOfView;
-        startingEquippedFOV = playerCam.fieldOfView;
+        {
+            fpsCam = GameObject.Find("CameraControls/WorldCam").GetComponent<Camera>();
+            playerCam = fpsCam.transform.parent.GetChild(1).GetComponent<Camera>();
+            skyboxCam = transform.root.Find("SkyboxCam").GetComponent<Camera>();
+            startingFOV = fpsCam.fieldOfView;
+            startingEquippedFOV = playerCam.fieldOfView;
+        }
 
         bulletsLeft = magazineSize;
         readyToShoot = true;
@@ -151,11 +155,16 @@ public class GunUsable : MonoBehaviour, IUsable
             handRig.SetIKHandPosition();
         }
 
-        //Tweener setup
-        fireTween = transform.parent.DOLocalMoveY(0.2f, shootSpeed/2).OnPlay(SetupFire);
+        bulletCasingVFX = Instantiate(Resources.Load<GameObject>("Prefabs/VFX/GunFX-BulletCasing-1"), magHand.parent);
+        ParticleSystem.MainModule bcMain = bulletCasingVFX.GetComponent<ParticleSystem>().main;
+        bcMain.customSimulationSpace = transform.root.GetChild(0);
+
+        //Tweener setup    
+        fireTween = transform.parent.DOLocalMoveY(0.175f, shootSpeed / 2).OnPlay(SetupFire);
+        fireTween.SetLoops(2, LoopType.Yoyo);
         fireTween.SetLoops(2, LoopType.Yoyo);
         fireTween.SetEase(Ease.InCirc);
-        fireTween.SetAutoKill(false);    
+        fireTween.SetAutoKill(false);
         fireTween.OnComplete(RestartFireTween);
         fireTween.SetRelative(true);
         fireTween.Pause();
@@ -187,7 +196,21 @@ public class GunUsable : MonoBehaviour, IUsable
         magTween.SetRelative(true);
         magTween.SetDelay(reloadTime);
         magTween.SetLoops(2, LoopType.Yoyo);
-;       magTween.Pause();
+        magTween.Pause();
+
+        transform.parent.localEulerAngles = new Vector3(0, 0, 90);
+        //pullOutTween = transform.parent.DOLocalMoveX(0.5f, 0.85f).From();
+        pullOutTween =transform.parent.DOLocalRotate(new Vector3(0, 0, 180), 0.85f).From();
+        //pullOutTween.SetRelative(true)
+
+    }
+    private void OnDisable()
+    {
+        pullOutTween.Kill();
+        //if (ads)
+        //{
+        //    ADS();
+        //}
     }
     void SetupwalkBounceTween()
     {
@@ -230,6 +253,7 @@ public class GunUsable : MonoBehaviour, IUsable
 
         attackPoint = transform.Find("body(Clone)");
         bullet = Resources.Load<GameObject>("Prefabs/Bullets/StandardBullet");
+
     }
 
     void Start() {
@@ -248,14 +272,15 @@ public class GunUsable : MonoBehaviour, IUsable
             }
         }
         //RIGHT CLICK (ADS)
-        else if(context.action.name == TagManager.USE2_ACTION) 
+        if(context.action.name == TagManager.USE2_ACTION) 
         {
-            if(!sprinting)
+            if(pir.IsSprintingPressed() == false)
                 ADS();
         }
         //R RELOAD
-        else if(context.action.name == TagManager.RELOAD_ACTION) {
-            Reload();
+        if(context.action.name == TagManager.RELOAD_ACTION) {
+            if(!reloading)
+                Reload();
         }
     }
     public void EndHandleInput(InputAction.CallbackContext context) {
@@ -282,64 +307,67 @@ public class GunUsable : MonoBehaviour, IUsable
         if(pir.GetHorizontalMovementInput() > 0 || pir.GetVerticalMovementInput() > 0)
         {
             walkBounceTween.Play();
+            //Sprinting
+            if (pir.IsSprintingPressed())
+            {
+                sprintTween.PlayForward();
+                sprinting = true;
+
+                if (ads) ADS();
+
+            }
+            else if (sprintTween.IsComplete() || sprintTween.IsPlaying())
+            {
+                sprintTween.PlayBackwards();
+                sprinting = false;
+            }
         }
 
-        //Sprinting
-        if (pir.IsSprintingPressed())
-        {
-            sprintTween.PlayForward();
-            sprinting = true;
 
-            if (ads) ADS();
-
-        } else if (sprintTween.IsComplete() || sprintTween.IsPlaying())
-        {
-            sprintTween.PlayBackwards();
-            sprinting = false;
-        }
-    }
-
-    private IEnumerator ShootSpeed(float countdownDuration)
-    {
-        float currentTime = countdownDuration;
-        isTimerFinished = false;
-        while (currentTime > 0)
-        {
-            yield return new WaitForSeconds(shootSpeed); // Wait for 1 second
-            currentTime--;
-        }
-        // Timer finished
-        isTimerFinished = true;
     }
 
     private void Shoot()
     {
-        if (bulletsLeft <= 0) return;
+        if (bulletsLeft <= 0)
+        {
+            GameObject dryFireSFX = gunFXPool.GetEmptyFireSound();
+            dryFireSFX.SetActive(true);
+            return;
+        }
         else
         {
+            bulletCasingVFX.GetComponent<ParticleSystem>().Play();
+
             bulletsLeft--;
 
-            //fireTween.Rewind();
             fireTween.PlayForward();
 
+            //MuzzleFlash
             GameObject muzzleFlash = gunFXPool.GetMuzzleFlash();
             muzzleFlash.transform.position = muzzleTarget.position;
             muzzleFlash.transform.rotation = muzzleTarget.rotation;
             muzzleFlash.transform.parent = muzzleTarget;
             muzzleFlash.SetActive(true);
 
-            //Find the exact hit position using a raycast
+            //Find the exact hit position using a raycast      
             Ray ray = fpsCam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
             RaycastHit hit;
             Vector3 targetPoint;
             if (Physics.Raycast(ray, out hit))
+            {
                 targetPoint = hit.point;
+                if (hit.transform.GetComponent<IDamageable>() != null)
+                {
+                    hit.transform.GetComponent<IDamageable>().Damage(10);
+                }
+            }
             else
+            {
                 targetPoint = ray.GetPoint(75); //Just a point far away from the player
+            }
 
             //Calculate direction from attackPoint to targetPoint
             Vector3 directionWithoutSpread = targetPoint - attackPoint.position;
-            Debug.DrawRay(muzzleTarget.position, directionWithoutSpread, Color.red);
 
             //Calculate spread
             float x = Random.Range(-spread, spread);
@@ -348,16 +376,7 @@ public class GunUsable : MonoBehaviour, IUsable
             //Calculate new direction with spread
             Vector3 directionWithSpread = directionWithoutSpread + new Vector3(x, y, 0); //Just add spread to last direction
 
-            //Instantiate bullet/projectile
-            GameObject currentBullet = gunFXPool.GetBullet();
-            currentBullet.transform.position = attackPoint.position;
-            currentBullet.transform.rotation = attackPoint.rotation;
-            currentBullet.transform.forward = directionWithSpread.normalized;
-            currentBullet.SetActive(true);
 
-            //Add forces to bullet
-            currentBullet.GetComponent<Rigidbody>().AddForce(directionWithSpread.normalized * shootForce, ForceMode.Impulse);
-            currentBullet.GetComponent<Rigidbody>().AddForce(fpsCam.transform.up * upwardForce, ForceMode.Impulse);
 
             GameObject gunShotAudio = gunFXPool.GetShotSound();
             gunShotAudio.transform.position = muzzleTarget.position;
@@ -367,7 +386,10 @@ public class GunUsable : MonoBehaviour, IUsable
             impactFX.transform.position = targetPoint;
             impactFX.SetActive(true);
 
-            print("////===|| Shooting ||===o . . . . . . . . . ==>");
+            GameObject surfaceImpactFX = gunFXPool.GetSurfaceImpactFX(targetPoint, Vector3.forward);
+            surfaceImpactFX.SetActive(true);
+
+            //print("////===|| Shooting ||===o . . . . . . . . . ==>");
         }
     }
 
@@ -436,13 +458,13 @@ public class GunUsable : MonoBehaviour, IUsable
     //    Vector3 directionWithSpread = directionWithoutSpread + new Vector3(x, y, 0); //Just add spread to last direction
 
     //    //Instantiate bullet/projectile
-    //    GameObject currentBullet = Instantiate(bullet, attackPoint.position, Quaternion.identity); //store instantiated bullet in currentBullet
+    //    GameObject bulletCasingVFX = Instantiate(bullet, attackPoint.position, Quaternion.identity); //store instantiated bullet in bulletCasingVFX
     //    //Rotate bullet to shoot direction
-    //    currentBullet.transform.forward = directionWithSpread.normalized;
+    //    bulletCasingVFX.transform.forward = directionWithSpread.normalized;
 
     //    //Add forces to bullet
-    //    currentBullet.GetComponent<Rigidbody>().AddForce(directionWithSpread.normalized * shootForce, ForceMode.Impulse);
-    //    currentBullet.GetComponent<Rigidbody>().AddForce(fpsCam.transform.up * upwardForce, ForceMode.Impulse);
+    //    bulletCasingVFX.GetComponent<Rigidbody>().AddForce(directionWithSpread.normalized * shootForce, ForceMode.Impulse);
+    //    bulletCasingVFX.GetComponent<Rigidbody>().AddForce(fpsCam.transform.up * upwardForce, ForceMode.Impulse);
 
     //    //Instantiate muzzle flash, if you have one
     //    if (muzzleFlash != null)
@@ -475,13 +497,25 @@ public class GunUsable : MonoBehaviour, IUsable
         this.transform.parent.GetComponent<AudioSource>().Play();
         reloading = true;
         defaultHand = handRig.leftHandTarget;
-        DOTween.To(() => handRig.posIK.solver.leftHandEffector.positionWeight, x => handRig.posIK.solver.leftHandEffector.positionWeight = x, .85f, reloadTime * .25f);
-        DOTween.To(() => handRig.posIK.solver.leftHandEffector.rotationWeight, x => handRig.posIK.solver.leftHandEffector.rotationWeight = x, .85f, reloadTime * .25f);
+        DOTween.To(()
+            => handRig.posIK.solver.leftHandEffector.positionWeight, 
+            x => handRig.posIK.solver.leftHandEffector.positionWeight = x, 
+            .85f, 
+            reloadTime * .25f);
+        DOTween.To(() 
+            => handRig.posIK.solver.leftHandEffector.rotationWeight, 
+            x => handRig.posIK.solver.leftHandEffector.rotationWeight = x, 
+            .85f, 
+            reloadTime * .25f);
         handRig.leftHandPoser.poseRoot = magHand;
         handRig.leftHandPoser.weight = 0;
         handRig.leftHandTarget = magHand;
         handRig.SetIKHandPosition();
-        DOTween.To(() => handRig.leftHandPoser.weight, x => handRig.leftHandPoser.weight = x, 1, reloadTime * .75f);
+        DOTween.To(() 
+            => handRig.leftHandPoser.weight, 
+            x => handRig.leftHandPoser.weight = x, 
+            1, 
+            reloadTime * .75f);
         magTween.Rewind();
         magTween.PlayForward();
 

@@ -27,7 +27,7 @@ public class BodyAnimationController : MonoBehaviour
         anim.SetFloat("YInput", moveY);
         if (pir.IsJumpKeyPressed()) anim.SetTrigger("Jump");
         else anim.ResetTrigger("Jump");
-        if (pir.IsSprintingPressed() && moveY > 0 && playerMover.IsGrounded()) anim.SetBool("Sprint", true);
+        if (pir.IsSprintingPressed() && pir.GetVerticalMovementInput() > 0 && playerMover.IsGrounded()) anim.SetBool("Sprint", true);
         else anim.SetBool("Sprint", false);
 
     }

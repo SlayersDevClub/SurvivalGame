@@ -47,7 +47,7 @@ PositionConstraint:
   m_Enabled: 1
   m_Weight: 0.1
   m_TranslationAtRest: {x: 0.19, y: 0, z: 0}
-  m_TranslationOffset: {x: 0.19, y: -0.22300065, z: 0}
+  m_TranslationOffset: {x: 0.19, y: -0.22300005, z: 0}
   m_AffectTranslationX: 1
   m_AffectTranslationY: 1
   m_AffectTranslationZ: 1
@@ -191,7 +191,7 @@ PositionConstraint:
   m_Enabled: 1
   m_Weight: 0.855
   m_TranslationAtRest: {x: 0, y: 0, z: 0}
-  m_TranslationOffset: {x: -0.0006713867, y: 0.08494508, z: 0.05633545}
+  m_TranslationOffset: {x: -0.0006811619, y: 0.084941626, z: 0.056355953}
   m_AffectTranslationX: 1
   m_AffectTranslationY: 1
   m_AffectTranslationZ: 1
@@ -357,7 +357,6 @@ GameObject:
   - component: {fileID: 843233111}
   - component: {fileID: 1260752812}
   - component: {fileID: 1260752818}
-  - component: {fileID: 3805045850598859983}
   - component: {fileID: 8659123669728984970}
   m_Layer: 6
   m_Name: Gun
@@ -415,31 +414,14 @@ MonoBehaviour:
   muzzleFlashPool: []
   impactFXPool: []
   gunShotSoundPool: []
+  surfaceImpactFXPool: []
+  gunEmptyPool: []
   bulletPrefab: {fileID: 8111342684801167134, guid: e15f04abfb4288949ace8a83d6444a01, type: 3}
   muzzleFlashPrefab: {fileID: 2060573540640272862, guid: 83a4f68414b61964ab1aef7fa57fea96, type: 3}
   impactFXPrefab: {fileID: 8883146981886485267, guid: cd8866258794c4e468f0d124d8089c94, type: 3}
   gunShotSound: {fileID: 1801868718666460548, guid: de20f126978da74428400620e771bf60, type: 3}
-  amountToPool: 20
---- !u!114 &3805045850598859983
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 843233110}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84b958b7e0a7895458c3816416433bac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bulletPool: []
-  muzzleFlashPool: []
-  impactFXPool: []
-  gunShotSoundPool: []
-  bulletPrefab: {fileID: 8111342684801167134, guid: e15f04abfb4288949ace8a83d6444a01, type: 3}
-  muzzleFlashPrefab: {fileID: 2060573540640272862, guid: 83a4f68414b61964ab1aef7fa57fea96, type: 3}
-  impactFXPrefab: {fileID: 8883146981886485267, guid: cd8866258794c4e468f0d124d8089c94, type: 3}
-  gunShotSound: {fileID: 1801868718666460548, guid: de20f126978da74428400620e771bf60, type: 3}
+  surfaceImpactFX: {fileID: 8883146981886485267, guid: aa8b182e2aec88648aafc7f3dfee39e8, type: 3}
+  gunEmptySFX: {fileID: 1801868718666460548, guid: 3adda55baef3bb6419b96deee62522b2, type: 3}
   amountToPool: 20
 --- !u!82 &8659123669728984970
 AudioSource:
@@ -679,7 +661,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1044492509}
   - component: {fileID: 1621561984}
-  - component: {fileID: 6663743936521419871}
   m_Layer: 6
   m_Name: Resource
   m_TagString: Untagged
@@ -703,24 +684,6 @@ Transform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 73.179}
 --- !u!114 &1621561984
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1044492508}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bceacac8cdedef747896a7e146c83e84, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  posIK: {fileID: 0}
-  rightHandTarget: {fileID: 0}
-  leftHandTarget: {fileID: 0}
-  rightElbowTarget: {fileID: 0}
-  rightHandPoser: {fileID: 0}
-  leftHandPoser: {fileID: 0}
---- !u!114 &6663743936521419871
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1151,7 +1114,7 @@ MonoBehaviour:
   skyboxCam: {fileID: 2070393609}
   upperVerticalLimit: 60
   lowerVerticalLimit: 60
-  cameraSpeed: 200
+  cameraSpeed: 60
   smoothCameraRotation: 0
   cameraSmoothingFactor: 25
 --- !u!114 &2058444035
@@ -3983,7 +3946,7 @@ PositionConstraint:
   m_Enabled: 1
   m_Weight: 1
   m_TranslationAtRest: {x: 0, y: 0, z: 0}
-  m_TranslationOffset: {x: 0, y: -1.6100006, z: 0}
+  m_TranslationOffset: {x: 0, y: -1.61, z: 0}
   m_AffectTranslationX: 1
   m_AffectTranslationY: 1
   m_AffectTranslationZ: 1
@@ -6081,11 +6044,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9070026819309096440, guid: ad80eb45d37199c43b34a27bc8acd4ab, type: 3}
       propertyPath: m_Size
-      value: 0.9999999
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9070026819309096440, guid: ad80eb45d37199c43b34a27bc8acd4ab, type: 3}
       propertyPath: m_Value
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9102444292540426312, guid: ad80eb45d37199c43b34a27bc8acd4ab, type: 3}
       propertyPath: m_AnchorMax.y

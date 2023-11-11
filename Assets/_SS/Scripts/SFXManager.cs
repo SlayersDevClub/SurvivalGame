@@ -15,7 +15,10 @@ public class SFXManager : MonoBehaviour
         slotIn,
         slotOut;
 
-    public AudioSource[] treeFall, woodHit, stoneHit;
+    public AudioSource[] 
+        treeFall, 
+        woodHit, 
+        stoneHit;
 
     void Start()
     {
@@ -56,7 +59,6 @@ public class SFXManager : MonoBehaviour
         treeFall[randomIndex].Stop();
         treeFall[randomIndex].Play();
     }
-
     public void PlayCraftWood()
     {
         craftWood.Stop();
@@ -82,5 +84,4 @@ public class SFXManager : MonoBehaviour
         openChest.Stop();
         openChest.Play();
     }
-
 }

@@ -29,8 +29,8 @@ public class HandRigConnector : MonoBehaviour
             posIK.solver.rightHandEffector.target = rightHandTarget;
             posIK.solver.rightHandEffector.position = rightHandTarget.position;
             posIK.solver.rightHandEffector.rotation = rightHandTarget.rotation;
-            DOTween.To(() => posIK.solver.rightHandEffector.positionWeight, x => posIK.solver.rightHandEffector.positionWeight = x, 1, 1);
-            DOTween.To(() => posIK.solver.rightHandEffector.rotationWeight, x => posIK.solver.rightHandEffector.rotationWeight = x, 1, 1);
+            DOTween.To(() => posIK.solver.rightHandEffector.positionWeight, x => posIK.solver.rightHandEffector.positionWeight = x, 1, .5f);
+            DOTween.To(() => posIK.solver.rightHandEffector.rotationWeight, x => posIK.solver.rightHandEffector.rotationWeight = x, 1, .5f);
 
             posIK.solver.rightArmChain.bendConstraint.weight = 0.5f;
         }
@@ -46,8 +46,8 @@ public class HandRigConnector : MonoBehaviour
             posIK.solver.leftHandEffector.target = leftHandTarget;
             posIK.solver.leftHandEffector.position = leftHandTarget.position;
             posIK.solver.leftHandEffector.rotation = leftHandTarget.rotation;
-            DOTween.To(() => posIK.solver.leftHandEffector.positionWeight, x => posIK.solver.leftHandEffector.positionWeight = x, 1, 1);
-            DOTween.To(() => posIK.solver.leftHandEffector.rotationWeight, x => posIK.solver.leftHandEffector.rotationWeight = x, 1, 1);
+            DOTween.To(() => posIK.solver.leftHandEffector.positionWeight, x => posIK.solver.leftHandEffector.positionWeight = x, 1, .5f);
+            DOTween.To(() => posIK.solver.leftHandEffector.rotationWeight, x => posIK.solver.leftHandEffector.rotationWeight = x, 1, .5f);
 
         } else
         {

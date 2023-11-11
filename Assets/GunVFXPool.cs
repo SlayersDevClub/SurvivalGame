@@ -8,8 +8,16 @@ public class GunVFXPool : MonoBehaviour
     public List<GameObject> muzzleFlashPool;
     public List<GameObject> impactFXPool;
     public List<GameObject> gunShotSoundPool;
+    public List<GameObject> surfaceImpactFXPool;
+    public List<GameObject> gunEmptyPool;
 
-    public GameObject bulletPrefab, muzzleFlashPrefab, impactFXPrefab, gunShotSound;
+    public GameObject 
+        bulletPrefab, 
+        muzzleFlashPrefab, 
+        impactFXPrefab, 
+        gunShotSound, 
+        surfaceImpactFX,
+        gunEmptySFX;
     public int amountToPool;
 
     void Awake()
@@ -41,6 +49,21 @@ public class GunVFXPool : MonoBehaviour
             tmp3.SetActive(false);
             impactFXPool.Add(tmp3);
         }
+
+        GameObject tmp5;
+        for (int i = 0; i < amountToPool; i++)
+        {
+            tmp5 = Instantiate(surfaceImpactFX);
+            tmp5.SetActive(false);
+            surfaceImpactFXPool.Add(tmp5);
+        }
+        GameObject tmp6;
+        for (int i = 0; i < amountToPool; i++)
+        {
+            tmp6 = Instantiate(gunEmptySFX);
+            tmp6.SetActive(false);
+            gunEmptyPool.Add(tmp6);
+        }
     }
 
     public void SetupMuzzleFlashPool()
@@ -62,6 +85,19 @@ public class GunVFXPool : MonoBehaviour
             if (!bulletPool[i].activeInHierarchy)
             {
                 return bulletPool[i];
+            }
+        }
+        return null;
+    }
+    public GameObject GetSurfaceImpactFX(Vector3 impactPosition, Vector3 impactDirection)
+    {
+        for (int i = 0; i < amountToPool; i++)
+        {
+            if (!surfaceImpactFXPool[i].activeInHierarchy)
+            {
+                surfaceImpactFXPool[i].transform.eulerAngles = impactDirection;
+                surfaceImpactFXPool[i].transform.position = impactPosition;
+                return surfaceImpactFXPool[i];
             }
         }
         return null;
@@ -88,7 +124,6 @@ public class GunVFXPool : MonoBehaviour
         }
         return null;
     }
-
     public GameObject GetShotSound()
     {
         for (int i = 0; i < amountToPool; i++)
@@ -96,6 +131,17 @@ public class GunVFXPool : MonoBehaviour
             if (!gunShotSoundPool[i].activeInHierarchy)
             {
                 return gunShotSoundPool[i];
+            }
+        }
+        return null;
+    }
+    public GameObject GetEmptyFireSound()
+    {
+        for (int i = 0; i < amountToPool; i++)
+        {
+            if (!gunEmptyPool[i].activeInHierarchy)
+            {
+                return gunEmptyPool[i];
             }
         }
         return null;
