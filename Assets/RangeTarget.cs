@@ -1,12 +1,14 @@
 using DG.Tweening;
 using UnityEngine;
 using TMPro;
+using System;
 
 public class RangeTarget : MonoBehaviour
 {
+    public static event Action SendScore;
     public Transform flagPole, score1,score2,score3;
     public TextMeshProUGUI displayText;
-    RangeTargetManager rtm;
+
     private void OnEnable()
     {
         RangeTargetManager.ResetTargets += ResetTarget;
@@ -29,6 +31,7 @@ public class RangeTarget : MonoBehaviour
     {
         displayText.SetText(dmg.ToString());
         TriggerFlag();
+        SendScore?.Invoke();
     }
     public void ResetTarget()
     {
