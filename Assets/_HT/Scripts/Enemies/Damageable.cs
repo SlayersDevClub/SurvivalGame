@@ -5,19 +5,23 @@ using UnityEngine.Events;
 using Gamekit3D.Message;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using System;
 
 namespace Gamekit3D {
     public partial class Damageable : MonoBehaviour {
-
-        public Slider healthBar;
+        
+        public int currentHitPoints { get; private set; }
         public int maxHitPoints;
+
+        public bool isInvulnerable { get; set; }
         [Tooltip("Time that this gameObject is invulnerable for, after receiving damage.")]
         public float invulnerabiltyTime;
+
+        public Slider healthBar;
         [Tooltip("Time it takes to hide health bar after enemy takes damage.")]
+
         private float healthBarTurnOffDelay = 5f;
-
-
-        [Tooltip("The angle from the which that damageable is hitable. Always in the world XZ plane, with the forward being rotate by hitForwardRoation")]
+        [Tooltip("The angle from which the damageable object is hitable. Always in the world XZ plane, with the forward being rotate by hitForwardRoation")]
         [Range(0.0f, 360.0f)]
         public float hitAngle = 360.0f;
         [Tooltip("Allow to rotate the world forward vector of the damageable used to define the hitAngle zone")]
@@ -25,10 +29,7 @@ namespace Gamekit3D {
         [FormerlySerializedAs("hitForwardRoation")] //SHAME!
         public float hitForwardRotation = 360.0f;
 
-        public bool isInvulnerable { get; set; }
-        public int currentHitPoints { get; private set; }
-
-        public UnityEvent OnDeath, OnReceiveDamage, OnHitWhileInvulnerable, OnBecomeVulnerable, OnResetDamage;
+        public UnityEvent OnDeath, OnReceiveDamage, OnHitWhileInvulnerable, OnBecomeVulnerable, OnResetDamage, OnHeal;
 
         [Tooltip("When this gameObject is damaged, these other gameObjects are notified.")]
         [EnforceType(typeof(Message.IMessageReceiver))]
@@ -128,6 +129,27 @@ namespace Gamekit3D {
                 var receiver = onDamageMessageReceivers[i] as IMessageReceiver;
                 receiver.OnReceiveMessage(messageType, this, data);
             }
+        }
+
+        public void ApplyHealing(int health_regain) {
+            StopAllCoroutines();
+
+            if (currentHitPoints == maxHitPoints) {
+                Debug.Log("Health already at max.");
+                return;
+            }
+            
+            if (currentHitPoints + health_regain > maxHitPoints) {
+                currentHitPoints = maxHitPoints;
+            } else {
+                currentHitPoints += health_regain;
+            }
+
+            if (healthBar != null) {
+                healthBar.value = currentHitPoints;
+                StartCoroutine(ShowHealthBar());
+            }
+
         }
 
         private IEnumerator ShowHealthBar() {
