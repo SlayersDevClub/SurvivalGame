@@ -106,10 +106,10 @@ public class CraftingBrain : MonoBehaviour {
 
             builtTool.GetComponent<ItemSetup>().SetBaseItemTemplate(newToolTemplate);
             //Set object to Equipped layer for camera culling
-            foreach (Transform child in builtTool.GetComponentsInChildren<Transform>())
-            {
-                child.gameObject.layer = LayerMask.NameToLayer("Equipped");
-            }
+            //foreach (Transform child in builtTool.GetComponentsInChildren<Transform>())
+            //{
+            //    child.gameObject.layer = LayerMask.NameToLayer("Equipped");
+            //}
 
             GameObject createdTool = GameObject.Instantiate(builtTool, GameObject.Find("CustomItems").transform);
             createdTool.name = "CustomTool" + newToolTemplate.Id.ToString();
@@ -180,10 +180,10 @@ public static BaseItemTemplate AttemptBuildGun(List<BaseItemTemplate> gunParts, 
         builtGun.GetComponent<ItemSetup>().SetBaseItemTemplate(newGunTemplate);
 
         //Set object to Equipped layer for camera culling
-        foreach (Transform child in builtGun.GetComponentsInChildren<Transform>())
-        {
-            child.gameObject.layer = LayerMask.NameToLayer("Equipped");
-        }
+        //foreach (Transform child in builtGun.GetComponentsInChildren<Transform>())
+        //{
+        //    child.gameObject.layer = LayerMask.NameToLayer("Equipped");
+        //}
 
         //Create the item's texture
         Texture2D screenshotTexture = SnapShotMaker.instance.TakeScreenShot(builtGun);

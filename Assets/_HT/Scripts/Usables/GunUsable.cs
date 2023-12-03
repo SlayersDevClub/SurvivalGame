@@ -195,6 +195,7 @@ public class GunUsable : MonoBehaviour, IUsable {
         pullOutTween =transform.parent.DOLocalRotate(new Vector3(0, 0, 180), 0.85f).From();
         //pullOutTween.SetRelative(true)
 
+        enabled = true;
     }
 
     private void SetupwalkBounceTween() {

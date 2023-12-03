@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Apple
   m_EditorClassIdentifier: 
   Id: 6206
-  itemName: 
-  description: 
+  itemName: Apple
+  description: Food item
   stackable: 0
-  prefabString: 
-  slug: 
-  prefab: {fileID: 0}
-  icon: {fileID: 0}
-  potency: 0
+  prefabString: Prefabs/Consumables/Apple
+  slug: GeneratedIcons/ImportedIcons/apple_icon
+  prefab: {fileID: 8986026622457009414, guid: e5e9241f54d19c04da10565e70f90a8e, type: 3}
+  icon: {fileID: 21300000, guid: 3aefa914846e03c46968879418da3759, type: 3}
+  health_gain: 1

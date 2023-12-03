@@ -236,6 +236,7 @@ MonoBehaviour:
   maxHitPoints: 10
   invulnerabiltyTime: 0
   healthBar: {fileID: 4977674857307339285}
+  healthBarTurnsOff: 1
   hitAngle: 360
   hitForwardRotation: 360
   OnDeath:

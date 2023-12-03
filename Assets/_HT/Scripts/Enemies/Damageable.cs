@@ -21,6 +21,8 @@ namespace Gamekit3D {
         [Tooltip("Time it takes to hide health bar after enemy takes damage.")]
 
         private float healthBarTurnOffDelay = 5f;
+        public bool healthBarTurnsOff;
+
         [Tooltip("The angle from which the damageable object is hitable. Always in the world XZ plane, with the forward being rotate by hitForwardRoation")]
         [Range(0.0f, 360.0f)]
         public float hitAngle = 360.0f;
@@ -47,8 +49,13 @@ namespace Gamekit3D {
             if (healthBar != null) {
                 healthBar.maxValue = maxHitPoints;
                 healthBar.value = maxHitPoints;
+
                 //Turn off health bar to show only when damaged and then a bit after being damaged
-                healthBar.gameObject.SetActive(false);
+                if (healthBarTurnsOff) {
+                    healthBar.gameObject.SetActive(false);
+                } else {
+                    healthBar.gameObject.SetActive(true);
+                }
             }
         }
 
@@ -153,6 +160,10 @@ namespace Gamekit3D {
         }
 
         private IEnumerator ShowHealthBar() {
+            if (!healthBarTurnsOff) {
+                yield break;
+            }
+
             healthBar.gameObject.SetActive(true);
             yield return new WaitForSeconds(healthBarTurnOffDelay);
             healthBar.gameObject.SetActive(false);

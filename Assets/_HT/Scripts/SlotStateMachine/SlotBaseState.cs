@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -8,6 +7,8 @@ using Photon.Pun;
 public abstract class SlotBaseState {
 
     public abstract void EnterState(SlotStateMachine item);
+    public abstract void StartHandleInput(SlotStateMachine item, InputAction.CallbackContext context);
+    public abstract void EndHandleInput(SlotStateMachine item, InputAction.CallbackContext context);
 
     public virtual void OnDrop(SlotStateMachine item, PointerEventData pointerEventData, int slotID, GameObject slot) {
         ItemData droppedSlot = item.player.invItemDragging;
@@ -26,10 +27,6 @@ public abstract class SlotBaseState {
         TryGeneralCraft(item);
     }
 
-    public abstract void StartHandleInput(SlotStateMachine item, InputAction.CallbackContext context);
-    public abstract void EndHandleInput(SlotStateMachine item, InputAction.CallbackContext context);
-
-
     public virtual void HandleDropAndSwap(SlotStateMachine item, PointerEventData pointerEventData, int slotID, GameObject slot) {
         ItemData droppedItem = item.player.invItemDragging;
 
@@ -38,7 +35,7 @@ public abstract class SlotBaseState {
 
         //Dropping into same slot
         if (droppedItem.slotId == slotID) {
-            
+
         }
 
         //Dropping into empty slot
@@ -46,7 +43,7 @@ public abstract class SlotBaseState {
             item.inv.items[droppedItem.slotId] = new Item();
             item.inv.items[slotID] = droppedItem.item;
             droppedItem.slotId = thisSlot.id;
-        } 
+        }
         //Dropping into occupied slot
         else {
 
@@ -65,9 +62,8 @@ public abstract class SlotBaseState {
                 droppedItem.transform.position = thisSlot.transform.position;
 
                 ItemData.UpdateItemNumberDisplay(droppedItem);
-                
-            }
-            else if (itemTransform != null) {
+
+            } else if (itemTransform != null) {
                 slotItemData.slotId = droppedItem.slotId;
                 Item newItem = new Item();
                 newItem.Id = slotItemData.item.Id != -1 ? slotItemData.item.Id : -1;
@@ -80,7 +76,7 @@ public abstract class SlotBaseState {
                 Debug.LogWarning("No child transform found in the slot");
             }
 
-            
+
         }
 
         droppedItem.StopItemMouseLock();
@@ -90,54 +86,42 @@ public abstract class SlotBaseState {
 
 
 
-    public virtual void HandleIfEquipChanges(SlotStateMachine item) {
-        BaseItemTemplate equipItem = ItemDatabase.FetchBaseItemTemplateById(item.inv.items[item.player.equipItemSlot].Id);
+    public virtual void HandleIfEquipChanges(SlotStateMachine slot) {
+        BaseItemTemplate itemToEquip = ItemDatabase.FetchBaseItemTemplateById(slot.inv.items[slot.player.equipItemSlot].Id);
+        BaseItemTemplate curEquipedItem = slot.player.equipItem;
 
-        if (equipItem != item.player.equipItem){
-            Unequip(item);
-
-            item.player.equipItem = equipItem;
-
-            Equip(item);
+        if (itemToEquip == curEquipedItem) {
+            return;
         }
-        else if(equipItem == item.player.equipItem && GetEquipGameObject(item) == null) {
-            Equip(item);
+
+        if (itemToEquip != curEquipedItem && GetEquipGameObject(slot) != null) {
+            Unequip(slot);
         }
+
+        slot.player.equipItem = itemToEquip;
+        Equip(slot);
     }
 
-    public void Unequip(SlotStateMachine item) {
-        if (item.player.transform.Find("Model/ItemHolder/Resource").transform.childCount > 0)
-        {
-            item.player.transform.Find("Model/ItemHolder/Resource").GetComponent<HandRigConnector>().ResetHands();
-            GameObject.Destroy(item.player.transform.Find("Model/ItemHolder/Resource").GetChild(0).gameObject);
-        }
-        else if (item.player.transform.Find("Model/ItemHolder/Gun").transform.childCount > 0)
-        {
-            item.player.transform.Find("Model/ItemHolder/Gun").GetComponent<HandRigConnector>().ResetHands();
-            GameObject.Destroy(item.player.transform.Find("Model/ItemHolder/Gun").GetChild(0).gameObject);
-        }
-        else if (item.player.transform.Find("Model/ItemHolder/Tool").transform.childCount > 0)
-        {
-            item.player.transform.Find("Model/ItemHolder/Tool").GetComponent<HandRigConnector>().ResetHands();
-            GameObject.Destroy(item.player.transform.Find("Model/ItemHolder/Tool").GetChild(0).gameObject);
-        }
-        else if (item.player.transform.Find("Model/ItemHolder/Structure").transform.childCount > 0)
-        {
-            item.player.transform.Find("Model/ItemHolder/Structure").GetComponent<HandRigConnector>().ResetHands();
-            GameObject.Destroy(item.player.transform.Find("Model/ItemHolder/Structure").GetChild(0).gameObject);
-        }
+    public void Unequip(SlotStateMachine slot) {
+        GameObject equipedItem = GetEquipGameObject(slot);
+
+        equipedItem.GetComponentInParent<HandRigConnector>().ResetHands();
+        GameObject.Destroy(equipedItem);
+
         SFXManager.instance.PlaySlotOut();
     }
 
-    public GameObject GetEquipGameObject(SlotStateMachine item) {
-        if (item.player.transform.Find("Model/ItemHolder/Resource").transform.childCount > 0) {
-            return (item.player.transform.Find("Model/ItemHolder/Resource").GetChild(0).gameObject);
-        } else if (item.player.transform.Find("Model/ItemHolder/Gun").transform.childCount > 0) {
-            return  (item.player.transform.Find("Model/ItemHolder/Gun").GetChild(0).gameObject);
-        } else if (item.player.transform.Find("Model/ItemHolder/Tool").transform.childCount > 0) {
-            return (item.player.transform.Find("Model/ItemHolder/Tool").GetChild(0).gameObject);
-        } else if (item.player.transform.Find("Model/ItemHolder/Structure").transform.childCount > 0) {
-            return  (item.player.transform.Find("Model/ItemHolder/Structure").GetChild(0).gameObject);
+    public GameObject GetEquipGameObject(SlotStateMachine slot) {
+        if (slot.player.transform.Find("Model/ItemHolder/Resource").transform.childCount > 0) {
+            return (slot.player.transform.Find("Model/ItemHolder/Resource").GetChild(0).gameObject);
+        } else if (slot.player.transform.Find("Model/ItemHolder/Gun").transform.childCount > 0) {
+            return (slot.player.transform.Find("Model/ItemHolder/Gun").GetChild(0).gameObject);
+        } else if (slot.player.transform.Find("Model/ItemHolder/Tool").transform.childCount > 0) {
+            return (slot.player.transform.Find("Model/ItemHolder/Tool").GetChild(0).gameObject);
+        } else if (slot.player.transform.Find("Model/ItemHolder/Structure").transform.childCount > 0) {
+            return (slot.player.transform.Find("Model/ItemHolder/Structure").GetChild(0).gameObject);
+        } else if (slot.player.transform.Find("Model/ItemHolder/Consumable").transform.childCount > 0) {
+            return (slot.player.transform.Find("Model/ItemHolder/Consumable").GetChild(0).gameObject);
         } else {
             return null;
         }
@@ -148,99 +132,53 @@ public abstract class SlotBaseState {
         gameObj.AddComponent<PhotonTransformView>();
     }
 
-    public void Equip(SlotStateMachine item) {
-        ResourceTemplate resource = item.player.equipItem as ResourceTemplate;
-        GunTemplate gun = item.player.equipItem as GunTemplate;
-        ToolTemplate tool = item.player.equipItem as ToolTemplate;
-        StructureTemplate structure = item.player.equipItem as StructureTemplate;
+    public void Equip(SlotStateMachine slot) {
+        ResourceTemplate resource = slot.player.equipItem as ResourceTemplate;
+        GunTemplate gun = slot.player.equipItem as GunTemplate;
+        ToolTemplate tool = slot.player.equipItem as ToolTemplate;
+        StructureTemplate structure = slot.player.equipItem as StructureTemplate;
+        ConsumableTemplate consumable = slot.player.equipItem as ConsumableTemplate;
 
-        /*
-         * 
-         * 
-         * 
-         * RESOURCE
-         * 
-         * 
-         * 
-         */
+        GameObject itemHeld;
+        GameObject original;
+
+
         if (resource != null) {
-            GameObject resourceHeld = GameObject.Instantiate(item.player.equipItem.prefab, item.player.transform.Find("Model/ItemHolder/Resource").transform);
-            MakeMultiplayerViewable(resourceHeld);
+            itemHeld = GameObject.Instantiate(slot.player.equipItem.prefab, slot.player.transform.Find("Model/ItemHolder/Resource").transform);
 
-            resourceHeld.GetComponent<Rigidbody>().useGravity = false;
-            resourceHeld.GetComponent<Rigidbody>().isKinematic = true;
-            resourceHeld.GetComponent<Collider>().enabled = false;
+            SetEquippedLayer(itemHeld);
 
+            itemHeld.GetComponent<Rigidbody>().useGravity = false;
+            itemHeld.GetComponent<Rigidbody>().isKinematic = true;
+            itemHeld.GetComponent<Collider>().enabled = false;
+        } else if (gun != null) {
+            original = GameObject.Find("CustomItems/CustomGun" + slot.player.equipItem.Id);
+            itemHeld = GameObject.Instantiate(original, slot.player.transform.Find("Model/ItemHolder/Gun").transform);
 
-            foreach (Transform child in resourceHeld.GetComponentInChildren<Transform>())
-            {
-                child.gameObject.layer = LayerMask.NameToLayer("Equipped");
-            }
-        }
-        /*
-         * 
-         * 
-         * 
-         * 
-         * GUN
-         * 
-         * 
-         * 
-         * 
-         */
+            SetEquippedLayer(itemHeld);
 
-         else if (gun != null) {
-            Debug.Log("CustomGun" + item.player.equipItem.Id);
-            GameObject original = GameObject.Find("CustomItems/CustomGun" + item.player.equipItem.Id);
-            original.layer = LayerMask.NameToLayer("Default");
-
-            foreach (Transform child in original.transform) {
-                child.gameObject.layer = LayerMask.NameToLayer("Equipped");
-                foreach (Transform kid in child.transform) {
-                    kid.gameObject.layer = LayerMask.NameToLayer("Equipped");
-                }
-            }
-
-            GameObject equipGun = GameObject.Instantiate(original, item.player.transform.Find("Model/ItemHolder/Gun").transform);
-            equipGun.GetComponent<GunUsable>().Setup();
-            equipGun.GetComponent<GunUsable>().enabled = true;
-            MakeMultiplayerViewable(equipGun);
-
-        /*
-        * 
-        * 
-        * 
-        * TOOL
-        * 
-        * 
-        * 
-        * 
-        */
+            itemHeld.GetComponent<GunUsable>().Setup();
+            //itemHeld.GetComponent<GunUsable>().enabled = true;
         } else if (tool != null) {
-            GameObject original = GameObject.Find("CustomItems/CustomTool" + item.player.equipItem.Id);
-            original.layer = LayerMask.NameToLayer("Default");
+            original = GameObject.Find("CustomItems/CustomTool" + slot.player.equipItem.Id);
+            itemHeld = GameObject.Instantiate(original, slot.player.transform.Find("Model/ItemHolder/Tool").transform);
 
-            foreach (Transform child in original.transform) {
-                child.gameObject.layer = LayerMask.NameToLayer("Equipped");
-                foreach (Transform kid in child.transform) {
-                    kid.gameObject.layer = LayerMask.NameToLayer("Equipped");
-                }
-            }
-            var toolTranny = GameObject.Instantiate(original, item.player.transform.Find("Model/ItemHolder/Tool").transform);
-            toolTranny.transform.localPosition = new Vector3(0, 0.25f, 0);
+            SetEquippedLayer(itemHeld);
 
-            // Check if the toolTranny has the PickaxeUsable component
-            PickaxeUsable pickaxeUsable = toolTranny.GetComponent<PickaxeUsable>();
+            itemHeld.transform.localPosition = new Vector3(0, 0.25f, 0);
+
+            // Check if the itemHeld has the PickaxeUsable component
+            PickaxeUsable pickaxeUsable = itemHeld.GetComponent<PickaxeUsable>();
             if (pickaxeUsable != null) {
                 pickaxeUsable.Setup();
             } else {
-                // Check if the toolTranny has the AxeUsable component
-                AxeUsable axeUsable = toolTranny.GetComponent<AxeUsable>();
+                // Check if the itemHeld has the AxeUsable component
+                AxeUsable axeUsable = itemHeld.GetComponent<AxeUsable>();
                 if (axeUsable != null) {
                     axeUsable.Setup();
                 } else {
-                    // Check if the toolTranny has the HammerUsable component
-                    HammerUsable hammerUsable = toolTranny.GetComponent<HammerUsable>();
+                    // Check if the itemHeld has the HammerUsable component
+                    HammerUsable hammerUsable = itemHeld.GetComponent<HammerUsable>();
                     if (hammerUsable != null) {
                         //hammerUsable.Setup();
                     } else {
@@ -249,24 +187,27 @@ public abstract class SlotBaseState {
                     }
                 }
             }
-        /*
-        * 
-        * 
-        * 
-        * 
-        * STRUCTURE
-        * 
-        * 
-        * 
-        * 
-             */
         } else if (structure != null) {
-            GameObject struc = GameObject.Instantiate(item.player.equipItem.prefab, item.player.transform.Find("Model/ItemHolder/Structure").transform);
+            itemHeld = GameObject.Instantiate(slot.player.equipItem.prefab, slot.player.transform.Find("Model/ItemHolder/Structure").transform);
 
-            int placingLayer = LayerMask.NameToLayer(TagManager.PLACEABLE_LAYER);
-            struc.layer = placingLayer;
-            MakeMultiplayerViewable(struc);
+            itemHeld.layer = LayerMask.NameToLayer(TagManager.PLACEABLE_LAYER); ;
+        } else if (consumable != null) {
+            itemHeld = GameObject.Instantiate(slot.player.equipItem.prefab, slot.player.transform.Find("Model/ItemHolder/Consumable").transform);
+
+            SetEquippedLayer(itemHeld);
+
+            itemHeld.GetComponent<ConsumableUsable>().Setup();
+        } else {
+            Debug.Log("Could not find item to equip from item.player.equipItem");
+            return;
         }
+
+        MakeMultiplayerViewable(itemHeld);
+    }
+
+    private void SetEquippedLayer(GameObject parentItem) {
+        foreach (Transform child in parentItem.GetComponentsInChildren<Transform>())
+            child.gameObject.layer = LayerMask.NameToLayer("Equipped");
     }
 
     public void ClearCraftersSlots(SlotStateMachine item) {
@@ -279,7 +220,7 @@ public abstract class SlotBaseState {
         foreach (Transform slot in crafter.transform) {
             Slot curSlot = slot.GetComponent<Slot>();
 
-            if(curSlot != null) {
+            if (curSlot != null) {
                 item.player.inv.RemoveItem(curSlot.id);
             }
         }
@@ -301,13 +242,13 @@ public abstract class SlotBaseState {
 
                 toolParts.Add(ItemDatabase.FetchBaseItemTemplateById(item.inv.items[slotItem.GetComponent<Slot>().id].Id));
 
-                
+
                 try {
                     Debug.Log(toolParts[0]);
-                    if(toolParts[0] is BaseItemTemplate) {
+                    if (toolParts[0] is BaseItemTemplate) {
                         Debug.Log("ASDF");
                     }
-                    if(toolParts[0] is PickaxeHandleTemplate) {
+                    if (toolParts[0] is PickaxeHandleTemplate) {
                         Debug.Log("ASDF");
                     }
                     if (toolParts[0] as PickaxeHandleTemplate != null) {
@@ -356,10 +297,10 @@ public abstract class SlotBaseState {
             Slot slotItem = gunSlot.GetComponent<Slot>();
 
             if (slotItem != null) {
-                
+
                 gunParts.Add(ItemDatabase.FetchBaseItemTemplateById(item.inv.items[slotItem.GetComponent<Slot>().id].Id));
 
-                
+
             }
         }
 
@@ -390,7 +331,7 @@ public abstract class SlotBaseState {
 
             Slot slotItem = craftSlot.GetComponent<Slot>();
 
-            if(slotItem != null) {
+            if (slotItem != null) {
                 ingredients.Add(ItemDatabase.FetchBaseItemTemplateById(item.inv.items[craftSlot.GetComponent<Slot>().id].Id));
             }
 
@@ -421,7 +362,7 @@ public abstract class SlotBaseState {
             SlotStateMachine slotStateMachine = childTransform.GetComponent<SlotStateMachine>();
 
             if (slotStateMachine != null) {
-                if(slotStateMachine.GetCurrentState() as SlotOutputState != null) {
+                if (slotStateMachine.GetCurrentState() as SlotOutputState != null) {
                     item.inv.RemoveItem(slotStateMachine.GetComponent<Slot>().id);
                 }
             }

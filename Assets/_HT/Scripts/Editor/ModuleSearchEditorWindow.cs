@@ -645,6 +645,7 @@ public class ModuleSearchEditorWindow : EditorWindow {
         // Get the selected ScriptableObject
         BaseItemTemplate selectedObject = Selection.activeObject as BaseItemTemplate;
         MineableTemplate selectedMineable = Selection.activeObject as MineableTemplate;
+        ConsumableTemplate consumableTemplate = Selection.activeObject as ConsumableTemplate;
 
         if (selectedObject != null) {
             loadListData = JsonDataManager.LoadData();
@@ -660,7 +661,13 @@ public class ModuleSearchEditorWindow : EditorWindow {
             selectedObject.prefabString = GetPrefabPath(selectedObject.prefab);
             selectedObject.slug = GetSpritePath(selectedObject.icon);
 
+            if (consumableTemplate != null) {
+                //SetupConsumable();
 
+                if (selectedObject.prefab.GetComponent<ConsumableUsable>() == null) {
+                    selectedObject.prefab.AddComponent<ConsumableUsable>();
+                }
+            }
         } else if (selectedMineable != null) {
             MineableSetup mineable = selectedMineable.prefab.GetComponent<MineableSetup>();
             if (mineable == null) {
@@ -739,10 +746,6 @@ public class ModuleSearchEditorWindow : EditorWindow {
         // Save the recipe data using JsonDataManager
         JsonDataManager.SaveRecipeData(recipeScriptableObjects);
     }
-
-
-
-
 
 
 
