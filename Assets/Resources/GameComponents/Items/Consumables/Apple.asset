@@ -20,4 +20,6 @@ MonoBehaviour:
   slug: GeneratedIcons/ImportedIcons/apple_icon
   prefab: {fileID: 8986026622457009414, guid: e5e9241f54d19c04da10565e70f90a8e, type: 3}
   icon: {fileID: 21300000, guid: 3aefa914846e03c46968879418da3759, type: 3}
-  health_gain: 1
+  effect: {fileID: 11400000, guid: d172d3c55c8ba5d459fcf391d007bcaf, type: 2}
+  consumeTime: 0
+  cooldown: 0

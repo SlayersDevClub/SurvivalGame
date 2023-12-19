@@ -48,7 +48,7 @@ namespace Gamekit3D {
 
             if (healthBar != null) {
                 healthBar.maxValue = maxHitPoints;
-                healthBar.value = maxHitPoints;
+                healthBar.value = currentHitPoints;
 
                 //Turn off health bar to show only when damaged and then a bit after being damaged
                 if (healthBarTurnsOff) {
@@ -71,7 +71,8 @@ namespace Gamekit3D {
         }
 
         public void ResetDamage() {
-            currentHitPoints = maxHitPoints;
+            //currentHitPoints = maxHitPoints;
+            currentHitPoints = maxHitPoints / 2;
             isInvulnerable = false;
             m_timeSinceLastHit = 0.0f;
             OnResetDamage.Invoke();
@@ -138,7 +139,7 @@ namespace Gamekit3D {
             }
         }
 
-        public void ApplyHealing(int health_regain) {
+        public void ApplyHealing(int healthRegain) {
             StopAllCoroutines();
 
             if (currentHitPoints == maxHitPoints) {
@@ -146,10 +147,10 @@ namespace Gamekit3D {
                 return;
             }
             
-            if (currentHitPoints + health_regain > maxHitPoints) {
+            if (currentHitPoints + healthRegain > maxHitPoints) {
                 currentHitPoints = maxHitPoints;
             } else {
-                currentHitPoints += health_regain;
+                currentHitPoints += healthRegain;
             }
 
             if (healthBar != null) {

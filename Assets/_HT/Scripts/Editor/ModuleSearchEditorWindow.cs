@@ -10,7 +10,8 @@ public class ModuleSearchEditorWindow : EditorWindow {
         Item,
         Enemy,
         Mineable,
-        Recipes
+        Recipes,
+        StatusEffect
     }
 
     private enum ItemSubCategory {
@@ -415,6 +416,9 @@ public class ModuleSearchEditorWindow : EditorWindow {
             case Category.Mineable:
                 CreateMineableScriptableObject();
                 break;
+            case Category.StatusEffect:
+                CreateStatusEffectScriptableObject();
+                break;
             default:
                 break;
         }
@@ -588,6 +592,10 @@ public class ModuleSearchEditorWindow : EditorWindow {
         CreateScriptableObjectOfType<RecipeTemplate>("Recipes");
     }
 
+    private void CreateStatusEffectScriptableObject() {
+        CreateScriptableObjectOfType<StatusEffectTemplate>("StatusEffects");
+    }
+
     private void CreateScriptableObjectOfType<T>(string folderPath) where T : ScriptableObject {
         // Create the folder structure if it doesn't exist
         string fullFolderPath = "Assets/Resources/GameComponents/" + folderPath;
@@ -646,6 +654,7 @@ public class ModuleSearchEditorWindow : EditorWindow {
         BaseItemTemplate selectedObject = Selection.activeObject as BaseItemTemplate;
         MineableTemplate selectedMineable = Selection.activeObject as MineableTemplate;
         ConsumableTemplate consumableTemplate = Selection.activeObject as ConsumableTemplate;
+        StatusEffectTemplate statusEffectTemplate = Selection.activeObject as StatusEffectTemplate;
 
         if (selectedObject != null) {
             loadListData = JsonDataManager.LoadData();
