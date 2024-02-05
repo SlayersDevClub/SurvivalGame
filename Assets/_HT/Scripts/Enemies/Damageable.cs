@@ -48,7 +48,7 @@ namespace Gamekit3D {
 
             if (healthBar != null) {
                 healthBar.maxValue = maxHitPoints;
-                healthBar.value = maxHitPoints;
+                healthBar.value = currentHitPoints;
 
                 //Turn off health bar to show only when damaged and then a bit after being damaged
                 if (healthBarTurnsOff) {
@@ -71,7 +71,8 @@ namespace Gamekit3D {
         }
 
         public void ResetDamage() {
-            currentHitPoints = maxHitPoints;
+            //currentHitPoints = maxHitPoints;
+            currentHitPoints = maxHitPoints / 2;
             isInvulnerable = false;
             m_timeSinceLastHit = 0.0f;
             OnResetDamage.Invoke();
@@ -81,17 +82,19 @@ namespace Gamekit3D {
             m_Collider.enabled = enabled;
         }
 
-        public void ApplyDamage(DamageMessage data) {
+        public bool ApplyDamage(DamageMessage data) {
             StopAllCoroutines();
 
             if (currentHitPoints <= 0) {
                 // Ignore damage if already dead. TODO: may have to change that if we want to detect hit on death...
-                return;
+                Debug.Log("Already dead, ignoring damage.");
+                return false;
             }
 
             if (isInvulnerable) {
                 OnHitWhileInvulnerable.Invoke();
-                return;
+                Debug.Log("Hit while invulnerable.");
+                return false;
             }
 
             Vector3 forward = transform.forward;
@@ -102,7 +105,8 @@ namespace Gamekit3D {
             positionToDamager -= transform.up * Vector3.Dot(transform.up, positionToDamager);
 
             if (Vector3.Angle(forward, positionToDamager) > hitAngle * 0.5f) {
-                return;
+                Debug.Log("Angle check failed, not taking damage.");
+                return false;
             }
 
             isInvulnerable = true;
@@ -127,20 +131,22 @@ namespace Gamekit3D {
                 var receiver = onDamageMessageReceivers[i] as IMessageReceiver;
                 receiver.OnReceiveMessage(messageType, this, data);
             }
+
+            return true;
         }
 
-        public void ApplyHealing(int health_regain) {
+        public bool ApplyHealing(int healthRegain) {
             StopAllCoroutines();
 
             if (currentHitPoints == maxHitPoints) {
                 Debug.Log("Health already at max.");
-                return;
+                return false;
             }
             
-            if (currentHitPoints + health_regain > maxHitPoints) {
+            if (currentHitPoints + healthRegain > maxHitPoints) {
                 currentHitPoints = maxHitPoints;
             } else {
-                currentHitPoints += health_regain;
+                currentHitPoints += healthRegain;
             }
 
             if (healthBar != null) {
@@ -148,6 +154,7 @@ namespace Gamekit3D {
                 StartCoroutine(ShowHealthBar());
             }
 
+            return true;
         }
 
         private IEnumerator ShowHealthBar() {

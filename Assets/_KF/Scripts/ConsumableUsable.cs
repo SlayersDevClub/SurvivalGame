@@ -31,12 +31,11 @@ public class ConsumableUsable : MonoBehaviour, IUsable {
 
     public void StartHandleInput(InputAction.CallbackContext context) {
         if (context.action.name == TagManager.USE_ACTION) {
-            Debug.Log("USED APPLE");
-            Damageable damageable = transform.GetComponentInParent<Damageable>();
+            Effectable effectable = transform.GetComponentInParent<Effectable>();
+            bool effectApplied = effectable.ApplyEffect(consumable.effect);
 
-            damageable.ApplyHealing(consumable.health_gain);
-
-            transform.root.GetComponent<PlayerStateMachine>().inv.RemoveItem(transform.root.GetComponent<PlayerStateMachine>().equipItemSlot);
+            if (effectApplied)
+                transform.root.GetComponent<PlayerStateMachine>().inv.RemoveItem(transform.root.GetComponent<PlayerStateMachine>().equipItemSlot);
         }
     }
 
