@@ -7,7 +7,7 @@ public class ToolcrafterSlot : CrafterSlot {
 
     public override void CraftItem(BaseItemTemplate itemBeingCrafted) {
         AddCraftToJSON(itemBeingCrafted);
-        GameObject inventoryItemCreated = ItemDatabase.instance.FetchItemGameObject(itemBeingCrafted);
+        GameObject inventoryItemCreated = inventory.itemDatabase.FetchItemGameObject(itemBeingCrafted);
         inventory.toolcrafterOutputSlot.AddItemToSlot(inventoryItemCreated);
     }
     public override void PutItemInSlot(GameObject item) {
@@ -28,7 +28,7 @@ public class ToolcrafterSlot : CrafterSlot {
             toolParts.Add(slot.itemInSlotInfo);
         }
 
-        return CraftingBrain.AttemptBuildTool(toolParts);
+        return inventory.craftingBrain.AttemptBuildTool(toolParts);
     }
 
 }

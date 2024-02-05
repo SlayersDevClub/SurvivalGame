@@ -1,8 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using UnityEngine.UI;
 using System.Linq;
 
 public class Inventory : MonoBehaviour {
@@ -27,6 +25,9 @@ public class Inventory : MonoBehaviour {
     //Items ID (key) and their quantity (value) in the inventory
     private readonly Dictionary<int, int> itemsInInventory = new Dictionary<int, int>();
 
+    public ItemDatabase itemDatabase;
+    public CraftingBrain craftingBrain;
+
     public void SetItemInInventory(int key, int value) {
         if (itemsInInventory.ContainsKey(key)) {
             itemsInInventory[key] += value;
@@ -34,7 +35,7 @@ public class Inventory : MonoBehaviour {
             itemsInInventory.Add(key, value);
         }
 
-        CraftingBrain.UpdateCraftableItemsInTable(itemsInInventory);
+        //craftingBrain.UpdateCraftableItemsInTable(itemsInInventory);
     }
 
     public int GetItemInInventory(int key) {
@@ -63,8 +64,6 @@ public class Inventory : MonoBehaviour {
 
 
     private void Start() {
-        ItemDatabase.Initialize();
-
         LocateInventoryItemSlots();
         LocateHotbarItemSlots();
         LocateToolcrafterItemSlots();
@@ -101,7 +100,7 @@ public class Inventory : MonoBehaviour {
     }
 
     public bool AddItem(int itemID) {
-        BaseItemTemplate itemToAdd = ItemDatabase.FetchBaseItemTemplateById(itemID);
+        BaseItemTemplate itemToAdd = itemDatabase.FetchBaseItemTemplateById(itemID);
         ItemSlot slotAddingTo = null;
 
         if(itemToAdd.stackable && CheckIfItemIsInInventory(itemID)) {
@@ -117,7 +116,7 @@ public class Inventory : MonoBehaviour {
         }
         //Otherwise add item to that slot
         else {
-            GameObject itemAdded = ItemDatabase.instance.FetchItemGameObject(itemToAdd);
+            GameObject itemAdded = itemDatabase.FetchItemGameObject(itemToAdd);
             
             itemAdded.GetComponent<ItemData>().item = itemToAdd;
             itemAdded.transform.parent = inventoryUI.transform;

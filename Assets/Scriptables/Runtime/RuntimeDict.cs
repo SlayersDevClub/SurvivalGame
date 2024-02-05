@@ -4,18 +4,21 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Sets/RuntimeDict")]
 
 public abstract class RuntimeDict<TKey, TValue> : ScriptableObject {
-    private Dictionary<TKey, TValue> itemDictionary = new Dictionary<TKey, TValue>();
+    public GameObjectBoolDictChangedEvent onValueChanged;
 
-    public void Add(TKey key, TValue value) {
-        if (!itemDictionary.ContainsKey(key)) {
-            itemDictionary.Add(key, value);
-        }
+    protected Dictionary<TKey, TValue> itemDictionary = new Dictionary<TKey, TValue>();
+
+    public virtual void Add(TKey key, TValue value) {
+        itemDictionary[key] = value;
     }
 
-    public void Remove(TKey key) {
+    public virtual bool Remove(TKey key) {
         if (itemDictionary.ContainsKey(key)) {
             itemDictionary.Remove(key);
+            return true;
         }
+
+        return false;
     }
 
     public List<TKey> GetKeys() {
@@ -28,5 +31,9 @@ public abstract class RuntimeDict<TKey, TValue> : ScriptableObject {
 
     public List<KeyValuePair<TKey, TValue>> GetItems() {
         return new List<KeyValuePair<TKey, TValue>>(itemDictionary);
+    }
+
+    public void Clear() {
+        itemDictionary.Clear();
     }
 }

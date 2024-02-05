@@ -1,119 +1,24 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using UnityEditor;
-using UnityEngine.UI;
 using System;
 
-public class CraftingBrain : MonoBehaviour {
-    public GridLayoutGroup recipeGrid;
-    public GameObject recipeCard;
+[CreateAssetMenu]
+public class CraftingBrain : ScriptableObject {
+
+    public ItemDatabase itemDatabase;
+
     // Dictionary to store recipes with BaseItemTemplate.Id as the key
-    public static List<RecipeTemplate> recipes = new List<RecipeTemplate>();
-    private Dictionary<RecipeTemplate, GameObject> recipeAndCraftingCard = new Dictionary<RecipeTemplate, GameObject>();
+    public List<RecipeTemplate> recipes = new List<RecipeTemplate>();
+    public GameObject customItemHolder;
 
-    public static CraftingBrain instance;
-
-    private void Start() {
-        instance = this;
-
-        if (GameObject.Find("CustomItems") == null) {
-            GameObject.Instantiate(new GameObject("CustomItems"));
-        }
+    private void OnEnable() {
+        customItemHolder = GameObject.Instantiate(new GameObject("CustomItems"));
         recipes = JsonDataManager.LoadRecipeData();
-        PopulateCraftingTableWithCraftables();
-    }
-
-    public void MakeRecipeCraftable(RecipeTemplate recipeToMakeCraftable) {
-        GameObject createdRecipeCard = CreateRecipeCard(recipeToMakeCraftable);
-
-        recipeAndCraftingCard[recipeToMakeCraftable] = createdRecipeCard;
-        ShowAsCraftableInTable(recipeToMakeCraftable, false);
-    }
-
-    public static void UpdateCraftableItemsInTable(Dictionary<int, int> itemsInInventory) {
-        List<BaseItemTemplate> craftableItems = new List<BaseItemTemplate>();
-
-        foreach (RecipeTemplate recipe in recipes) {
-            List<string> recipeItemIDs = recipe.ingredients.Select(ingredient => ingredient.Id).ToList();
-            recipeItemIDs.Sort();
-
-            if (IsCraftable(itemsInInventory, recipeItemIDs)) {
-                craftableItems.Add(recipe.output);
-                CraftingBrain.instance.ShowAsCraftableInTable(recipe, true);
-            }
-        }
-
-        // Now, craftableItems contains the list of items the player can craft.
-        // You can use this information as needed, for example, to enable crafting UI elements.
-    }
-
-    private static bool IsCraftable(Dictionary<int, int> playerInventory, List<string> recipeItemIDs) {
-        // Check if player has all the required items for the recipe
-        foreach (string itemId in recipeItemIDs) {
-            int requiredQuantity = recipeItemIDs.Count(id => id == itemId);
-            if (!playerInventory.ContainsKey(Convert.ToInt32(itemId)) || playerInventory[Convert.ToInt32(itemId)] < requiredQuantity) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private void PopulateCraftingTableWithCraftables() {
-        foreach(RecipeTemplate recipe in recipes) {
-            GameObject createdRecipeCard = CreateRecipeCard(recipe);
-
-            recipeAndCraftingCard[recipe] = createdRecipeCard;
-            ShowAsCraftableInTable(recipe, false);
-        }
-    }
-    private GameObject CreateRecipeCard(RecipeTemplate recipe) {
-        GameObject createdCard = Instantiate(recipeCard, recipeGrid.transform);
-
-        BaseItemTemplate item = ItemDatabase.FetchBaseItemTemplateById(Int16.Parse(recipe.output.Id));
-
-        if (item.icon != null) {
-            Image createdCardImage = createdCard.transform.GetComponentInChildren<Image>();
-            createdCardImage.sprite = item.icon;
-
-        } else {
-            // Handle the case where the icon is not set (e.g., assign a default sprite or do nothing)
-            Debug.LogWarning("Recipe icon is not set!");
-        }
-
-        return createdCard;
     }
 
 
-    private void ShowAsCraftableInTable(RecipeTemplate recipe, bool makeCraftable) {
-        float uncraftableOpacity = 0.75f;
-        float cratableOpacity = 255f;
-
-        GameObject recipeCard = recipeAndCraftingCard[recipe];
-
-        if (makeCraftable) {
-            ChangeImageOpacity(recipeCard, cratableOpacity);
-        } else {
-            ChangeImageOpacity(recipeCard, uncraftableOpacity);
-        }
-
-            void ChangeImageOpacity(GameObject recipeCard, float opacity) {
-
-            Image recipeCardImage = recipeCard.transform.GetComponentInChildren<Image>();
-
-            // Get the current color of the sprite
-            Color spriteColor = recipeCardImage.color;
-
-            // Set the alpha component to 75% (0.75)
-            spriteColor.a = opacity;
-
-            // Apply the modified color back to the sprite
-            recipeCardImage.color = spriteColor;
-        }
-    }
-
-    public static BaseItemTemplate AttemptCraft(List<BaseItemTemplate> ingredients) {
+    public BaseItemTemplate AttemptCraft(List<BaseItemTemplate> ingredients) {
         BaseItemTemplate output = null;
 
         output = CheckRecipe(ingredients);
@@ -125,7 +30,7 @@ public class CraftingBrain : MonoBehaviour {
         }
     }
     
-    public static BaseItemTemplate AttemptBuildTool(List<BaseItemTemplate> toolParts, string id = null) {
+    public BaseItemTemplate AttemptBuildTool(List<BaseItemTemplate> toolParts, string id = null) {
         PickaxeHandleTemplate pickHand = null;
         AxeHandleTemplate axeHand = null;
         HammerHandleTemplate hammerHand = null;
@@ -207,7 +112,7 @@ public class CraftingBrain : MonoBehaviour {
             //    child.gameObject.layer = LayerMask.NameToLayer("Equipped");
             //}
 
-            GameObject createdTool = GameObject.Instantiate(builtTool, GameObject.Find("CustomItems").transform);
+            GameObject createdTool = GameObject.Instantiate(builtTool, customItemHolder.transform);
             createdTool.name = "CustomTool" + newToolTemplate.Id.ToString();
 
             newToolTemplate.prefab = createdTool;
@@ -231,7 +136,7 @@ public class CraftingBrain : MonoBehaviour {
     }
 
 
-public static BaseItemTemplate AttemptBuildGun(List<BaseItemTemplate> gunParts, string id = null) {
+    public BaseItemTemplate AttemptBuildGun(List<BaseItemTemplate> gunParts, string id = null) {
         MagTemplate mag = null;
         StockTemplate stock = null;
         BodyTemplate body = null;
@@ -290,7 +195,7 @@ public static BaseItemTemplate AttemptBuildGun(List<BaseItemTemplate> gunParts, 
         //Set loaded sprite as icon
         newGunTemplate.icon = newSprite;
 
-        GameObject createdGun = GameObject.Instantiate(builtGun, GameObject.Find("CustomItems").transform);
+        GameObject createdGun = GameObject.Instantiate(builtGun, customItemHolder.transform);
         createdGun.name = "CustomGun" + newGunTemplate.Id.ToString();
         
         newGunTemplate.prefab = createdGun;
@@ -300,7 +205,7 @@ public static BaseItemTemplate AttemptBuildGun(List<BaseItemTemplate> gunParts, 
         return newGunTemplate;
     }
 
-    public static BaseItemTemplate CheckRecipe(List<BaseItemTemplate> ingredients) {
+    public BaseItemTemplate CheckRecipe(List<BaseItemTemplate> ingredients) {
         List<string> ingredientIDS = new List<string>();
 
         foreach (BaseItemTemplate ing in ingredients) {
@@ -327,7 +232,7 @@ public static BaseItemTemplate AttemptBuildGun(List<BaseItemTemplate> gunParts, 
         return null;
     }
 
-    private static int CompareIngredients(string a, string b) {
+    private int CompareIngredients(string a, string b) {
         // Extract the first 8 characters from the ingredient IDs
         string aNumericPart = new string(a.Take(4).Where(char.IsDigit).ToArray());
         string bNumericPart = new string(b.Take(4).Where(char.IsDigit).ToArray());

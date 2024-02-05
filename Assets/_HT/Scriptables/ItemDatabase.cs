@@ -5,24 +5,23 @@ using System.IO;
 using System;
 using UnityEngine.UI;
 
-public class ItemDatabase : MonoBehaviour {
-    public static ItemDatabase instance;
+[CreateAssetMenu]
+public class ItemDatabase : ScriptableObject {
+    //public static ItemDatabase instance;
 
     public GameObject itemPrefab;
-    private static List<BaseItemTemplate> itemList = new List<BaseItemTemplate>();
+    public CraftingBrain craftingBrain;
 
-    private static Dictionary<int, Item> itemDict = new Dictionary<int, Item>();
-    private static Dictionary<int, BaseItemTemplate> baseItemDict = new Dictionary<int, BaseItemTemplate>();
+    private List<BaseItemTemplate> itemList = new List<BaseItemTemplate>();
 
-    private void Start() {
-        instance = this;
-    }
+    private Dictionary<int, Item> itemDict = new Dictionary<int, Item>();
+    private Dictionary<int, BaseItemTemplate> baseItemDict = new Dictionary<int, BaseItemTemplate>();
 
-    public static void Initialize() {
+    private void OnEnable() {
         itemList = JsonDataManager.LoadData();
         ConstructItemDatabase();
     }
-    public static Item FetchItemById(int id) {
+    public Item FetchItemById(int id) {
         if (itemDict.ContainsKey(id)) {
             return itemDict[id];
         } else {
@@ -31,7 +30,7 @@ public class ItemDatabase : MonoBehaviour {
     }
 
 
-    public static BaseItemTemplate FetchBaseItemTemplateById(int id) {
+    public BaseItemTemplate FetchBaseItemTemplateById(int id) {
         if (baseItemDict.ContainsKey(id)) {
             return baseItemDict[id];
         } else {
@@ -46,7 +45,7 @@ public class ItemDatabase : MonoBehaviour {
         return itemCreated;
     }
 
-    public static void AddBaseItemTemplate(BaseItemTemplate baseItemTemplateToAdd) {
+    public void AddBaseItemTemplate(BaseItemTemplate baseItemTemplateToAdd) {
         int itemID = Int16.Parse(baseItemTemplateToAdd.Id);
 
         baseItemDict[itemID] = baseItemTemplateToAdd;
@@ -54,7 +53,7 @@ public class ItemDatabase : MonoBehaviour {
 
 
 
-    private static void ConstructItemDatabase() {
+    private void ConstructItemDatabase() {
         for (int i = 0; i < itemList.Count; i++) 
             {
             Item newItem = new Item();
@@ -73,7 +72,7 @@ public class ItemDatabase : MonoBehaviour {
         }
     }
 
-    private static void LoadCustomObject(BaseItemTemplate customItem, string id, Item newItem) {
+    private void LoadCustomObject(BaseItemTemplate customItem, string id, Item newItem) {
         if (customItem is ToolTemplate) {
             ToolTemplate customTool = customItem as ToolTemplate;
 
@@ -88,7 +87,7 @@ public class ItemDatabase : MonoBehaviour {
             }
 
             // Attempt to build the tool using the list of item templates
-            ToolTemplate loadedTool = CraftingBrain.AttemptBuildTool(itemTemplates, id) as ToolTemplate;
+            ToolTemplate loadedTool = craftingBrain.AttemptBuildTool(itemTemplates, id) as ToolTemplate;
             customTool.prefab = loadedTool.prefab;
             customTool.icon = loadedTool.icon;
             newItem.Sprite = customTool.icon;
@@ -106,7 +105,7 @@ public class ItemDatabase : MonoBehaviour {
             }
 
             // Attempt to build the tool using the list of item templates
-            GunTemplate loadedGun = CraftingBrain.AttemptBuildGun(itemTemplates, id) as GunTemplate;
+            GunTemplate loadedGun = craftingBrain.AttemptBuildGun(itemTemplates, id) as GunTemplate;
             customGun.prefab = loadedGun.prefab;
             customGun.icon = loadedGun.icon;
             newItem.Sprite = customGun.icon;
@@ -114,7 +113,7 @@ public class ItemDatabase : MonoBehaviour {
     }
 
     // Function to save the database to JSON using JsonDataManager
-    public static void SaveData() {
+    public void SaveData() {
         List<BaseItemTemplate> itemTemplates = new List<BaseItemTemplate>();
         foreach (Item item in itemDict.Values) {
             BaseItemTemplate template = new BaseItemTemplate();

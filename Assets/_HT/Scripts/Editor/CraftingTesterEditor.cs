@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class CraftingTesterEditor : EditorWindow {
+
     private string searchQuery = "";
     private Vector2 scrollPosition;
     private BaseItemTemplate[] allItems;
@@ -91,7 +92,7 @@ public class CraftingTesterEditor : EditorWindow {
     }
 
     private void UpdateOutputItem() {
-        outputItem = CraftingBrain.CheckRecipe(selectedItems);
+        //outputItem = CraftingBrain.CheckRecipe(selectedItems);
         Repaint();
     }
 

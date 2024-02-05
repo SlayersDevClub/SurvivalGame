@@ -7,7 +7,7 @@ public class GuncrafterSlot : CrafterSlot {
 
     public override void CraftItem(BaseItemTemplate itemBeingCrafted) {
         AddCraftToJSON(itemBeingCrafted);
-        GameObject inventoryItemCreated = ItemDatabase.instance.FetchItemGameObject(itemBeingCrafted);
+        GameObject inventoryItemCreated = inventory.itemDatabase.FetchItemGameObject(itemBeingCrafted);
         inventory.guncrafterOutputSlot.AddItemToSlot(inventoryItemCreated);
     }
     public override void PutItemInSlot(GameObject item) {
@@ -28,6 +28,6 @@ public class GuncrafterSlot : CrafterSlot {
             gunParts.Add(slot.itemInSlotInfo);
         }
 
-        return CraftingBrain.AttemptBuildGun(gunParts);
+        return inventory.craftingBrain.AttemptBuildGun(gunParts);
     }
 }

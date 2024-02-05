@@ -7,7 +7,7 @@ public abstract class CrafterSlot : ItemSlot {
     public abstract void CraftItem(BaseItemTemplate itemBeingCrafted);
 
     public void AddCraftToJSON(BaseItemTemplate craftedItem) {
-        ItemDatabase.AddBaseItemTemplate(craftedItem);
+        inventory.itemDatabase.AddBaseItemTemplate(craftedItem);
         JsonDataManager.AddBaseItemTemplateToJson(craftedItem);
     }
 }

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class GeneralcrafterSlot : CrafterSlot {
 
     public override void CraftItem(BaseItemTemplate itemBeingCrafted) {
-        GameObject inventoryItemCreated = ItemDatabase.instance.FetchItemGameObject(itemBeingCrafted);
+        GameObject inventoryItemCreated = inventory.itemDatabase.FetchItemGameObject(itemBeingCrafted);
         inventory.generalcrafterOutputSlot.AddItemToSlot(inventoryItemCreated);
     }
     public override void PutItemInSlot(GameObject item) {
@@ -27,6 +27,6 @@ public class GeneralcrafterSlot : CrafterSlot {
             ingredients.Add(slot.itemInSlotInfo);
         }
 
-        return CraftingBrain.AttemptCraft(ingredients);
+        return inventory.craftingBrain.AttemptCraft(ingredients);
     }
 }
