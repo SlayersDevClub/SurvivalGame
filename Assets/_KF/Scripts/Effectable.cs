@@ -11,18 +11,29 @@ public class Effectable : MonoBehaviour, IEffectable {
     public UnityEvent OnApplyDamage, OnApplyHealing, OnApplyHunger, OnApplySpeed, OnRemoveAll;
 
     private Damageable damageable;
+    private Hungry hungry;
 
 
     private void Start() {
         damageable = GetComponent<Damageable>() ?? null;
+        hungry = GetComponent<Hungry>() ?? null;
 
         if (damageable == null) {
-            typesAllowed.Remove(IEffectable.EffectTypes.DAMAGE);
-            typesAllowed.Remove(IEffectable.EffectTypes.HEALING);
+            typesAllowed.RemoveAll(effect => 
+                effect == IEffectable.EffectTypes.DAMAGE_FLAT || 
+                effect == IEffectable.EffectTypes.DOT ||
+                effect == IEffectable.EffectTypes.HEALING_FLAT ||
+                effect == IEffectable.EffectTypes.HOT);
+        }
+
+        if (hungry == null) {
+            typesAllowed.Remove(IEffectable.EffectTypes.HUNGER);
         }
     }
 
-    public void ApplyEffect(StatusEffectTemplate statusEffect) {
+    public bool ApplyEffect(StatusEffectTemplate statusEffect) {
+        bool ret = false;
+
         foreach (IEffectable.EffectTypes effect in statusEffect.effectTypes) {
             if (!typesAllowed.Contains(effect)) {
                 Debug.Log("Effect type '" + effect.ToString() + "' not allowed on '" + transform.name + "'.");
@@ -30,11 +41,28 @@ public class Effectable : MonoBehaviour, IEffectable {
             }
 
             switch (effect) {
-                case IEffectable.EffectTypes.DAMAGE:
-                    ApplyDamage(statusEffect.damageFlat, statusEffect.damageOverTime, statusEffect.duration, statusEffect.tickSpeed);
+                case IEffectable.EffectTypes.DAMAGE_FLAT:
+                    if (statusEffect.damageFlat == 0)
+                        Debug.Log("Value(s) for Effect type '" + effect.ToString() + "' are zero.");
+
+                    ret |= ApplyDamageFlat(statusEffect.damageFlat);
                     break;
-                case IEffectable.EffectTypes.HEALING:
-                    ApplyHealing(statusEffect.healthFlat, statusEffect.healthOverTime, statusEffect.duration, statusEffect.tickSpeed);
+                case IEffectable.EffectTypes.DOT:
+                    if (statusEffect.damageOverTime == 0 || statusEffect.duration == 0 || statusEffect.tickSpeed == 0)
+                        Debug.Log("Value(s) for Effect type '" + effect.ToString() + "' are zero.");
+
+                    StartCoroutine(ApplyDOT(statusEffect.damageOverTime, statusEffect.duration, statusEffect.tickSpeed));
+                    ret = true;
+                    break;
+                case IEffectable.EffectTypes.HEALING_FLAT:
+                    if (statusEffect.healthFlat == 0)
+                        Debug.Log("Value(s) for Effect type '" + effect.ToString() + "' are zero.");
+
+                    ret |= ApplyHealingFlat(statusEffect.healthFlat);
+                    break;
+                case IEffectable.EffectTypes.HOT:
+                    StartCoroutine(ApplyHOT(statusEffect.healthOverTime, statusEffect.duration, statusEffect.tickSpeed));
+                    ret = true;
                     break;
                 case IEffectable.EffectTypes.HUNGER:
                     break;
@@ -42,6 +70,8 @@ public class Effectable : MonoBehaviour, IEffectable {
                     break;
             }
         }
+
+        return ret;
     }
 
     public void RemoveAllEffects() {
@@ -58,21 +88,15 @@ public class Effectable : MonoBehaviour, IEffectable {
     
     ///// DAMAGE /////
 
-    private void ApplyDamage(int damageFlat, int damageOverTime, int duration, int tickSpeed) {
-        if (damageFlat != 0) {
-            Damageable.DamageMessage message = new Damageable.DamageMessage {
-                amount = damageFlat
-            };
+    private bool ApplyDamageFlat(int damageFlat) {
+        Damageable.DamageMessage message = new Damageable.DamageMessage {
+            amount = damageFlat
+        };
 
-            damageable.ApplyDamage(message);
-        }
-
-        if (damageOverTime != 0 && duration != 0 && tickSpeed != 0) {
-            StartCoroutine(DOT(damageOverTime, duration, tickSpeed));
-        }
+        return damageable.ApplyDamage(message);
     }
 
-    IEnumerator DOT(int damageOverTime, int duration, int tickSpeed) {
+    IEnumerator ApplyDOT(int damageOverTime, int duration, int tickSpeed) {
         float startTime = Time.time;
 
         while (Time.time - startTime < duration) {
@@ -88,17 +112,11 @@ public class Effectable : MonoBehaviour, IEffectable {
 
     ///// HEALING /////
 
-    private void ApplyHealing(int healthFlat, int healthOverTime, int duration, int tickSpeed) {
-        if (healthFlat != 0) {
-            damageable.ApplyHealing(healthFlat);
-        }
-
-        if (healthOverTime != 0 && duration != 0 && tickSpeed != 0) {
-            StartCoroutine(HOT(healthOverTime, duration, tickSpeed));
-        }
+    private bool ApplyHealingFlat(int healthFlat) {
+        return damageable.ApplyHealing(healthFlat);
     }
 
-    IEnumerator HOT(int healthOverTime, int duration, int tickSpeed) {
+    IEnumerator ApplyHOT(int healthOverTime, int duration, int tickSpeed) {
         float startTime = Time.time;
 
         while (Time.time - startTime < duration) {
@@ -106,5 +124,15 @@ public class Effectable : MonoBehaviour, IEffectable {
 
             yield return new WaitForSeconds(tickSpeed);
         }
+    }
+
+    ///// HUNGER /////
+    
+    private void ApplyRaiseHunger(int hunger) {
+        //TODO
+    }
+
+    private void ApplyReduceHunger(int hunger) {
+        //TODO
     }
 }

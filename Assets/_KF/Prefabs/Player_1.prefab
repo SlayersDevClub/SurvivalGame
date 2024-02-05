@@ -1124,7 +1124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 714f0af03120eb143adbbf2771e98681, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  typesAllowed: 01000000
+  typesAllowed: 02000000
   OnApplyDamage:
     m_PersistentCalls:
       m_Calls: []

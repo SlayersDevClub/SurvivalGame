@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8abed1cd5e0d5d4084610e962c67c5a, type: 3}
   m_Name: AppleEffect
   m_EditorClassIdentifier: 
-  effectTypes: 01000000
+  effectTypes: 02000000
   healthFlat: 1
   healthOverTime: 0
   damageFlat: 0

@@ -2,13 +2,15 @@
 public interface IEffectable {
 
     enum EffectTypes {
-        DAMAGE,
-        HEALING,
+        DAMAGE_FLAT,
+        DOT,
+        HEALING_FLAT,
+        HOT,
         HUNGER,
         SPEED
     }
 
-    public void ApplyEffect(StatusEffectTemplate statusEffect);
+    public bool ApplyEffect(StatusEffectTemplate statusEffect);
     public void RemoveEffect(StatusEffectTemplate statusEffect);
     public void RemoveAllEffects();
 

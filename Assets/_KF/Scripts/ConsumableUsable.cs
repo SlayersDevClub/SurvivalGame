@@ -31,10 +31,11 @@ public class ConsumableUsable : MonoBehaviour, IUsable {
 
     public void StartHandleInput(InputAction.CallbackContext context) {
         if (context.action.name == TagManager.USE_ACTION) {
-            Effectable effectable = transform.GetComponentInParent<Effectable>();;
-            effectable.ApplyEffect(consumable.effect);
+            Effectable effectable = transform.GetComponentInParent<Effectable>();
+            bool effectApplied = effectable.ApplyEffect(consumable.effect);
 
-            transform.root.GetComponent<PlayerStateMachine>().inv.RemoveItem(transform.root.GetComponent<PlayerStateMachine>().equipItemSlot);
+            if (effectApplied)
+                transform.root.GetComponent<PlayerStateMachine>().inv.RemoveItem(transform.root.GetComponent<PlayerStateMachine>().equipItemSlot);
         }
     }
 
