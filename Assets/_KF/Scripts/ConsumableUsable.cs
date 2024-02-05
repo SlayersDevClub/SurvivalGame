@@ -29,19 +29,16 @@ public class ConsumableUsable : MonoBehaviour, IUsable {
         enabled = true;
     }
 
-    public void StartHandleInput(InputAction.CallbackContext context) {
-        if (context.action.name == TagManager.USE_ACTION) {
-            Effectable effectable = transform.GetComponentInParent<Effectable>();
-            bool effectApplied = effectable.ApplyEffect(consumable.effect);
-
-            if (effectApplied)
-                transform.root.GetComponent<PlayerStateMachine>().inv.RemoveItem(transform.root.GetComponent<PlayerStateMachine>().equipItemSlot);
+    public void HandleInput(InputAction.CallbackContext context) {
+        if (context.started) {
+            if (context.action.name == TagManager.USE_ACTION) {
+                Effectable effectable = transform.GetComponentInParent<Effectable>();
+                bool effectApplied = effectable.ApplyEffect(consumable.effect);
+                /*
+                if (effectApplied)
+                    Inventory.RemoveItem(transform.root.GetComponent<PlayerStateMachine>().equipItemSlot);*/
+            }
         }
-    }
 
-    public void EndHandleInput(InputAction.CallbackContext context) {
-        if (context.action.name == TagManager.USE_ACTION) {
-            // add 
-        }
     }
 }
