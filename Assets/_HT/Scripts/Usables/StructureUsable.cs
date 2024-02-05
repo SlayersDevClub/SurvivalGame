@@ -22,7 +22,7 @@ public class StructureUsable : MonoBehaviour, IUsable {
         }
     }
 
-    public void StartHandleInput(InputAction.CallbackContext context) {
+    public void HandleInput(InputAction.CallbackContext context) {
         // LEFT CLICK
         if (context.started) {
             if (context.action.name == TagManager.USE_ACTION) {
@@ -34,9 +34,6 @@ public class StructureUsable : MonoBehaviour, IUsable {
         }
     }
 
-    public void EndHandleInput(InputAction.CallbackContext context) {
-
-    }
 
     private void Update() {
         if (!placedDown) {
@@ -55,7 +52,7 @@ public class StructureUsable : MonoBehaviour, IUsable {
                     PlayerStateMachine player = transform.root.GetComponent<PlayerStateMachine>();
                     gameObject.transform.parent = null;
                     SetLayerRecursively(gameObject, structureLayer);
-                    player.inv.RemoveItem(player.equipItemSlot);
+                    //player.inv.RemoveItem(player.equipItemSlot);
                     placedDown = true;
                     validSpot = false;
                 } else {

@@ -78,13 +78,11 @@ namespace Gamekit3D {
 
             if (currentHitPoints <= 0) {
                 // Ignore damage if already dead. TODO: may have to change that if we want to detect hit on death...
-                Debug.Log("Already dead, ignoring damage.");
                 return;
             }
 
             if (isInvulnerable) {
                 OnHitWhileInvulnerable.Invoke();
-                Debug.Log("Hit while invulnerable.");
                 return;
             }
 
@@ -96,35 +94,28 @@ namespace Gamekit3D {
             positionToDamager -= transform.up * Vector3.Dot(transform.up, positionToDamager);
 
             if (Vector3.Angle(forward, positionToDamager) > hitAngle * 0.5f) {
-                Debug.Log("Angle check failed, not taking damage.");
                 return;
             }
 
             isInvulnerable = true;
             currentHitPoints -= data.amount;
-            Debug.Log(currentHitPoints + gameObject.name);
             if(healthBar != null) {
                 healthBar.value = currentHitPoints;
 
                 StartCoroutine(ShowHealthBar());
             }
-           
-
-            Debug.Log(currentHitPoints);
+         
 
             if (currentHitPoints <= 0) {
                 schedule += OnDeath.Invoke; // This avoids race condition when objects kill each other.
-                
-                Debug.Log("Enemy killed.");
+           
             } else {
                 OnReceiveDamage.Invoke();
-                Debug.Log("Enemy damaged.");
             }
 
             var messageType = currentHitPoints <= 0 ? MessageType.DEAD : MessageType.DAMAGED;
 
             for (var i = 0; i < onDamageMessageReceivers.Count; ++i) {
-                Debug.Log("PERFECT");
                 var receiver = onDamageMessageReceivers[i] as IMessageReceiver;
                 receiver.OnReceiveMessage(messageType, this, data);
             }

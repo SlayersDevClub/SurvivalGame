@@ -11,7 +11,7 @@ public class PickaxeUsable : MonoBehaviour, IUsable {
     Animator anim;
     ToolTemplate pick;
 
-    public void Setup() 
+    private void Start() 
     {
         if (transform.parent.GetComponent<HandRigConnector>())
         {
@@ -24,25 +24,23 @@ public class PickaxeUsable : MonoBehaviour, IUsable {
 
     }
 
-    public void StartHandleInput(InputAction.CallbackContext context) 
-    {
-        if (context.action.name == TagManager.USE_ACTION) 
-        {
-            anim.speed = attackSpeed * 3; //attack speed factor
-            SwingTool();
-        } else if (context.action.name == TagManager.USE2_ACTION) 
-        {
-            Debug.Log("RIGHT CLICKING PICKAXE");
+    public void HandleInput(InputAction.CallbackContext context) {
+        if (context.started) {
+            if (context.action.name == TagManager.USE_ACTION) {
+                anim.speed = attackSpeed * 3; //attack speed factor
+                SwingTool();
+            } else if (context.action.name == TagManager.USE2_ACTION) {
+                Debug.Log("RIGHT CLICKING PICKAXE");
+            }
+        }
+        if (context.canceled) {
+            if (context.action.name == TagManager.USE_ACTION) {
+                anim.SetBool("IsSwinging", false);
+            }
         }
     }
 
-    public void EndHandleInput(InputAction.CallbackContext context) 
-    {
-        if (context.action.name == TagManager.USE_ACTION) 
-        {
-            anim.SetBool("IsSwinging", false);
-        }
-    }
+
 
     private void SwingTool() 
     {

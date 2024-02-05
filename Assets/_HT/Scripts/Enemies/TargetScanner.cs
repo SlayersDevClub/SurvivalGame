@@ -53,7 +53,6 @@ using UnityEngine;
 
                 // Check if canSee condition is met
                 if (canSee) {
-                    Debug.Log("CAN SEE");
                     return detected;
                 }
             }

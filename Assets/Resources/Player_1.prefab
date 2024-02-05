@@ -47,7 +47,7 @@ PositionConstraint:
   m_Enabled: 1
   m_Weight: 0.1
   m_TranslationAtRest: {x: 0.19, y: 0, z: 0}
-  m_TranslationOffset: {x: 0.19, y: -0.22300005, z: 0}
+  m_TranslationOffset: {x: 0.19, y: -0.22299969, z: 0}
   m_AffectTranslationX: 1
   m_AffectTranslationY: 1
   m_AffectTranslationZ: 1
@@ -191,7 +191,7 @@ PositionConstraint:
   m_Enabled: 1
   m_Weight: 0.855
   m_TranslationAtRest: {x: 0, y: 0, z: 0}
-  m_TranslationOffset: {x: -0.0006811619, y: 0.084941626, z: 0.056355953}
+  m_TranslationOffset: {x: -0.0006811619, y: 0.08494127, z: 0.056355715}
   m_AffectTranslationX: 1
   m_AffectTranslationY: 1
   m_AffectTranslationZ: 1
@@ -2032,7 +2032,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 538807
+    m_Bits: 553143
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -2076,7 +2076,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 1
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -3946,7 +3946,7 @@ PositionConstraint:
   m_Enabled: 1
   m_Weight: 1
   m_TranslationAtRest: {x: 0, y: 0, z: 0}
-  m_TranslationOffset: {x: 0, y: -1.61, z: 0}
+  m_TranslationOffset: {x: 0, y: -1.6099997, z: 0}
   m_AffectTranslationX: 1
   m_AffectTranslationY: 1
   m_AffectTranslationZ: 1
