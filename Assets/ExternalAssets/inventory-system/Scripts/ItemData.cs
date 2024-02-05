@@ -3,7 +3,10 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler {
+//, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
+public class ItemData : MonoBehaviour {
+    public BaseItemTemplate item;
+    /*
     public Item item;
     public int amount;
     public int slotId;
@@ -19,8 +22,8 @@ public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
 
     private void Start() {
-        inv = GameObject.Find("Inventory").GetComponent<Inventory>();
-        tooltip = inv.GetComponent<Tooltip>();
+        inv = FindObjectOfType<Inventory>();
+        //tooltip = inv.GetComponent<Tooltip>();
         player = inv.transform.root.GetComponent<PlayerStateMachine>();
     }
 
@@ -148,5 +151,5 @@ public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         } else {
             data.transform.GetChild(0).GetComponent<Text>().text = displayedAmount.ToString();
         }
-    }
+    }*/
 }

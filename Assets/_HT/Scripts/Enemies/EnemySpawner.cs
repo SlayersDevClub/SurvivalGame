@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class EnemySpawner : MonoBehaviour {
     public GameObject enemyToSpawn;
     public Transform player;
-    public float maxDistanceFromPlayer = 10f; // Maximum distance from the player to spawn the enemy.
+    public float maxDistanceFromPlayer = 100f; // Maximum distance from the player to spawn the enemy.
 
     private void Start() {
         if (player != null) {
@@ -19,11 +19,7 @@ public class EnemySpawner : MonoBehaviour {
             // Instantiate the enemy at the spawn position.
             if (spawnPosition != Vector3.zero) {
                 Instantiate(enemyToSpawn, spawnPosition, Quaternion.identity);
-                Instantiate(enemyToSpawn, spawnPosition, Quaternion.identity);
-                Instantiate(enemyToSpawn, spawnPosition, Quaternion.identity);
-                Instantiate(enemyToSpawn, spawnPosition, Quaternion.identity);
-                Instantiate(enemyToSpawn, spawnPosition, Quaternion.identity);
-                Instantiate(enemyToSpawn, spawnPosition, Quaternion.identity);
+                
 
             } else {
                 Debug.LogWarning("Unable to find a valid spawn position near the player.");
@@ -56,4 +52,5 @@ public class EnemySpawner : MonoBehaviour {
         // If no valid position is found after 30 attempts, return Vector3.zero.
         return Vector3.zero;
     }
+
 }

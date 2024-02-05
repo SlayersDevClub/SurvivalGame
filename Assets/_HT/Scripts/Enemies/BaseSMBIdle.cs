@@ -30,6 +30,8 @@ namespace Gamekit3D {
             m_MonoBehaviour.FindTarget();
             if (m_MonoBehaviour.target != null) {
                 m_MonoBehaviour.StartPursuit();
+            } else {
+                m_MonoBehaviour.StartPatrol();
             }
         }
     }

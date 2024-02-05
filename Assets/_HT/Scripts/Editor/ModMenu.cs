@@ -6,10 +6,8 @@ public class ModMenu : EditorWindow {
     private string searchQuery = "";
     private Vector2 scrollPosition;
     private BaseItemTemplate[] allItems;
-    private List<BaseItemTemplate> selectedItems = new List<BaseItemTemplate>();
-    private BaseItemTemplate outputItem;
 
-    public Inventory inv;
+    public Inventory inventory;
 
     [MenuItem("Window/Mod Menu")]
     public static void ShowWindow() {
@@ -52,8 +50,8 @@ public class ModMenu : EditorWindow {
     }
 
     private void SpawnItem(BaseItemTemplate item) {
-        inv = GameObject.Find("Inventory").GetComponent<Inventory>();
-        inv.AddItem(int.Parse(item.Id));
+        inventory = FindObjectOfType<Inventory>();
+        inventory.AddItem(int.Parse(item.Id));
     }
 
 }

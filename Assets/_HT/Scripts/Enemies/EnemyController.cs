@@ -12,6 +12,7 @@ namespace Gamekit3D {
         public bool interpolateTurning = false;
         public bool applyAnimationRotation = false;
 
+        public EnemyTileManager enemyTile;
         public Animator animator { get { return m_Animator; } }
         public Vector3 externalForce { get { return m_ExternalForce; } }
         public NavMeshAgent navmeshAgent { get { return m_NavMeshAgent; } }
@@ -136,7 +137,6 @@ namespace Gamekit3D {
         }
 
         public bool SetTarget(Vector3 position) {
-            Debug.Log("GOING TO: " + position);
             return m_NavMeshAgent.SetDestination(position);
         }
     }

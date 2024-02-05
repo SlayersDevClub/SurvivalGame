@@ -6,6 +6,7 @@ namespace Gamekit3D {
     [DefaultExecutionOrder(100)]
     public class BaseEnemy : MonoBehaviour, IMessageReceiver {
         public static readonly int hashInPursuit = Animator.StringToHash("InPursuit");
+        public static readonly int hashPatrolling = Animator.StringToHash("Patrolling");
         public static readonly int hashAttack = Animator.StringToHash("Attack");
         public static readonly int hashDodge = Animator.StringToHash("Dodge");
         public static readonly int hashTaunt = Animator.StringToHash("Taunt");
@@ -145,7 +146,6 @@ namespace Gamekit3D {
         }
 
         public void StartPursuit() {
-            Debug.Log("FOUND");
             if (m_FollowerInstance != null) {
                 m_FollowerInstance.requireSlot = true;
                 RequestTargetPosition();
@@ -155,12 +155,19 @@ namespace Gamekit3D {
         }
 
         public void StopPursuit() {
-            Debug.Log("LOST");
             if (m_FollowerInstance != null) {
                 m_FollowerInstance.requireSlot = false;
             }
 
             m_Controller.animator.SetBool(hashInPursuit, false);
+        }
+
+        public void StartPatrol() {
+            m_Controller.animator.SetBool(hashPatrolling, true);
+        }
+
+        public void StopPatrol() {
+            m_Controller.animator.SetBool(hashPatrolling, false);
         }
 
         public void RequestTargetPosition() {
@@ -214,7 +221,6 @@ namespace Gamekit3D {
 
             switch (type) {
                 case Message.MessageType.DEAD:
-                    Debug.Log("DYINGH");
                     Death((Damageable.DamageMessage)msg);
                     break;
                 case Message.MessageType.DAMAGED:
@@ -226,10 +232,15 @@ namespace Gamekit3D {
         }
 
         public void Death(Damageable.DamageMessage msg) {
-            Debug.Log("DEATH");
 
             ReplaceWithRagdoll replacer = GetComponent<ReplaceWithRagdoll>();
             replacer.Replace();
+
+            if(m_Controller.enemyTile != null) {
+                m_Controller.enemyTile.HandleEnemyDestroyed();
+            } else {
+                Debug.Log("ENEMY TILE NOT SET");
+            }
             //controller.animator.SetTrigger(hashDeath);
             /*Vector3 pushForce = transform.position - msg.damageSource;
 

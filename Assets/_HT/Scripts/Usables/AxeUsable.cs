@@ -5,12 +5,13 @@ using UnityEngine.InputSystem;
 using DG.Tweening;
 
 public class AxeUsable : MonoBehaviour, IUsable {
+
     private GameObject particlePrefab;
 
     float attackSpeed = 0.2f;
     Animator anim;
     ToolTemplate axe;
-    public void Setup() {
+    private void Start() {
         if (transform.parent.GetComponent<HandRigConnector>())
         {
             transform.parent.GetComponent<HandRigConnector>().rightHandTarget = transform.GetChild(0).GetChild(0).Find("HandTarget");
@@ -21,18 +22,16 @@ public class AxeUsable : MonoBehaviour, IUsable {
         axe = GetComponent<ItemSetup>().GetBaseItemTemplate() as ToolTemplate;
         Debug.Log("Axe Damage: " + axe.damage + " Pickaxe Damage: " + axe.pickaxeStrength);
     }
-
-    public void StartHandleInput(InputAction.CallbackContext context) {
-        if (context.action.name == TagManager.USE_ACTION)
-        {
-            anim.speed = attackSpeed * 3; //attack speed factor
-            SwingTool();
-        }
-    }
-
-    public void EndHandleInput(InputAction.CallbackContext context) {
+    public void HandleInput(InputAction.CallbackContext context) {
         if (context.action.name == TagManager.USE_ACTION) {
-            anim.SetBool("IsSwinging", false);
+            if (context.started) {
+                anim.speed = attackSpeed * 3; //attack speed factor
+                SwingTool();
+            }
+            if (context.canceled) {
+                anim.SetBool("IsSwinging", false);
+            }
+
         }
     }
 

@@ -236,37 +236,32 @@ public class GunUsable : MonoBehaviour, IUsable {
         bullet = Resources.Load<GameObject>("Prefabs/Bullets/StandardBullet");
     }
 
-    private void Start() {
-        bulletsLeft = magazineSize;
-        readyToShoot = true;
-    }
-
-    public void StartHandleInput(InputAction.CallbackContext context) {
-        //LEFT CLICK (FIRE)
-        if(context.action.name == TagManager.USE_ACTION) {
-            if (context.started) {
-                autoFire = true;
+    public void HandleInput(InputAction.CallbackContext context) {
+        if (context.started) {
+            //LEFT CLICK (FIRE)
+            if (context.action.name == TagManager.USE_ACTION) {
+                if (context.started) {
+                    autoFire = true;
+                }
+            }
+            //RIGHT CLICK (ADS)
+            if (context.action.name == TagManager.USE2_ACTION) {
+                if (pir.IsSprintingPressed() == false)
+                    ADS();
+            }
+            //R RELOAD
+            if (context.action.name == TagManager.RELOAD_ACTION) {
+                if (!reloading)
+                    Reload();
             }
         }
-
-        //RIGHT CLICK (ADS)
-        if(context.action.name == TagManager.USE2_ACTION) {
-            if(pir.IsSprintingPressed() == false)
-                ADS();
-        }
-
-        //R RELOAD
-        if(context.action.name == TagManager.RELOAD_ACTION) {
-            if(!reloading)
-                Reload();
+        if (context.canceled) {
+            if (context.action.name == TagManager.USE_ACTION) {
+                autoFire = false;
+            }
         }
     }
 
-    public void EndHandleInput(InputAction.CallbackContext context) {
-        if(context.action.name == TagManager.USE_ACTION) {
-            autoFire = false;
-        }      
-    }
 
 
     private void Update() {

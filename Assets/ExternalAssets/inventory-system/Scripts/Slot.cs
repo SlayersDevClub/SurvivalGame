@@ -5,8 +5,9 @@ using System.Collections.Generic;
 using System;
 using UnityEngine.SceneManagement;
 
-public class Slot : MonoBehaviour, IPointerDownHandler
+public class Slot : MonoBehaviour
 {
+	/*
 	public int id;
 	protected private Inventory inv;
 	private PlayerStateMachine player;
@@ -28,4 +29,5 @@ public class Slot : MonoBehaviour, IPointerDownHandler
 			inv.slots[id].GetComponent<SlotStateMachine>().OnDrop(eventData, id, gameObject);
 		}
 	}
+	*/
 }

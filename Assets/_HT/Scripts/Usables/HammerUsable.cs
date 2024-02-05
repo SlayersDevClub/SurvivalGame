@@ -18,22 +18,22 @@ public class HammerUsable : MonoBehaviour, IUsable
         anim = GetComponentInParent<Animator>();
     }
 
-    public void StartHandleInput(InputAction.CallbackContext context) {
-        //LEFT CLICK
-        if (context.action.name == TagManager.USE_ACTION) {
-            anim.speed = attackSpeed * 3; //attack speed factor
-            SwingTool();
+    public void HandleInput(InputAction.CallbackContext context) {
+        if (context.started) {
+            if (context.action.name == TagManager.USE_ACTION) {
+                anim.speed = attackSpeed * 3; //attack speed factor
+                SwingTool();
+            }
+
+            //RIGHT CLICK
+            if (context.action.name == TagManager.USE2_ACTION) {
+
+
+            }
         }
-        
-        //RIGHT CLICK
-        if (context.action.name == TagManager.USE2_ACTION) {
-
-
+        if (context.canceled) {
+            anim.SetBool("IsSwinging", false);
         }
-
-    }
-    public void EndHandleInput(InputAction.CallbackContext context) {
-        anim.SetBool("IsSwinging", false);
     }
 
     private void SwingTool()

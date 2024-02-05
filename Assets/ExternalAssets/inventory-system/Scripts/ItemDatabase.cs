@@ -3,13 +3,20 @@ using LitJson;
 using System.Collections.Generic;
 using System.IO;
 using System;
+using UnityEngine.UI;
 
-public static class ItemDatabase {
+public class ItemDatabase : MonoBehaviour {
+    public static ItemDatabase instance;
 
+    public GameObject itemPrefab;
     private static List<BaseItemTemplate> itemList = new List<BaseItemTemplate>();
 
     private static Dictionary<int, Item> itemDict = new Dictionary<int, Item>();
     private static Dictionary<int, BaseItemTemplate> baseItemDict = new Dictionary<int, BaseItemTemplate>();
+
+    private void Start() {
+        instance = this;
+    }
 
     public static void Initialize() {
         itemList = JsonDataManager.LoadData();
@@ -32,17 +39,17 @@ public static class ItemDatabase {
         }
     }
 
-    public static void AddBaseItemTemplate(BaseItemTemplate newTemplate) {
-        Item newItem = new Item();
-        newItem.Id = Int16.Parse(newTemplate.Id);
-        newItem.Title = newTemplate.itemName;
-        newItem.Description = newTemplate.description;
-        newItem.Stackable = newTemplate.stackable;
-        newItem.Sprite = newTemplate.icon;
+    public GameObject FetchItemGameObject(BaseItemTemplate item) {
+        GameObject itemCreated = GameObject.Instantiate(itemPrefab);
+        itemCreated.GetComponent<Image>().sprite = item.icon;
+        itemCreated.GetComponent<ItemData>().item = item;
+        return itemCreated;
+    }
 
-        baseItemDict[Int16.Parse(newTemplate.Id)] = newTemplate;
-        itemDict[newItem.Id] = newItem;
+    public static void AddBaseItemTemplate(BaseItemTemplate baseItemTemplateToAdd) {
+        int itemID = Int16.Parse(baseItemTemplateToAdd.Id);
 
+        baseItemDict[itemID] = baseItemTemplateToAdd;
     }
 
 

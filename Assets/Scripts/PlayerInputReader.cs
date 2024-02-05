@@ -8,14 +8,13 @@ using Photon.Pun;
  */
 public class PlayerInputReader : CharacterInput {
     public PlayerInput playerInput;
+    public Inventory inventory;
     private InputAction move;
     bool jumping = false;
-    Inventory inventory;
     public PhotonView view;
     public bool sprinting = false;
 
     void Awake() {
-        inventory = transform.Find("PlayerUI/Inventory").GetComponent<Inventory>();
         move = playerInput.actions["Move"];
     }
 
@@ -41,10 +40,7 @@ public class PlayerInputReader : CharacterInput {
             if (!string.IsNullOrEmpty(slotName) && char.IsDigit(slotName[slotName.Length - 1])) {
                 int slotNum = int.Parse(slotName[slotName.Length - 1].ToString());
 
-                SlotStateMachine slotToEquip = inventory.slots[slotNum - 1].GetComponent<SlotStateMachine>();
-                SlotStateMachine slotToUnequip = inventory.slots[transform.GetComponent<PlayerStateMachine>().equipItemSlot].GetComponent<SlotStateMachine>();
-                slotToUnequip.SwitchState(slotToUnequip.HotbarState);
-                slotToEquip.SwitchState(slotToEquip.EquipState);
+                inventory.EquipSlot(slotNum - 1);
             }
         }
     }
@@ -52,23 +48,22 @@ public class PlayerInputReader : CharacterInput {
     /*
      * Called on event for left click or right click.
      */
+
+    
     public void UseEquipItem(InputAction.CallbackContext context) {
-        SlotStateMachine slotToUse = inventory.slots[transform.GetComponent<PlayerStateMachine>().equipItemSlot].GetComponent<SlotStateMachine>();
+        if(inventory.currentHeldItem != null) {
+            IUsable usableItem = inventory.currentHeldItem.GetComponent<IUsable>();
 
-        if (context.started) {
-            slotToUse.StartHandleInput(context);
-
-        }
-
-        if (context.canceled) {
-            slotToUse.EndHandleInput(context);
+            if (usableItem != null) {
+                usableItem.HandleInput(context);
+            }
         }
     }
 
     public void DropItem(InputAction.CallbackContext context) {
         if (context.started) {
-            SlotStateMachine slotToUse = inventory.slots[transform.GetComponent<PlayerStateMachine>().equipItemSlot].GetComponent<SlotStateMachine>();
-            slotToUse.StartHandleInput(context);
+            //SlotStateMachine slotToUse = inventory.slots[transform.GetComponent<PlayerStateMachine>().equipItemSlot].GetComponent<SlotStateMachine>();
+            //slotToUse.StartHandleInput(context);
         }
     }
 
