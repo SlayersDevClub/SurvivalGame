@@ -13,7 +13,11 @@ public class CraftingBrain : ScriptableObject {
     public GameObject customItemHolder;
 
     private void OnEnable() {
-        customItemHolder = GameObject.Instantiate(new GameObject("CustomItems"));
+        if(GameObject.Find("CustomItems") == null) {
+            customItemHolder = GameObject.Instantiate(new GameObject("CustomItems"));
+        } else {
+            customItemHolder = GameObject.Find("CustomItems");
+        }
         recipes = JsonDataManager.LoadRecipeData();
     }
 

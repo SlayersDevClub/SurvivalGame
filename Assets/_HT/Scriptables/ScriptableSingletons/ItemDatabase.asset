@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: ItemDatabase
   m_EditorClassIdentifier: 
   itemPrefab: {fileID: 197196, guid: 6baca13da4ff36d4e87e971092d2ffc1, type: 3}
+  craftingBrain: {fileID: 11400000, guid: 4eee971c33fc2b442abf6732afe23a01, type: 2}
