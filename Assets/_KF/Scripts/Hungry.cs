@@ -11,7 +11,7 @@ public class Hungry : MonoBehaviour {
     public int tickDownAmount;
     public int tickDownSpeed;
 
-    public Slider hungerBar;
+    public Image hungerBar;
 
     public UnityEvent OnRaiseHunger, OnReduceHunger, OnStarving;
 
@@ -19,9 +19,7 @@ public class Hungry : MonoBehaviour {
         currentHunger = maxHunger;
 
         if (hungerBar != null) {
-            hungerBar.maxValue = maxHunger;
-            hungerBar.value = currentHunger;
-            hungerBar.gameObject.SetActive(true);
+            hungerBar.fillAmount = 1;
         }
 
         StartCoroutine(TickDownHunger());
@@ -40,7 +38,7 @@ public class Hungry : MonoBehaviour {
         }
 
         if (hungerBar != null) {
-            hungerBar.value = currentHunger;
+            hungerBar.fillAmount = (float)currentHunger / maxHunger;
         }
 
         OnRaiseHunger.Invoke();
@@ -60,7 +58,7 @@ public class Hungry : MonoBehaviour {
         }
 
         if (hungerBar != null) {
-            hungerBar.value = currentHunger;
+            hungerBar.fillAmount = (float)currentHunger/maxHunger;
         }
 
         OnReduceHunger.Invoke();

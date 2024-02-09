@@ -10,7 +10,10 @@ public class FloatEventListener : MonoBehaviour {
 
     private void OnEnable() {
         Event = floatVariable.onValueChanged;
-        Event.RegisterListener(this); }
+        Event.RegisterListener(this);
+        Event.Raise(floatVariable.Value);
+
+    }
 
     private void OnDisable() { Event.UnregisterListener(this); }
 

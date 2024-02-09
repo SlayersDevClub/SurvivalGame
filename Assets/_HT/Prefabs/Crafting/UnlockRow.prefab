@@ -248,6 +248,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3654901850185696931}
+  - component: {fileID: 77609058}
+  - component: {fileID: 77609059}
+  - component: {fileID: 77609060}
   m_Layer: 5
   m_Name: UnlockRow
   m_TagString: Untagged
@@ -276,3 +279,62 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &77609058
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7912921749788467245}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &77609059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7912921749788467245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9809c1aa53736479f89ab4fd83d216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelRowIsUnlocked: 1
+  recipeCardHolder: {fileID: 3689334326341494135}
+  recipesInRow:
+  - {fileID: 11400000, guid: f63267f0d045e254da734e7ec92fb2c4, type: 2}
+  recipeRowsUnlocked: {fileID: 11400000, guid: b8f8e26e466470e44ae638058d390e90, type: 2}
+  recipesUnlocked: {fileID: 11400000, guid: e51f1f709329c954085efab7ae3e75b7, type: 2}
+  recipeUnlocker: {fileID: 11400000, guid: b816f7c49b647fa4e9f64c5726c1e610, type: 2}
+--- !u!114 &77609060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7912921749788467245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76e4f07d39b58094b8f148bab5ab3742, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  intVariable: {fileID: 11400000, guid: e6ab26fc0ed42dc43b793fe0102efa0f, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 77609059}
+        m_TargetAssemblyTypeName: UnlockRowRecipes, Assembly-CSharp
+        m_MethodName: UnlockLevel
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

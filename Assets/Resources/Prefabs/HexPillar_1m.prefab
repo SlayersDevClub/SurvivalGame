@@ -97,6 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad54b78195c8cc04ca87656c3af1bd25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  snapGridCenter: {fileID: 11400000, guid: 88587e6d1361b8d4c96af5f305cc4827, type: 2}
 --- !u!64 &8506267092751151978
 MeshCollider:
   m_ObjectHideFlags: 0

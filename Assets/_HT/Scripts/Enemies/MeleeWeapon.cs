@@ -138,7 +138,6 @@ namespace Gamekit3D {
         }
 
         private bool CheckDamage(Collider other, AttackPoint pts) {
-            Debug.Log("HERE");
             Damageable d = other.GetComponent<Damageable>();
             if (d == null) {
                 return false;

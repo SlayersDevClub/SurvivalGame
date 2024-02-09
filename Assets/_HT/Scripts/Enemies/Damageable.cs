@@ -17,7 +17,7 @@ namespace Gamekit3D {
         [Tooltip("Time that this gameObject is invulnerable for, after receiving damage.")]
         public float invulnerabiltyTime;
 
-        public Slider healthBar;
+        public Image healthBar;
         [Tooltip("Time it takes to hide health bar after enemy takes damage.")]
 
         private float healthBarTurnOffDelay = 5f;
@@ -47,15 +47,7 @@ namespace Gamekit3D {
             m_Collider = GetComponent<Collider>();
 
             if (healthBar != null) {
-                healthBar.maxValue = maxHitPoints;
-                healthBar.value = currentHitPoints;
-
-                //Turn off health bar to show only when damaged and then a bit after being damaged
-                if (healthBarTurnsOff) {
-                    healthBar.gameObject.SetActive(false);
-                } else {
-                    healthBar.gameObject.SetActive(true);
-                }
+                healthBar.fillAmount = 1;
             }
         }
 
@@ -71,8 +63,7 @@ namespace Gamekit3D {
         }
 
         public void ResetDamage() {
-            //currentHitPoints = maxHitPoints;
-            currentHitPoints = maxHitPoints / 2;
+            currentHitPoints = maxHitPoints;
             isInvulnerable = false;
             m_timeSinceLastHit = 0.0f;
             OnResetDamage.Invoke();
@@ -87,13 +78,11 @@ namespace Gamekit3D {
 
             if (currentHitPoints <= 0) {
                 // Ignore damage if already dead. TODO: may have to change that if we want to detect hit on death...
-                Debug.Log("Already dead, ignoring damage.");
                 return false;
             }
 
             if (isInvulnerable) {
                 OnHitWhileInvulnerable.Invoke();
-                Debug.Log("Hit while invulnerable.");
                 return false;
             }
 
@@ -105,16 +94,14 @@ namespace Gamekit3D {
             positionToDamager -= transform.up * Vector3.Dot(transform.up, positionToDamager);
 
             if (Vector3.Angle(forward, positionToDamager) > hitAngle * 0.5f) {
-                Debug.Log("Angle check failed, not taking damage.");
                 return false;
             }
 
             isInvulnerable = true;
             currentHitPoints -= data.amount;
             if(healthBar != null) {
-                healthBar.value = currentHitPoints;
+                healthBar.fillAmount = (float)currentHitPoints/maxHitPoints;
 
-                StartCoroutine(ShowHealthBar());
             }
          
 
@@ -139,7 +126,6 @@ namespace Gamekit3D {
             StopAllCoroutines();
 
             if (currentHitPoints == maxHitPoints) {
-                Debug.Log("Health already at max.");
                 return false;
             }
             
@@ -150,8 +136,8 @@ namespace Gamekit3D {
             }
 
             if (healthBar != null) {
-                healthBar.value = currentHitPoints;
-                StartCoroutine(ShowHealthBar());
+                healthBar.fillAmount = (float)currentHitPoints/maxHitPoints;
+                //StartCoroutine(ShowHealthBar());
             }
 
             return true;

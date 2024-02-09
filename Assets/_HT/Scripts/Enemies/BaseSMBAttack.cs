@@ -8,7 +8,7 @@ namespace Gamekit3D {
 
         public override void OnSLStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
             base.OnSLStateEnter(animator, stateInfo, layerIndex);
-
+            m_MonoBehaviour.AttackBegin();
             m_MonoBehaviour.controller.SetFollowNavmeshAgent(false);
 
             m_AttackPosition = m_MonoBehaviour.target.transform.position;
@@ -24,6 +24,7 @@ namespace Gamekit3D {
 
         public override void OnSLStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
             base.OnSLStateExit(animator, stateInfo, layerIndex);
+            m_MonoBehaviour.AttackEnd();
 
             //if (m_MonoBehaviour.attackAudio != null)
              //   m_MonoBehaviour.attackAudio.audioSource.Stop();

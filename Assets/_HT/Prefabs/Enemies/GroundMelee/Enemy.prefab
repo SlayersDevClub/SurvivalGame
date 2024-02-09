@@ -1260,6 +1260,7 @@ GameObject:
   - component: {fileID: 111220802954905787}
   - component: {fileID: 3273488043036983896}
   - component: {fileID: -8384357213808506648}
+  - component: {fileID: -704336954317419165}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -1297,6 +1298,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2afbe0765f38c5a4689d275dced1e3ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyDeath: {fileID: 11400000, guid: 5fc52319d9aed95429672ad91f33441d, type: 2}
+  grantedXP:
+    UseConstant: 1
+    ConstantValue: 1
+    Variable: {fileID: 11400000, guid: 795ee7b53498b22439b3e545533c6c40, type: 2}
   meleeWeapon: {fileID: 6415503308428269394}
   playerScanner:
     heightOffset: 1.88
@@ -1343,6 +1349,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interpolateTurning: 0
   applyAnimationRotation: 0
+  enemyTile: {fileID: 0}
 --- !u!95 &1971229737
 Animator:
   serializedVersion: 4
@@ -1389,9 +1396,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 799792fe562b7bc439a07c19febc1f3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthBar: {fileID: 4977674857307339285}
   maxHitPoints: 10
   invulnerabiltyTime: 0
+  healthBar: {fileID: 0}
+  healthBarTurnsOff: 0
   hitAngle: 360
   hitForwardRotation: 360
   OnDeath:
@@ -1409,6 +1417,9 @@ MonoBehaviour:
   OnResetDamage:
     m_PersistentCalls:
       m_Calls: []
+  OnHeal:
+    m_PersistentCalls:
+      m_Calls: []
   onDamageMessageReceivers:
   - {fileID: 4991101606940894278}
 --- !u!114 &-8384357213808506648
@@ -1424,6 +1435,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ragdollPrefab: {fileID: 8068997955420054701, guid: c2fe7a483cff61c4096c08291b68bba8, type: 3}
+--- !u!114 &-704336954317419165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4991101606940894281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0afe5b89a3b095049b663508b8c0f199, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 5fc52319d9aed95429672ad91f33441d, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4991101606940894278}
+        m_TargetAssemblyTypeName: Gamekit3D.BaseEnemy, Assembly-CSharp
+        m_MethodName: GrantPlayerXP
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5029494408151892015
 GameObject:
   m_ObjectHideFlags: 0

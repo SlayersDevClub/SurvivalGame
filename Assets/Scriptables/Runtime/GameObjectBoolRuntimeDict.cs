@@ -4,6 +4,8 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Sets/GameObjectBoolRuntimeDict")]
 
 public class GameObjectBoolRuntimeDict : RuntimeDict<GameObject, bool> {
+    public GameObjectBoolDictChangedEvent onValueChanged;
+
     public override void Add(GameObject key, bool value) {
         base.Add(key, value);
         onValueChanged.Raise(key, value);

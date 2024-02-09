@@ -11,6 +11,8 @@ public class BoolEventListener : MonoBehaviour {
     private void OnEnable() {
         Event = boolVariable.onValueChanged;
         Event.RegisterListener(this);
+        Event.Raise(boolVariable.Value);
+
     }
 
     private void OnDisable() { Event.UnregisterListener(this); }

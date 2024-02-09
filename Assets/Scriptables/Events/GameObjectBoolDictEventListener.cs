@@ -11,7 +11,8 @@ public class GameObjectBoolDictEventListener : MonoBehaviour {
 
     private void OnEnable() {
         Event = dictVariable.onValueChanged;
-        Event.RegisterListener(this); }
+        Event.RegisterListener(this);
+    }
 
     private void OnDisable() { Event.UnregisterListener(this); }
 

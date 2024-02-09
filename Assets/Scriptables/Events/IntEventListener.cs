@@ -10,7 +10,9 @@ public class IntEventListener : MonoBehaviour {
 
     private void OnEnable() {
         Event = intVariable.onValueChanged;
-        Event.RegisterListener(this); }
+        Event.RegisterListener(this);
+        Event.Raise(intVariable.Value);
+    }
 
     private void OnDisable() { Event.UnregisterListener(this); }
 

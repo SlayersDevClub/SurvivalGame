@@ -5,6 +5,11 @@ using System.Collections.Generic;
 namespace Gamekit3D {
     [DefaultExecutionOrder(100)]
     public class BaseEnemy : MonoBehaviour, IMessageReceiver {
+        public GameEvent enemyDeath;
+        public IntVariableReference grantedXP;
+
+        private int enemyKilledXP = 1;
+
         public static readonly int hashInPursuit = Animator.StringToHash("InPursuit");
         public static readonly int hashPatrolling = Animator.StringToHash("Patrolling");
         public static readonly int hashAttack = Animator.StringToHash("Attack");
@@ -231,15 +236,18 @@ namespace Gamekit3D {
             }
         }
 
-        public void Death(Damageable.DamageMessage msg) {
+        public void GrantPlayerXP() {
+            grantedXP.Value = enemyKilledXP;
+        }
 
+        public void Death(Damageable.DamageMessage msg) {
+            GrantPlayerXP();
             ReplaceWithRagdoll replacer = GetComponent<ReplaceWithRagdoll>();
             replacer.Replace();
 
             if(m_Controller.enemyTile != null) {
                 m_Controller.enemyTile.HandleEnemyDestroyed();
             } else {
-                Debug.Log("ENEMY TILE NOT SET");
             }
             //controller.animator.SetTrigger(hashDeath);
             /*Vector3 pushForce = transform.position - msg.damageSource;

@@ -4,7 +4,6 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Sets/RuntimeDict")]
 
 public abstract class RuntimeDict<TKey, TValue> : ScriptableObject {
-    public GameObjectBoolDictChangedEvent onValueChanged;
 
     protected Dictionary<TKey, TValue> itemDictionary = new Dictionary<TKey, TValue>();
 
@@ -19,6 +18,18 @@ public abstract class RuntimeDict<TKey, TValue> : ScriptableObject {
         }
 
         return false;
+    }
+    public bool Contains(TKey key) {
+        return itemDictionary.ContainsKey(key);
+    }
+
+    public TValue GetValue(TKey key) {
+        if (itemDictionary.TryGetValue(key, out TValue value)) {
+            return value;
+        } else {
+            //What to do if doesnt contain the value
+            return default(TValue);
+        }
     }
 
     public List<TKey> GetKeys() {

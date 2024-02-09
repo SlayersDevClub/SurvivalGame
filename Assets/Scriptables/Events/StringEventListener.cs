@@ -10,7 +10,9 @@ public class StringEventListener : MonoBehaviour {
 
     private void OnEnable() {
         Event = stringVariable.onValueChanged;
-        Event.RegisterListener(this); }
+        Event.RegisterListener(this);
+        Event.Raise(stringVariable.Value);
+    }
 
     private void OnDisable() { Event.UnregisterListener(this); }
 

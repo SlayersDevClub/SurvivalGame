@@ -3,7 +3,8 @@ guid: ad54b78195c8cc04ca87656c3af1bd25
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - snapGridCenter: {fileID: 11400000, guid: 88587e6d1361b8d4c96af5f305cc4827, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -1,13 +1,16 @@
 using UnityEngine;
-using System.Collections;
-public class SnapGridCenter : MonoBehaviour {
-    public GameObject obj;
-    public Grid grid;
+
+[CreateAssetMenu]
+public class SnapGridCenter : ScriptableObject {
+
+    public GridVariable buildingGrid;
+
     int groundLayer, structureLayer, doNotRenderLayer, notPlaceableLayer, placeableLayer;
 
-    public static SnapGridCenter instance;
-    private void Start() {
-        instance = this;
+    private GameObject raycastOrigin;
+
+    private void OnEnable() {
+        raycastOrigin = GameObject.Find("CameraControls");
 
         placeableLayer = LayerMask.NameToLayer(TagManager.PLACEABLE_LAYER);
         groundLayer = LayerMask.NameToLayer(TagManager.GROUND_LAYER);
@@ -17,14 +20,14 @@ public class SnapGridCenter : MonoBehaviour {
     }
     public GameObject Placer(GameObject structure) {
         RaycastHit hit;
-        Physics.Raycast(GameObject.Find("CameraControls").transform.position, GameObject.Find("CameraControls").transform.forward, out hit, 5f);
+        Physics.Raycast(raycastOrigin.transform.position, raycastOrigin.transform.forward, out hit, 5f);
 
         try {
             Debug.Log(hit.point);
            
             GameObject placedStructure = Instantiate(structure, hit.point, Quaternion.identity);
-            Vector3Int cellPosition = grid.LocalToCell(placedStructure.transform.localPosition);
-            placedStructure.transform.localPosition = grid.CellToLocalInterpolated(cellPosition);
+            Vector3Int cellPosition = buildingGrid.Value.LocalToCell(placedStructure.transform.localPosition);
+            placedStructure.transform.localPosition = buildingGrid.Value.CellToLocalInterpolated(cellPosition);
 
             return placedStructure;
         } catch {
@@ -39,7 +42,7 @@ public class SnapGridCenter : MonoBehaviour {
         bool structureHit = Physics.Raycast(structure.transform.position, Vector3.up, out hitFromStructure, 50f);
 
         RaycastHit hitFromGround;
-        bool groundHit = Physics.Raycast(GameObject.Find("CameraControls").transform.position, GameObject.Find("CameraControls").transform.forward, out hitFromGround, 15f);
+        bool groundHit = Physics.Raycast(raycastOrigin.transform.position, raycastOrigin.transform.forward, out hitFromGround, 15f);
 
 
         // Check if both raycasts are successful
@@ -48,15 +51,15 @@ public class SnapGridCenter : MonoBehaviour {
             // Check if the hit collider is not part of the structure
             if ((structureHit && hitFromStructure.collider.gameObject.layer != structureLayer) || !structureHit) {
                 // Check if the ground hit is on the GROUND_LAYER
-                RaycastHit[] hitsFromGround = Physics.RaycastAll(GameObject.Find("CameraControls").transform.position, GameObject.Find("CameraControls").transform.forward, 25f);
+                RaycastHit[] hitsFromGround = Physics.RaycastAll(raycastOrigin.transform.position, raycastOrigin.transform.forward, 25f);
 
                 foreach (var hit in hitsFromGround) {
                     if (hit.collider.gameObject.layer == groundLayer) {
                         try {
-                            Vector3Int cellPosition = grid.LocalToCell(hit.point);
+                            Vector3Int cellPosition = buildingGrid.Value.LocalToCell(hit.point);
                             Quaternion newRotation = Quaternion.Euler(0f, 30f, 0f);
                             structure.transform.rotation = newRotation;
-                            structure.transform.position = grid.CellToLocalInterpolated(cellPosition);
+                            structure.transform.position = buildingGrid.Value.CellToLocalInterpolated(cellPosition);
 
                             Debug.Log("PLACEABLE");
                             SetLayerRecursively(structure.transform, placeableLayer);
