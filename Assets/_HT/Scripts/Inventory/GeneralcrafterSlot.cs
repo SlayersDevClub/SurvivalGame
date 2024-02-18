@@ -7,7 +7,7 @@ public class GeneralcrafterSlot : CrafterSlot {
 
     public override void CraftItem(BaseItemTemplate itemBeingCrafted) {
         GameObject inventoryItemCreated = inventory.itemDatabase.FetchItemGameObject(itemBeingCrafted);
-        inventory.generalcrafterOutputSlot.AddItemToSlot(inventoryItemCreated);
+        //inventory.generalcrafterOutputSlot.AddItemToSlot(inventoryItemCreated);
     }
     public override void PutItemInSlot(GameObject item) {
         base.PutItemInSlot(item);

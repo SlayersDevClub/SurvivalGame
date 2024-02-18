@@ -33,7 +33,6 @@ public static class JsonDataManager {
 
     public static List<BaseItemTemplate> LoadData() {
         string jsonToLoad = File.ReadAllText(SaveFilePath);
-        Debug.Log(jsonToLoad);
 
         ItemTemplateWrapper wrapper = JsonConvert.DeserializeObject<ItemTemplateWrapper>(jsonToLoad,
             new JsonSerializerSettings {

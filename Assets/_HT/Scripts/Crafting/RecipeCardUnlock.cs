@@ -4,20 +4,23 @@ using UnityEngine.EventSystems;
 using TMPro;
 
 public class RecipeCardUnlock : MonoBehaviour, IPointerClickHandler {
+    public RecipeTemplate recipe;
     public int recipeUnlockCost;
 
-    public GameObjectBoolRuntimeDict recipesUnlocked;
+    public GameObjectBoolRuntimeDict recipeCardsUnlocked;
     public IntVariableReference recipeUnlockPoints;
+    public RecipeRuntimeSet recipesUnlocked;
 
     private void OnEnable() {
-        recipesUnlocked.Add(gameObject, false);
+        recipeCardsUnlocked.Add(gameObject, false);
         RecipeUnlocked(gameObject, false);
         SetCostText();
     }
 
     public void OnPointerClick(PointerEventData eventData) {
-        if(recipeUnlockPoints.Value >= recipeUnlockCost && !recipesUnlocked.GetValue(gameObject)) {
-            recipesUnlocked.Add(gameObject, true);
+        if(recipeUnlockPoints.Value >= recipeUnlockCost && !recipeCardsUnlocked.GetValue(gameObject)) {
+            recipeCardsUnlocked.Add(gameObject, true);
+            recipesUnlocked.Add(recipe);
             RecipeUnlocked(gameObject, true);
             recipeUnlockPoints.Value -= recipeUnlockCost;
         }

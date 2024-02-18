@@ -4,7 +4,6 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class ToolcrafterSlot : CrafterSlot {
-
     public override void CraftItem(BaseItemTemplate itemBeingCrafted) {
         AddCraftToJSON(itemBeingCrafted);
         GameObject inventoryItemCreated = inventory.itemDatabase.FetchItemGameObject(itemBeingCrafted);

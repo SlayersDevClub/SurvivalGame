@@ -2,7 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
-public class TreeDestroy : MonoBehaviour, IWhenDestroy {
+public class TreeDestroy : MonoBehaviour, IWhenDestroy, IRespawnable {
+    public MineableTemplate thisMineable;
+    public float respawnTime { get; set; }
+    public Vector3 respawnPosition { get; set; }
+    public Quaternion respawnRotation { get; set; }
+
+    private void Start() {
+        thisMineable = GetComponent<MineableSetup>().thisMineable;
+        // Set respawnPosition to match the current object's position
+        respawnPosition = transform.position;
+
+        // Set respawnRotation to match the current object's rotation
+        respawnRotation = transform.rotation;
+
+        // Example: Set respawnTime to 5 seconds
+        respawnTime = 2f;
+    }
+
+    public void StartRespawn() {
+        StartCoroutine(RespawnAfterDelay());
+    }
+
+    private IEnumerator RespawnAfterDelay() {
+        yield return new WaitForSeconds(respawnTime);
+        Instantiate(thisMineable.prefab, respawnPosition, respawnRotation);
+        Destroy(gameObject);
+    }
+
     public Transform treeTrunk;
     public float fallSpeed = 1.5f;
     public ParticleSystem droplings;
@@ -48,12 +75,13 @@ public class TreeDestroy : MonoBehaviour, IWhenDestroy {
                 .SetEase(Ease.OutBounce).SetLoops(0, LoopType.Restart);
             
         }
-        else Destroy(gameObject);
+
+        StartRespawn();
     }
 
     void RemoveTree()
     {
-        treeTrunk.parent = null;
+        //treeTrunk.parent = null;
         treeTrunk.GetChild(0).gameObject.SetActive(false);
         treeTrunk.GetChild(1).GetComponent<Collider>().enabled = true;
     }

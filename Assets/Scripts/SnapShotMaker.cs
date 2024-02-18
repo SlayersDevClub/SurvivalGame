@@ -16,12 +16,11 @@ public class SnapShotMaker : MonoBehaviour {
     List<GameObject> snapShotObjects = new List<GameObject>();
     public Transform snapShotObjectHolder;
     private bool takeHiResShot = false;
-    Camera camera;
+    public Camera camera;
     public static SnapShotMaker instance;
 
     private void Start() {
         instance = this;
-        camera = GetComponent<Camera>();
     }
 
     public static string ScreenShotName(string name) {
@@ -54,7 +53,7 @@ public class SnapShotMaker : MonoBehaviour {
         subject.transform.localPosition = Vector3.zero;
         subject.transform.localEulerAngles = Vector3.zero;
         Texture2D screenShotTexture = SnapShot(subject.name);
-        Destroy(subject);
+        DestroyImmediate(subject);
         return screenShotTexture;
 
     }
@@ -68,7 +67,7 @@ public class SnapShotMaker : MonoBehaviour {
         screenShot.ReadPixels(new Rect(0, 0, resWidth, resHeight), 0, 0);
         camera.targetTexture = null;
         RenderTexture.active = null;
-        Destroy(rt);
+        DestroyImmediate(rt);
         //byte[] bytes = screenShot.EncodeToPNG();
         //string filename = ScreenShotName(name) + ".png";
         //File.WriteAllBytes(filename, bytes);

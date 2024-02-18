@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class HotbarSlot : ItemSlot {
+
     Color32 normalSlotColor = new Color32(198, 198, 198, 240);
     Color32 equipSlotColor = Color.yellow;
     private bool equipSlot = false;

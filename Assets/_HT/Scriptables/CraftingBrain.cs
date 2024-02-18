@@ -123,6 +123,9 @@ public class CraftingBrain : ScriptableObject {
             newToolTemplate.itemName = "CustomTool" + newToolTemplate.Id.ToString();
             newToolTemplate.name = "CustomTool" + newToolTemplate.Id.ToString();
             //Create the item's texture
+            if(SnapShotMaker.instance == null) {
+                SnapShotMaker.instance = FindObjectOfType<SnapShotMaker>();
+            }
             Texture2D screenshotTexture = SnapShotMaker.instance.TakeScreenShot(builtTool);
             //Create sprite from texture
             Sprite iconSprite = Sprite.Create(screenshotTexture, new Rect(0, 0, screenshotTexture.width, screenshotTexture.height), Vector2.zero);
@@ -208,6 +211,35 @@ public class CraftingBrain : ScriptableObject {
 
         return newGunTemplate;
     }
+
+    public List<RecipeTemplate> GetCraftableItems(Dictionary<int, int> itemDictionary) {
+        // Create a list to store craftable recipes
+        List<RecipeTemplate> craftableRecipes = new List<RecipeTemplate>();
+
+        // Iterate through each recipe in the CraftingBrain's recipes list
+        foreach (RecipeTemplate recipe in recipes) {
+            bool canCraft = true;
+
+            // Iterate through each ingredient in the recipe
+            foreach (BaseItemTemplate ingredient in recipe.ingredients) {
+                // Check if the ingredient is in the item dictionary and if there are enough of it
+                if (!itemDictionary.ContainsKey(Int16.Parse(ingredient.Id)) || itemDictionary[Int16.Parse(ingredient.Id)] < 1) {
+                    // If the ingredient is missing or not enough, mark this recipe as uncraftable
+                    canCraft = false;
+                    break;
+                }
+            }
+
+            // If all ingredients are available in sufficient quantities, add this recipe to the list of craftable recipes
+            if (canCraft) {
+                craftableRecipes.Add(recipe);
+            }
+        }
+
+        // Return the list of craftable recipes
+        return craftableRecipes;
+    }
+
 
     public BaseItemTemplate CheckRecipe(List<BaseItemTemplate> ingredients) {
         List<string> ingredientIDS = new List<string>();

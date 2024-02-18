@@ -4,15 +4,21 @@ using UnityEngine;
 
 public class MineableSetup : MonoBehaviour, IMineable
 {
+    public TileResourceTracker tileResourcePartOf;
     public MineableTemplate thisMineable;
     public int health;
     public int requiredPickaxeStrength;
     public int requiredAxeStrength;
     IWhenDestroy isDestroying;
 
-    private void Start()
+    private void OnEnable()
     {
+        tileResourcePartOf.resourcesOnTile.Add(gameObject);
         isDestroying = GetComponent<IWhenDestroy>();
+    }
+
+    private void OnDisable() {
+        tileResourcePartOf.resourcesOnTile.Remove(gameObject);
     }
 
     public void SetMineableTemplate(MineableTemplate mineable) {

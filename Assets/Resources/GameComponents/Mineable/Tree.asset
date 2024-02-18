@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f3e9a5f245bdf5438a2871d27656740, type: 3}
   m_Name: Tree
   m_EditorClassIdentifier: 
-  prefab: {fileID: 6701956311721857737, guid: f19ab28532fc91745ac1def353c29b46, type: 3}
+  prefab: {fileID: 4284824692643029296, guid: 35535a87c206e364c8288ad6abedf0d2, type: 3}
   health: 10
   requiredPickaxeStrength: 1
   requiredAxeStrength: 1

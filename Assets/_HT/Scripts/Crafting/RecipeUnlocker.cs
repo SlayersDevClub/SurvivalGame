@@ -65,16 +65,17 @@ public class RecipeUnlocker : ScriptableObject {
     */
 
     public ItemDatabase itemDatabase;
-    public GameObjectBoolRuntimeDict recipesUnlocked;
+    public GameObjectBoolRuntimeDict recipeCardsUnlocked;
 
     public GameObject recipeCard;
     
     private void Start() {
-        recipesUnlocked.Clear();
+        recipeCardsUnlocked.Clear();
     }
 
     public GameObject CreateRecipeCard(RecipeTemplate recipe) {
         GameObject createdCard = Instantiate(recipeCard);
+        createdCard.GetComponent<RecipeCardUnlock>().recipe = recipe;
 
         BaseItemTemplate item = itemDatabase.FetchBaseItemTemplateById(Int16.Parse(recipe.output.Id));
 
@@ -88,5 +89,9 @@ public class RecipeUnlocker : ScriptableObject {
         }
 
         return createdCard;
+    }
+
+    public void UnlockRecipe() {
+
     }
 }

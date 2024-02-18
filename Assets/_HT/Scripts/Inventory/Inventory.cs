@@ -2,16 +2,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Linq;
-
-public class Inventory : MonoBehaviour {
-    public GameObject inventoryUI, inventoryItemSlotsParent, hotbarItemSlotsParent, toolcrafterItemSlotsParent, guncrafterItemSlotsParent;
+[CreateAssetMenu]
+public class Inventory : ScriptableObject {
+    public GameObject inventoryPanel;
 
     public List<HotbarSlot> hotbarItemSlots = new List<HotbarSlot>();
     public List<ItemSlot> inventoryItemSlots = new List<ItemSlot>();
     public List<ToolcrafterSlot> toolcrafterItemSlots = new List<ToolcrafterSlot>();
     public List<GuncrafterSlot> guncrafterItemSlots = new List<GuncrafterSlot>();
 
-    public OutputSlot toolcrafterOutputSlot, guncrafterOutputSlot, generalcrafterOutputSlot;
+    public OutputSlot toolcrafterOutputSlot, guncrafterOutputSlot;
 
     public GameObject currentDraggedItem;
     public GameObject currentHeldItem;
@@ -23,80 +23,19 @@ public class Inventory : MonoBehaviour {
     public GameObject structureHolder, gunHolder, resourceHolder, toolHolder, defaultHolder;
 
     //Items ID (key) and their quantity (value) in the inventory
-    private readonly Dictionary<int, int> itemsInInventory = new Dictionary<int, int>();
-
+    public IntIntRuntimeDict itemsInInventory;
     public ItemDatabase itemDatabase;
     public CraftingBrain craftingBrain;
 
     public void SetItemInInventory(int key, int value) {
-        if (itemsInInventory.ContainsKey(key)) {
-            itemsInInventory[key] += value;
+        if (itemsInInventory.Contains(key)) {
+            int currentItemAmount = itemsInInventory.GetValue(key);
+            itemsInInventory.Add(key, currentItemAmount + value);
         } else {
             itemsInInventory.Add(key, value);
         }
 
         //craftingBrain.UpdateCraftableItemsInTable(itemsInInventory);
-    }
-
-    public int GetItemInInventory(int key) {
-        int result = 0;
-
-        if (itemsInInventory.ContainsKey(key)) {
-            result = itemsInInventory[key];
-        }
-
-        return result;
-    }
-
-    public void RemoveItemInInventory(int key, int value) {
-        if (itemsInInventory.ContainsKey(key)) {
-            // Subtract the specified value from the existing value
-            itemsInInventory[key] = Math.Max(0, itemsInInventory[key] - value);
-
-            // Optionally, you may want to handle the case where the value becomes zero or negative
-            if (itemsInInventory[key] == 0) {
-                // Handle the case where the value becomes zero
-            }
-        } else {
-            // Handle the case where the key doesn't exist
-        }
-    }
-
-
-    private void Start() {
-        LocateInventoryItemSlots();
-        LocateHotbarItemSlots();
-        LocateToolcrafterItemSlots();
-        LocateGuncrafterItemSlots();
-
-        SetupItemHolders();
-        //Equip first slot on game start
-        EquipSlot(0);
-    }
-    private void SetupItemHolders() {
-        itemHolders[typeof(StructureTemplate)] = structureHolder;
-        itemHolders[typeof(GunTemplate)] = gunHolder;
-        itemHolders[typeof(ResourceTemplate)] = resourceHolder;
-        itemHolders[typeof(ToolTemplate)] = toolHolder;
-    }
-
-    private void LocateGuncrafterItemSlots() {
-        guncrafterItemSlots = guncrafterItemSlotsParent.GetComponentsInChildren<GuncrafterSlot>().ToList();
-        guncrafterOutputSlot = guncrafterItemSlotsParent.GetComponentInChildren<GunOutputSlot>();
-    }
-
-    private void LocateToolcrafterItemSlots() {
-        toolcrafterItemSlots = toolcrafterItemSlotsParent.GetComponentsInChildren<ToolcrafterSlot>().ToList();
-        toolcrafterOutputSlot = toolcrafterItemSlotsParent.GetComponentInChildren<ToolOutputSlot>();
-    }
-
-    private void LocateHotbarItemSlots() {
-        hotbarItemSlots = hotbarItemSlotsParent.GetComponentsInChildren<HotbarSlot>().ToList();
-
-    }
-
-    private void LocateInventoryItemSlots() {
-        inventoryItemSlots = inventoryItemSlotsParent.GetComponentsInChildren<ItemSlot>().ToList();
     }
 
     public bool AddItem(int itemID) {
@@ -119,7 +58,6 @@ public class Inventory : MonoBehaviour {
             GameObject itemAdded = itemDatabase.FetchItemGameObject(itemToAdd);
             
             itemAdded.GetComponent<ItemData>().item = itemToAdd;
-            itemAdded.transform.parent = inventoryUI.transform;
 
             ItemSlot slotToAddTo = slotAddingTo.GetComponent<ItemSlot>();
             slotToAddTo.PutItemInSlot(itemAdded);

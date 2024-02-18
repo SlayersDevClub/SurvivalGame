@@ -66,25 +66,3 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 6792671631834373287, guid: 1f4cecaa8bf33d04985ce0c1cb7656ca, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 1f4cecaa8bf33d04985ce0c1cb7656ca, type: 3}
---- !u!1 &572338325291981251 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6792671631834373293, guid: 1f4cecaa8bf33d04985ce0c1cb7656ca, type: 3}
-  m_PrefabInstance: {fileID: 6464126099919111534}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1215110785
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 572338325291981251}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16b3473e5011d5e4ca55a02616017936, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inventorySlot: {fileID: 169076, guid: 8590ae9dd07d18d49a49b092889561e8, type: 3}
-  inventoryItem: {fileID: 197196, guid: 6baca13da4ff36d4e87e971092d2ffc1, type: 3}
-  slots: []
-  inventoryState: 0
-  inv: {fileID: 0}

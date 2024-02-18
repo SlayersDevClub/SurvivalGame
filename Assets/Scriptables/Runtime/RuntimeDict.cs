@@ -5,8 +5,7 @@ using UnityEngine;
 
 public abstract class RuntimeDict<TKey, TValue> : ScriptableObject {
 
-    protected Dictionary<TKey, TValue> itemDictionary = new Dictionary<TKey, TValue>();
-
+    public Dictionary<TKey, TValue> itemDictionary = new Dictionary<TKey, TValue>();
     public virtual void Add(TKey key, TValue value) {
         itemDictionary[key] = value;
     }

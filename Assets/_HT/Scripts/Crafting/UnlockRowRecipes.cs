@@ -9,12 +9,13 @@ public class UnlockRowRecipes : MonoBehaviour
 
     public List<RecipeTemplate> recipesInRow;
     public IntGameObjectRuntimeDict recipeRowsUnlocked;
-    public GameObjectBoolRuntimeDict recipesUnlocked;
+    public GameObjectBoolRuntimeDict recipeCardsUnlocked;
     public RecipeUnlocker recipeUnlocker;
+
+    public CanvasGroup canvasGroup;
 
     private void Start() {
         PopulateRecipeRow();
-        LockLevel();
     }
 
     private void PopulateRecipeRow() {
@@ -22,17 +23,18 @@ public class UnlockRowRecipes : MonoBehaviour
             GameObject recipeInUnlockRow = recipeUnlocker.CreateRecipeCard(recipe);
             recipeInUnlockRow.transform.SetParent(recipeCardHolder.transform);
 
-            recipesUnlocked.Add(recipeInUnlockRow, false);
+            recipeCardsUnlocked.Add(recipeInUnlockRow, false);
         }
     }
 
     private void LockLevel() {
-        GetComponent<CanvasGroup>().alpha = .25f;
+        canvasGroup.alpha = .25f;
     }
 
     public void UnlockLevel(int levelUnlocked) {
+        Debug.Log("UNLOCKING LEVEL");
         if(levelRowIsUnlocked == levelUnlocked) {
-            GetComponent<CanvasGroup>().alpha = 1f;
+            canvasGroup.alpha = 1f;
         }
     }
 

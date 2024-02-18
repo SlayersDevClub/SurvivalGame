@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7650a56e9765b8f4088783808b50e650, type: 3}
+  m_Name: GuideTip
+  m_EditorClassIdentifier: 
+  onValueChanged: {fileID: 11400000, guid: 04812f9cec749c549917b4d28299130a, type: 2}
+  Value: {fileID: 4076160344314084133, guid: 394115b9173619647a02812712ad861c, type: 3}

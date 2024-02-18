@@ -271,9 +271,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1632c5d76b130a419969b3e8e8a1de6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  recipe: {fileID: 0}
   recipeUnlockCost: 2
-  recipesUnlocked: {fileID: 11400000, guid: e51f1f709329c954085efab7ae3e75b7, type: 2}
+  recipeCardsUnlocked: {fileID: 11400000, guid: e51f1f709329c954085efab7ae3e75b7, type: 2}
   recipeUnlockPoints:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 4d4b780d35b26e84d936d78de32d6b88, type: 2}
+  recipesUnlocked: {fileID: 11400000, guid: 75eaca248a17e6e4aaa3017ebb21c505, type: 2}

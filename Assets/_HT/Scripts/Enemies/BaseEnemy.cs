@@ -5,7 +5,6 @@ using System.Collections.Generic;
 namespace Gamekit3D {
     [DefaultExecutionOrder(100)]
     public class BaseEnemy : MonoBehaviour, IMessageReceiver {
-        public GameEvent enemyDeath;
         public IntVariableReference grantedXP;
 
         private int enemyKilledXP = 1;

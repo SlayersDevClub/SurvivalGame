@@ -5304,6 +5304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d4820e62b66cc544a8cb239735b0bb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  thisMineable: {fileID: 0}
   treeTrunk: {fileID: 4704980440371214493}
   fallSpeed: 1.5
   droplings: {fileID: 3802958570985201966}

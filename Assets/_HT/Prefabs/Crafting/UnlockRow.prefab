@@ -287,7 +287,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7912921749788467245}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0.25
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -304,12 +304,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelRowIsUnlocked: 1
-  recipeCardHolder: {fileID: 3689334326341494135}
+  recipeCardHolder: {fileID: 3080608879736898505}
   recipesInRow:
   - {fileID: 11400000, guid: f63267f0d045e254da734e7ec92fb2c4, type: 2}
   recipeRowsUnlocked: {fileID: 11400000, guid: b8f8e26e466470e44ae638058d390e90, type: 2}
-  recipesUnlocked: {fileID: 11400000, guid: e51f1f709329c954085efab7ae3e75b7, type: 2}
+  recipeCardsUnlocked: {fileID: 11400000, guid: e51f1f709329c954085efab7ae3e75b7, type: 2}
   recipeUnlocker: {fileID: 11400000, guid: b816f7c49b647fa4e9f64c5726c1e610, type: 2}
+  canvasGroup: {fileID: 77609058}
 --- !u!114 &77609060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -322,8 +323,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76e4f07d39b58094b8f148bab5ab3742, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  intVariable: {fileID: 11400000, guid: e6ab26fc0ed42dc43b793fe0102efa0f, type: 2}
-  Response:
+  Event: {fileID: 11400000, guid: 68f17b7f8c28fc949b0778ba1f7c82a8, type: 2}
+  response:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 77609059}

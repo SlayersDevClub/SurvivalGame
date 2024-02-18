@@ -9,10 +9,6 @@ public class ItemSlot : MonoBehaviour, IPointerDownHandler {
     public BaseItemTemplate itemInSlotInfo;
     public GameObject itemInSlot = null;
 
-    private void Start() {
-        inventory = GetComponentInParent<Inventory>();
-    }
-
     //When item is dropped in slot
     public virtual void OnPointerDown(PointerEventData eventData) {
         //If item in this slot was null make it the dropped item then make the currently dragged item null
@@ -38,6 +34,7 @@ public class ItemSlot : MonoBehaviour, IPointerDownHandler {
         inventory.currentDraggedItem = null;
         
         item.transform.position = transform.position;
+        item.transform.SetParent(transform);
         itemInSlot = item;
         itemInSlotInfo = itemInSlot.GetComponent<ItemData>().item;
     }
@@ -54,7 +51,7 @@ public class ItemSlot : MonoBehaviour, IPointerDownHandler {
     //Add created item to slot rather than "Put" existing item from hand
     public void AddItemToSlot(GameObject item) {
         item.transform.position = transform.position;
-        item.transform.parent = inventory.inventoryUI.transform;
+        item.transform.SetParent(transform);
 
         itemInSlot = item;
         itemInSlotInfo = itemInSlot.GetComponent<ItemData>().item;

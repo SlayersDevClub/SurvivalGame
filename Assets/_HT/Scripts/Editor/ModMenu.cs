@@ -7,19 +7,25 @@ public class ModMenu : EditorWindow {
     private Vector2 scrollPosition;
     private BaseItemTemplate[] allItems;
 
-    public Inventory inventory;
+    private PlayerInputReader playerInputReader;
+    public static Inventory inventory;
 
     [MenuItem("Window/Mod Menu")]
     public static void ShowWindow() {
         GetWindow<ModMenu>("Mod Menu");
+
     }
 
     private void OnEnable() {
         // Load all BaseItemTemplates from the specified path
         allItems = JsonDataManager.LoadData().ToArray();
+        inventory = FindObjectOfType<PlayerInputReader>().inventory;
+
     }
 
     private void OnGUI() {
+        inventory = FindObjectOfType<PlayerInputReader>().inventory;
+
         GUILayout.Label("Mod Menu", EditorStyles.boldLabel);
 
         // Search bar
@@ -50,7 +56,6 @@ public class ModMenu : EditorWindow {
     }
 
     private void SpawnItem(BaseItemTemplate item) {
-        inventory = FindObjectOfType<Inventory>();
         inventory.AddItem(int.Parse(item.Id));
     }
 

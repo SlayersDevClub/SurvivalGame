@@ -5,6 +5,8 @@ using DG.Tweening;
  * Manages UI elements and controls their visibility.
  */
 public class UIManager : MonoBehaviour {
+    public Inventory inventory;
+
     public GameObject controllerUICursor;
     public GameObject
         gameSettingsWindow,
@@ -21,6 +23,15 @@ public class UIManager : MonoBehaviour {
         generalCraftGrid;
 
     private void Start() {
+        GameObject inventoryPanel = Instantiate(inventory.inventoryPanel, transform);
+        InventoryPanel inventoryPanelInfo = inventoryPanel.GetComponent<InventoryPanel>();
+
+        inventoryGrid = inventoryPanelInfo.inventoryGrid;
+        gunCrafterGrid = inventoryPanelInfo.gunCrafterGrid;
+        toolCrafterGrid = inventoryPanelInfo.toolCrafterGrid;
+        chestGrid = inventoryPanelInfo.chestGrid;
+        generalCraftGrid = inventoryPanelInfo.generalCraftGrid;
+
         Invoke("DelayTurnOffInventories", 0.5f);
     }
     

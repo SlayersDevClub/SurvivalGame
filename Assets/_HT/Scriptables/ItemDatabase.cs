@@ -17,9 +17,11 @@ public class ItemDatabase : ScriptableObject {
     private Dictionary<int, Item> itemDict = new Dictionary<int, Item>();
     private Dictionary<int, BaseItemTemplate> baseItemDict = new Dictionary<int, BaseItemTemplate>();
 
+    //FIXFIXFIXFIXFIX
     private void OnEnable() {
         itemList = JsonDataManager.LoadData();
-        ConstructItemDatabase();
+        //UNCOMENT THIS LINE UNCOMENT THIS LINE UNCOMENT AFTER FIX
+        //ConstructItemDatabase();
     }
     public Item FetchItemById(int id) {
         if (itemDict.ContainsKey(id)) {
