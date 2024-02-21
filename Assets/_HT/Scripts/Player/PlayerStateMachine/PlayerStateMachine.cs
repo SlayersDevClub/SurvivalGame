@@ -7,7 +7,6 @@ public class PlayerStateMachine : MonoBehaviour
     public PlayerPausedState PausedState = new PlayerPausedState();
     public PlayerMovingState MovingState = new PlayerMovingState();
     public PlayerInteractingState InteractingState = new PlayerInteractingState();
-    public PlayerGunCraftState GunCraftState = new PlayerGunCraftState();
     public PlayerInventoryState InventoryState = new PlayerInventoryState();
     public PlayerToolcraftState ToolCraftState = new PlayerToolcraftState();
 
