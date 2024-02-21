@@ -6,7 +6,7 @@ public class ChestInteractable : MonoBehaviour, IInteractable {
         playerUIManager.ShowChestPanel(true);
         playerUIManager.ShowPlayerInventory(true);
 
-        //SFXManager.instance.PlayOpenChest();
+        SFXManager.instance.PlayOpenChest();
     }
 
     public void Deactivate(UIManager playerUIManager) {
