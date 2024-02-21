@@ -21,6 +21,8 @@ public class PlayerInteractingState : PlayerBaseState {
             // Perform interaction with 'objInteractedWith'
             if (objInteractedWith.GetComponent<ChestInteractable>() != null) {
                 interactable = objInteractedWith.GetComponent<ChestInteractable>();
+            } else if (objInteractedWith.GetComponent<GeneralCrafterInteractable>() != null) {
+                interactable = objInteractedWith.GetComponent<GeneralCrafterInteractable>();
             } else {
                 player.SwitchState(player.MovingState);
                 return;
@@ -64,7 +66,7 @@ public class PlayerInteractingState : PlayerBaseState {
     public override void HandleInput(PlayerStateMachine player, InputAction.CallbackContext context) {
         interactable.Deactivate(player.ui);
 
-        if (context.started)
+        if (context.started && context.action.name == TagManager.INTERACT_ACTION)
             player.SwitchState(player.MovingState);
     }
 
