@@ -8,7 +8,6 @@ public class PlayerStateMachine : MonoBehaviour
     public PlayerMovingState MovingState = new PlayerMovingState();
     public PlayerInteractingState InteractingState = new PlayerInteractingState();
     public PlayerInventoryState InventoryState = new PlayerInventoryState();
-    public PlayerToolcraftState ToolCraftState = new PlayerToolcraftState();
 
     public PlayerInputReader pir;
     public UIManager ui;

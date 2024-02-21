@@ -25,6 +25,8 @@ public class PlayerInteractingState : PlayerBaseState {
                 interactable = objInteractedWith.GetComponent<GeneralCrafterInteractable>();
             } else if (objInteractedWith.GetComponent<GunCrafterInteractable>() != null) {
                 interactable = objInteractedWith.GetComponent<GunCrafterInteractable>();
+            } else if (objInteractedWith.GetComponent<ToolCrafterInteractable>() != null) {
+                interactable = objInteractedWith.GetComponent<ToolCrafterInteractable>();
             } else {
                 player.SwitchState(player.MovingState);
                 return;
