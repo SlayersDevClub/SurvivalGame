@@ -3,22 +3,33 @@ using UnityEngine;
 
 /*
  * Player state when the player interacts with anything that opens a ui menu (crafters, chests, etc).
- * Delegates which state the player needs to be in based on what they interacted with.
  */
 public class PlayerInteractingState : PlayerBaseState {
+
+    private GameObject objInteractedWith;
+    IInteractable interactable;
 
     public override void EnterState(PlayerStateMachine player) {
         float interactDistance = 5f;
 
         RaycastHit hit;
         Physics.Raycast(GameObject.Find("CameraControls").transform.position, GameObject.Find("CameraControls").transform.forward, out hit, interactDistance);
-        GameObject objInteractedWith;
 
         try {
             objInteractedWith = hit.transform.gameObject;
 
             // Perform interaction with 'objInteractedWith'
-            if (objInteractedWith.name == "Chest") {
+            if (objInteractedWith.GetComponent<ChestInteractable>() != null) {
+                interactable = objInteractedWith.GetComponent<ChestInteractable>();
+            } else {
+                player.SwitchState(player.MovingState);
+                return;
+            }
+
+            SwitchToUIActionMap(player);
+            interactable.Activate(player.ui);
+
+            /*if (objInteractedWith.name == "Chest") {
                 SwitchToUIActionMap(player);
                 player.SwitchState(player.ChestState);
             } else if (objInteractedWith.name == "GunCrafter") {
@@ -35,12 +46,14 @@ public class PlayerInteractingState : PlayerBaseState {
                 GameObject.Destroy(objInteractedWith);
                 player.isInteracting = true;
                 player.SwitchState(player.MovingState);
+            } else if (objInteractedWith.GetComponentInParent(typeof(IInteractable)) as IInteractable != null) {
+                SwitchToUIActionMap(player);
+                (objInteractedWith.GetComponentInParent(typeof(IInteractable)) as IInteractable).Activate();
             } else {
                 player.SwitchState(player.MovingState);
-            }
+            }*/
         } catch {
             player.SwitchState(player.MovingState);
-            //player.SwitchState(player.InventoryState);
         }
 
         if (player.pir.playerInput.currentControlScheme == "Gamepad") {
@@ -49,7 +62,10 @@ public class PlayerInteractingState : PlayerBaseState {
     }
 
     public override void HandleInput(PlayerStateMachine player, InputAction.CallbackContext context) {
-        // Not needed for this state.
+        interactable.Deactivate(player.ui);
+
+        if (context.started)
+            player.SwitchState(player.MovingState);
     }
 
     private void SwitchToUIActionMap(PlayerStateMachine player) {
