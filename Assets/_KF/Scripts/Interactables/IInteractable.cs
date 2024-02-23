@@ -1,4 +1,4 @@
 public interface IInteractable {
-    public void Activate(UIManager playerUIManager);
-    public void Deactivate(UIManager playerUIManager);
+    public void Activate(PlayerStateMachine player);
+    public void Deactivate(PlayerStateMachine player);
 }

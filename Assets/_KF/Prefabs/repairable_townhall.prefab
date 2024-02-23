@@ -471,8 +471,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6422309853592949502}
-        m_TargetAssemblyTypeName: UpgradeWindow, Assembly-CSharp
+      - m_Target: {fileID: 7149057144880958163}
+        m_TargetAssemblyTypeName: UpgradeWindowInteractable, Assembly-CSharp
         m_MethodName: Repair
         m_Mode: 1
         m_Arguments:
@@ -492,7 +492,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1317932185235874794}
-  - component: {fileID: 6422309853592949502}
+  - component: {fileID: 7149057144880958163}
   m_Layer: 7
   m_Name: repairable_townhall
   m_TagString: Untagged
@@ -516,7 +516,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6422309853592949502
+--- !u!114 &7149057144880958163
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

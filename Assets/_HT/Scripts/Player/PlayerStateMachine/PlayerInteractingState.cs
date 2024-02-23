@@ -19,45 +19,26 @@ public class PlayerInteractingState : PlayerBaseState {
             objInteractedWith = hit.transform.gameObject;
 
             // Perform interaction with 'objInteractedWith'
-            if (objInteractedWith.GetComponent<ChestInteractable>() != null) {
-                interactable = objInteractedWith.GetComponent<ChestInteractable>();
-            } else if (objInteractedWith.GetComponent<GeneralCrafterInteractable>() != null) {
-                interactable = objInteractedWith.GetComponent<GeneralCrafterInteractable>();
-            } else if (objInteractedWith.GetComponent<GunCrafterInteractable>() != null) {
-                interactable = objInteractedWith.GetComponent<GunCrafterInteractable>();
-            } else if (objInteractedWith.GetComponent<ToolCrafterInteractable>() != null) {
-                interactable = objInteractedWith.GetComponent<ToolCrafterInteractable>();
+            if (objInteractedWith.GetComponent(typeof(IInteractable)) as IInteractable != null) {
+                interactable = objInteractedWith.GetComponent(typeof(IInteractable)) as IInteractable;
+            } else if (objInteractedWith.GetComponentInParent(typeof(IInteractable)) as IInteractable != null) {
+                interactable = objInteractedWith.GetComponentInParent(typeof(IInteractable)) as IInteractable;
+            // BROKEN
+            //} else if (objInteractedWith.GetComponent<ItemSetup>() != null) {
+                //Debug.Log("test1");
+                //player.inventory.AddItem(objInteractedWith.GetComponent<ItemSetup>().GetItemID());
+                //Debug.Log("test2");
+                //GameObject.Destroy(objInteractedWith);
+                //Debug.Log("test3");
+                //player.isInteracting = true;
+                //player.SwitchState(player.MovingState);
             } else {
                 player.SwitchState(player.MovingState);
                 return;
             }
 
             SwitchToUIActionMap(player);
-            interactable.Activate(player.ui);
-
-            /*if (objInteractedWith.name == "Chest") {
-                SwitchToUIActionMap(player);
-                player.SwitchState(player.ChestState);
-            } else if (objInteractedWith.name == "GunCrafter") {
-                SwitchToUIActionMap(player);
-                player.SwitchState(player.GunCraftState);
-            } else if (objInteractedWith.name == "GeneralCrafter") {
-                SwitchToUIActionMap(player);
-                player.SwitchState(player.CrafterState);
-            } else if (objInteractedWith.name == "ToolCrafter") {
-                SwitchToUIActionMap(player);
-                player.SwitchState(player.ToolCraftState);
-            } else if (objInteractedWith.GetComponent<ItemSetup>() != null) {
-                //GameObject.Find("Inventory").GetComponent<Inventory>().AddItem(objInteractedWith.GetComponent<ItemSetup>().GetItemID());
-                GameObject.Destroy(objInteractedWith);
-                player.isInteracting = true;
-                player.SwitchState(player.MovingState);
-            } else if (objInteractedWith.GetComponentInParent(typeof(IInteractable)) as IInteractable != null) {
-                SwitchToUIActionMap(player);
-                (objInteractedWith.GetComponentInParent(typeof(IInteractable)) as IInteractable).Activate();
-            } else {
-                player.SwitchState(player.MovingState);
-            }*/
+            interactable.Activate(player);
         } catch {
             player.SwitchState(player.MovingState);
         }
@@ -68,10 +49,10 @@ public class PlayerInteractingState : PlayerBaseState {
     }
 
     public override void HandleInput(PlayerStateMachine player, InputAction.CallbackContext context) {
-        interactable.Deactivate(player.ui);
-
-        if (context.started && context.action.name == TagManager.INTERACT_ACTION)
+        if (context.started && context.action.name == TagManager.INTERACT_ACTION) {
+            interactable.Deactivate(player);
             player.SwitchState(player.MovingState);
+        }
     }
 
     private void SwitchToUIActionMap(PlayerStateMachine player) {
