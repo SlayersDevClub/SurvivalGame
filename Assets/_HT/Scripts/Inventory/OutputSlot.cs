@@ -5,7 +5,7 @@ using System;
 
 public class OutputSlot : ItemSlot {
     public override void OnPointerDown(PointerEventData eventData) {
-        if(itemInSlot != null && inventory.currentDraggedItem == null) {
+        if(itemInSlot != null && inventory.currentDraggedItem.Value == null) {
             PickupItem(itemInSlot);
         }
     }

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using System.Linq;
+
 [CreateAssetMenu]
 public class Inventory : ScriptableObject {
     public GameObject inventoryPanel;
@@ -11,9 +11,12 @@ public class Inventory : ScriptableObject {
     public List<ToolcrafterSlot> toolcrafterItemSlots = new List<ToolcrafterSlot>();
     public List<GuncrafterSlot> guncrafterItemSlots = new List<GuncrafterSlot>();
 
+    public List<ItemSlot> itemSlots = new List<ItemSlot>();
+
     public OutputSlot toolcrafterOutputSlot, guncrafterOutputSlot;
 
-    public GameObject currentDraggedItem;
+    //public GameObject currentDraggedItem;
+    public GameObjectVariableReference currentDraggedItem;
     public GameObject currentHeldItem;
     public GameObject inventoryItemPrefab;
 
@@ -40,32 +43,31 @@ public class Inventory : ScriptableObject {
 
     public bool AddItem(int itemID) {
         BaseItemTemplate itemToAdd = itemDatabase.FetchBaseItemTemplateById(itemID);
-        ItemSlot slotAddingTo = null;
+        ItemSlot slotAddingTo;
 
-        if(itemToAdd.stackable && CheckIfItemIsInInventory(itemID)) {
+        if (itemToAdd.stackable && CheckIfItemIsInInventory(itemID)) {
             //TO DO
             slotAddingTo = FindFirstEmptySlot();
         } else {
             slotAddingTo = FindFirstEmptySlot();
         }
 
-        //Inventory is full if there is no slot to add to
+        // Inventory is full if there is no slot to add to
         if(slotAddingTo == null) {
             return false;
         }
-        //Otherwise add item to that slot
-        else {
-            GameObject itemAdded = itemDatabase.FetchItemGameObject(itemToAdd);
-            
-            itemAdded.GetComponent<ItemData>().item = itemToAdd;
 
-            ItemSlot slotToAddTo = slotAddingTo.GetComponent<ItemSlot>();
-            slotToAddTo.PutItemInSlot(itemAdded);
-            //Add single item to key
-            SetItemInInventory(itemID, 1);
+        // Otherwise add item to that slot
+        GameObject itemObj = itemDatabase.FetchItemGameObject(itemToAdd);
 
-            return true;
-        }
+        itemObj.GetComponent<ItemData>().item = itemToAdd;
+
+        ItemSlot slotToAddTo = slotAddingTo.GetComponent<ItemSlot>();
+        slotToAddTo.PutItemInSlot(itemObj);
+        //Add single item to key
+        SetItemInInventory(itemID, 1);
+
+        return true;
 
         ItemSlot FindFirstEmptySlot() {
             ItemSlot firstEmptySlot = null;
@@ -81,6 +83,12 @@ public class Inventory : ScriptableObject {
             foreach (ItemSlot itemSlot in inventoryItemSlots) {
                 if (itemSlot.itemInSlot == null) {
                     firstEmptySlot = itemSlot;
+                    return firstEmptySlot;
+                }
+            }
+            foreach (ItemSlot slot in itemSlots) {
+                if (slot.itemInSlot == null) {
+                    firstEmptySlot = slot;
                     return firstEmptySlot;
                 }
             }

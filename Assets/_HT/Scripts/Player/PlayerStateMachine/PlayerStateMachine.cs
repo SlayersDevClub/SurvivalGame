@@ -15,7 +15,9 @@ public class PlayerStateMachine : MonoBehaviour
 
     public Transform playerTransform;
     public BaseItemTemplate equipItem;
-    public ItemData invItemDragging;
+    //public ItemData invItemDragging;
+    
+    public GameObjectVariableReference currentDraggedItem;
 
     public bool isInteracting = false;
     public bool respawning = false;

@@ -11,16 +11,22 @@ public class ItemSlot : MonoBehaviour, IPointerDownHandler {
 
     //When item is dropped in slot
     public virtual void OnPointerDown(PointerEventData eventData) {
+
+        Debug.Log("ItemSlot OnPointerDown Called");
+
         //If item in this slot was null make it the dropped item then make the currently dragged item null
         if (itemInSlot == null) {
-            if (inventory.currentDraggedItem != null) {
-                PutItemInSlot(inventory.currentDraggedItem);
+            if (inventory.currentDraggedItem.Value != null) {
+                Debug.Log("test3");
+                PutItemInSlot(inventory.currentDraggedItem.Value);
             }
         } else {
-            if (inventory.currentDraggedItem == null) {
+            if (inventory.currentDraggedItem.Value == null) {
+                Debug.Log("test1");
                 PickupItem(itemInSlot);
             } else {
-                SwapItems(inventory.currentDraggedItem, itemInSlot);
+                Debug.Log("test2");
+                SwapItems(inventory.currentDraggedItem.Value, itemInSlot);
             }
         }
     }
@@ -31,7 +37,7 @@ public class ItemSlot : MonoBehaviour, IPointerDownHandler {
     }
 
     public virtual void PutItemInSlot(GameObject item) {
-        inventory.currentDraggedItem = null;
+        inventory.currentDraggedItem.Value = null;
         
         item.transform.position = transform.position;
         item.transform.SetParent(transform);
@@ -40,7 +46,7 @@ public class ItemSlot : MonoBehaviour, IPointerDownHandler {
     }
 
     public virtual void PickupItem(GameObject item, bool swapping = false) {
-        inventory.currentDraggedItem = item;
+        inventory.currentDraggedItem.Value = item;
 
         if (!swapping) {
             itemInSlot = null;
@@ -65,8 +71,8 @@ public class ItemSlot : MonoBehaviour, IPointerDownHandler {
     }
 
     private void Update() {
-        if(inventory.currentDraggedItem != null) {
-            inventory.currentDraggedItem.transform.position = Input.mousePosition;
+        if(inventory.currentDraggedItem.Value != null) {
+            inventory.currentDraggedItem.Value.transform.position = Input.mousePosition;
         }
     }
 
