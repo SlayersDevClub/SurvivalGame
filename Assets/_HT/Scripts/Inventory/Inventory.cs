@@ -16,7 +16,7 @@ public class Inventory : ScriptableObject {
     public OutputSlot toolcrafterOutputSlot, guncrafterOutputSlot;
 
     //public GameObject currentDraggedItem;
-    public GameObjectVariableReference currentDraggedItem;
+    public GameObjectVariable currentDraggedItem;
     public GameObject currentHeldItem;
     public GameObject inventoryItemPrefab;
 
@@ -29,6 +29,13 @@ public class Inventory : ScriptableObject {
     public IntIntRuntimeDict itemsInInventory;
     public ItemDatabase itemDatabase;
     public CraftingBrain craftingBrain;
+
+    private void OnEnable() {
+        currentDraggedItem = Resources.Load<GameObjectVariable>(TagManager.DRAGGED_ITEM_PATH);
+        itemsInInventory = Resources.Load<IntIntRuntimeDict>(TagManager.ITEMS_IN_INVENTORY_PATH);
+        itemDatabase = Resources.Load<ItemDatabase>(TagManager.ITEM_DATABASE_PATH);
+        craftingBrain = Resources.Load<CraftingBrain>(TagManager.CRAFTING_BRAIN_PATH);
+    }
 
     public void SetItemInInventory(int key, int value) {
         if (itemsInInventory.Contains(key)) {

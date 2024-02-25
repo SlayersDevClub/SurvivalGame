@@ -17,4 +17,9 @@ public static class TagManager
     public const string STRUCTURE_LAYER = "Structure";
     public const string GROUND_LAYER = "Terrain";
     public const string DONOTRENDER = "DoNotRender";
+
+    public const string DRAGGED_ITEM_PATH = "CurrentDraggedItem";
+    public const string CRAFTING_BRAIN_PATH = "CraftingBrain";
+    public const string ITEM_DATABASE_PATH = "ItemDatabase";
+    public const string ITEMS_IN_INVENTORY_PATH = "ItemsInInventory";
 }
