@@ -62,7 +62,6 @@ public class CraftingBrain : ScriptableObject {
         if ((pickHand != null && pickHead != null) ||
         (axeHand != null && axeHead != null) ||
         (hammerHand != null && hammerHead != null)) {
-
             ToolTemplate newToolTemplate = ScriptableObject.CreateInstance<ToolTemplate>();
             if(id != null) {
                 newToolTemplate.Id = id;

@@ -1,7 +1,5 @@
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 using UnityEngine;
-using System;
 
 public class ItemSlot : MonoBehaviour, IPointerDownHandler {
     public Inventory inventory;
@@ -11,21 +9,15 @@ public class ItemSlot : MonoBehaviour, IPointerDownHandler {
 
     //When item is dropped in slot
     public virtual void OnPointerDown(PointerEventData eventData) {
-
-        Debug.Log("ItemSlot OnPointerDown Called");
-
         //If item in this slot was null make it the dropped item then make the currently dragged item null
         if (itemInSlot == null) {
             if (inventory.currentDraggedItem.Value != null) {
-                Debug.Log("test3");
                 PutItemInSlot(inventory.currentDraggedItem.Value);
             }
         } else {
             if (inventory.currentDraggedItem.Value == null) {
-                Debug.Log("test1");
                 PickupItem(itemInSlot);
             } else {
-                Debug.Log("test2");
                 SwapItems(inventory.currentDraggedItem.Value, itemInSlot);
             }
         }

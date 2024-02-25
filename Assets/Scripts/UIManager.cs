@@ -38,12 +38,12 @@ public class UIManager : MonoBehaviour {
     /*
      * Turns off all the different types of inventory UIs
      */
-    void DelayTurnOffInventories() {
+    /*void DelayTurnOffInventories() {
         TurnOffGunCrafter();
         TurnOffChest();
-        TurnOffToolCrafting();
         TurnOffCrafting();
-    }
+        TurnOffToolCrafting();
+    }*/
 
     /*
      * Turns the player's inventory on or off.
@@ -83,23 +83,17 @@ public class UIManager : MonoBehaviour {
         gunCrafterGrid.gameObject.SetActive(false);
     }
 
-    /*
-     * Turns the tool crafting panel on or off.
-     * True = on, false = off
-     */
-    public void ShowToolCraftingPanel(bool b) {
-        if (b) {
-            toolCrafterGrid.DOFade(1, 1).OnStart(TurnOnToolCrafting);
-        } else {
-            toolCrafterGrid.DOFade(0, 1).OnComplete(TurnOffToolCrafting);
-        }
+    public void ActivateCanvasGroup(CanvasGroup canvasGroup) {
+        canvasGroup.DOFade(1, 1).OnStart(() => TurnOnCanvasGroup(canvasGroup));
     }
-
-    void TurnOnToolCrafting() {
-        toolCrafterGrid.gameObject.SetActive(true);
+    public void DeactivateCanvasGroup(CanvasGroup canvasGroup) {
+        canvasGroup.DOFade(0, 1).OnComplete(() => TurnOffCanvasGroup(canvasGroup));
     }
-    void TurnOffToolCrafting() {
-        toolCrafterGrid.gameObject.SetActive(false);
+    private void TurnOnCanvasGroup(CanvasGroup canvasGroup) {
+        canvasGroup.gameObject.SetActive(true);
+    }
+    private void TurnOffCanvasGroup(CanvasGroup canvasGroup) {
+        canvasGroup.gameObject.SetActive(false);
     }
 
     /*

@@ -8,12 +8,14 @@ public class Inventory : ScriptableObject {
 
     public List<HotbarSlot> hotbarItemSlots = new List<HotbarSlot>();
     public List<ItemSlot> inventoryItemSlots = new List<ItemSlot>();
-    public List<ToolcrafterSlot> toolcrafterItemSlots = new List<ToolcrafterSlot>();
+    //public List<ToolcrafterSlot> toolcrafterItemSlots = new List<ToolcrafterSlot>();
     public List<GuncrafterSlot> guncrafterItemSlots = new List<GuncrafterSlot>();
 
     public List<ItemSlot> itemSlots = new List<ItemSlot>();
 
-    public OutputSlot toolcrafterOutputSlot, guncrafterOutputSlot;
+    public OutputSlot guncrafterOutputSlot; //toolcrafterOutputSlot;
+
+    public OutputSlot outputSlot;
 
     //public GameObject currentDraggedItem;
     public GameObjectVariable currentDraggedItem;

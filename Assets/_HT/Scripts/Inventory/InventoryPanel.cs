@@ -25,9 +25,9 @@ public class InventoryPanel : MonoBehaviour
         inventory.inventoryItemSlots = GetComponentsInChildren<ItemSlot>(true).ToList();
         inventory.hotbarItemSlots = GetComponentsInChildren<HotbarSlot>(true).ToList();
         inventory.guncrafterItemSlots = GetComponentsInChildren<GuncrafterSlot>(true).ToList();
-        inventory.toolcrafterItemSlots = GetComponentsInChildren<ToolcrafterSlot>(true).ToList();
+        //inventory.toolcrafterItemSlots = GetComponentsInChildren<ToolcrafterSlot>(true).ToList();
 
-        inventory.toolcrafterOutputSlot = GetComponentInChildren<ToolOutputSlot>(true);
+        //inventory.toolcrafterOutputSlot = GetComponentInChildren<ToolOutputSlot>(true);
         inventory.guncrafterOutputSlot = GetComponentInChildren<GunOutputSlot>(true);
     }
 
@@ -42,10 +42,10 @@ public class InventoryPanel : MonoBehaviour
         foreach (GuncrafterSlot slot in inventory.guncrafterItemSlots) {
             slot.inventory = inventory;
         }
-        foreach (ToolcrafterSlot slot in inventory.toolcrafterItemSlots) {
-            slot.inventory = inventory;
-        }
-        inventory.toolcrafterOutputSlot.inventory = inventory;
+        //foreach (ToolcrafterSlot slot in inventory.toolcrafterItemSlots) {
+        //    slot.inventory = inventory;
+        //}
+        //inventory.toolcrafterOutputSlot.inventory = inventory;
         inventory.guncrafterOutputSlot.inventory = inventory;
     }
 
